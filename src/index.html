@@ -13,10 +13,44 @@
     />
   </head>
   <body>
-    <div class="page">
-      <h1>Snakes</h1>
-    </div>
+    <main>
+      <div class="page">
+        <h1>Snakes</h1>
 
+        <!-- Scrollama sticky-overlay example -->
+        <!-- https://github.com/russellsamora/scrollama/blob/main/docs/sticky-overlay/index.html -->
+        <section id="intro">
+          <h1 class="intro__hed">Sticky Overlay Example</h1>
+          <p class="intro__dek">Start scrolling to see how it works.</p>
+        </section>
+
+        <section id="scrolly">
+          <figure>
+            <p>0</p>
+          </figure>
+
+          <article>
+            <div class="step" data-step="1">
+              <p>STEP 1</p>
+            </div>
+            <div class="step" data-step="2">
+              <p>STEP 2</p>
+            </div>
+            <div class="step" data-step="3">
+              <p>STEP 3</p>
+            </div>
+            <div class="step" data-step="4">
+              <p>STEP 4</p>
+            </div>
+          </article>
+        </section>
+
+        <section id="outro"></section>
+      </div>
+    </main>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
     <script src="./script.js"></script>
   </body>
 </html>

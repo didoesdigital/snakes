@@ -39,13 +39,80 @@ function handleStepEnter(response) {
   });
 
   // update graphic based on step
-  figure.select("p").text(response.index + 1);
+  if (![0, 3].includes(response.index)) {
+    figure.select("p").text(response.index + 1);
+  }
+
   if (response.index === 3) {
     figure.select("p").text("FIN");
   }
+
+  if (response.index === 0) {
+    firstChart();
+  }
+}
+
+const data = [100, 250, 175, 200, 120];
+const width = 343;
+const height = 400;
+const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
+
+function setupChart() {
+  const svg = figure.select("div").append("svg");
+  svg.attr("width", width).attr("height", height);
+
+  const circles = svg.selectAll("circle").data(data);
+
+  circles
+    .join("circle")
+    .attr("cx", (d, i) => (width / data.length) * i + rScale(d))
+    .attr("cy", (d) => height - d)
+    .attr("r", (d) => rScale(d))
+    .attr("fill", "blue")
+    .attr("stroke", "#fff");
+}
+
+function drawCircles(circles) {
+  circles.join(
+    (enter) =>
+      enter
+        .append("circle")
+        .attr("cx", (d, i) => (width / data.length) * i + rScale(d))
+        .attr("cy", (d) => height - d)
+        .attr("r", (d) => rScale(d))
+        .attr("fill", "blue")
+        .attr("stroke", "#fff"),
+    (update) =>
+      update
+        .transition()
+        .duration(500)
+        .attr("fill", (d) => "red")
+        .attr("cx", (d, i) => (width / data.length) * i + rScale(d))
+        .attr("cy", (d) => height - d)
+        .attr("r", (d) => rScale(d))
+  );
+}
+
+function firstChart() {
+  const svg = figure.select("div").select("svg");
+  const firstData = data.map((d) => d * 2);
+  const circles = svg.selectAll("circle").data(firstData);
+  drawCircles(circles);
+
+  figure
+    .select("p")
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("venomous vs non-venomous")
+    .style("opacity", 1);
 }
 
 function init() {
+  setupChart();
+
   // 1. force a resize on load to ensure proper dimensions are sent to scrollama
   handleResize();
 

@@ -40,6 +40,9 @@ function handleStepEnter(response) {
 
   // update graphic based on step
   figure.select("p").text(response.index + 1);
+  if (response.index === 3) {
+    figure.select("p").text("FIN");
+  }
 }
 
 function init() {

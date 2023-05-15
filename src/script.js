@@ -39,20 +39,16 @@ function handleStepEnter(response) {
   });
 
   // update graphic based on step
-  if (response.index === 0) {
-    firstChart();
-  }
-
-  if (response.index === 1) {
-    secondChart();
-  }
-
-  if (response.index === 2) {
-    thirdChart();
-  }
-
-  if (response.index === 3) {
-    figure.select("p").text("FIN");
+  const stepFunctionName = response.element.getAttribute("data-step-function");
+  const stepFunctions = {
+    yellowFacedWhipSnakes,
+    redBellies,
+    keelbacks,
+    fin,
+  };
+  const stepFn = stepFunctions[stepFunctionName];
+  if (stepFn) {
+    stepFn();
   }
 }
 
@@ -229,6 +225,10 @@ function thirdChart() {
         .style("opacity", 0)
         .remove()
   );
+}
+
+function fin() {
+  figure.select("p").text("FIN");
 }
 
 function init() {

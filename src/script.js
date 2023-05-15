@@ -60,7 +60,7 @@ const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
 const leftPad = 5;
 const circleRadius = 2;
-const circleSpacing = (circleRadius * 2) + 1;
+const circleSpacing = circleRadius * 2 + 1;
 
 let testData = null;
 
@@ -87,18 +87,20 @@ function setupChart() {
 
   circles
     .join("circle")
-    .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+    .attr("cx", (_d, i) => leftPad + i * circleSpacing)
     .attr("cy", (d) => height - 10)
     .attr("r", (d) => circleRadius)
     .attr("fill", "#fff")
     .attr("stroke", "#fff");
 }
 
-function firstChart() {
+function yellowFacedWhipSnakes() {
   const svg = figure.select("div").select("svg");
-  const firstData = testData.filter(d => d.species === "Yellow-faced whip snake");
+  const firstData = testData.filter(
+    (d) => d.species === "Yellow-faced whip snake"
+  );
   const circles = svg.selectAll("circle").data(firstData);
-  console.log(firstData);
+  // console.log(firstData);
 
   figure
     .select("p")
@@ -116,7 +118,7 @@ function firstChart() {
         .append("circle")
         .transition()
         .duration(500)
-        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
         .attr("cy", (d) => height - 10)
         .attr("r", (d) => circleRadius)
         .attr("fill", "yellow")
@@ -125,23 +127,18 @@ function firstChart() {
       update
         .transition()
         .duration(500)
-        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
         .attr("cy", (d) => height - 10)
         .attr("r", (d) => circleRadius)
         .attr("fill", "yellow")
         .attr("stroke", "#fff"),
-    (exit) =>
-      exit
-        .transition()
-        .duration(500)
-        .style("opacity", 0)
-        .remove()
+    (exit) => exit.transition().duration(500).style("opacity", 0).remove()
   );
 }
 
-function secondChart() {
+function redBellies() {
   const svg = figure.select("div").select("svg");
-  const secondData = testData.filter(d => d.species === "Red-bellied black");
+  const secondData = testData.filter((d) => d.species === "Red-bellied black");
   const circles = svg.selectAll("circle").data(secondData);
 
   figure
@@ -160,7 +157,7 @@ function secondChart() {
         .append("circle")
         .transition()
         .duration(500)
-        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
         .attr("cy", (d) => height - 10)
         .attr("r", (d) => circleRadius)
         .attr("fill", "red")
@@ -169,23 +166,18 @@ function secondChart() {
       update
         .transition()
         .duration(500)
-        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
         .attr("cy", (d) => height - 10)
         .attr("r", (d) => circleRadius)
         .attr("fill", "red")
         .attr("stroke", "#fff"),
-    (exit) =>
-      exit
-        .transition()
-        .duration(500)
-        .style("opacity", 0)
-        .remove()
+    (exit) => exit.transition().duration(500).style("opacity", 0).remove()
   );
 }
 
-function thirdChart() {
+function keelbacks() {
   const svg = figure.select("div").select("svg");
-  const secondData = testData.filter(d => d.species === "Keelback");
+  const secondData = testData.filter((d) => d.species === "Keelback");
   const circles = svg.selectAll("circle").data(secondData);
 
   figure
@@ -204,7 +196,7 @@ function thirdChart() {
         .append("circle")
         .transition()
         .duration(500)
-        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
         .attr("cy", (d) => height - 10)
         .attr("r", (d) => circleRadius)
         .attr("fill", "grey")
@@ -213,17 +205,12 @@ function thirdChart() {
       update
         .transition()
         .duration(500)
-        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
         .attr("cy", (d) => height - 10)
         .attr("r", (d) => circleRadius)
         .attr("fill", "grey")
         .attr("stroke", "#fff"),
-    (exit) =>
-      exit
-        .transition()
-        .duration(500)
-        .style("opacity", 0)
-        .remove()
+    (exit) => exit.transition().duration(500).style("opacity", 0).remove()
   );
 }
 

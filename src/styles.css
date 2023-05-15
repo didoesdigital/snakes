@@ -81,7 +81,7 @@ figure p {
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  font-size: 8rem;
+  font-size: 1rem;
   font-weight: 900;
   color: #fff;
 }
@@ -104,6 +104,6 @@ figure p {
 .step p {
   text-align: center;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   background-color: #3b3b3b;
 }

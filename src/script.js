@@ -39,16 +39,20 @@ function handleStepEnter(response) {
   });
 
   // update graphic based on step
-  if (![0, 3].includes(response.index)) {
-    figure.select("p").text(response.index + 1);
+  if (response.index === 0) {
+    firstChart();
+  }
+
+  if (response.index === 1) {
+    secondChart();
+  }
+
+  if (response.index === 2) {
+    thirdChart();
   }
 
   if (response.index === 3) {
     figure.select("p").text("FIN");
-  }
-
-  if (response.index === 0) {
-    firstChart();
   }
 }
 
@@ -58,6 +62,9 @@ const height = 400;
 const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 
 const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
+const leftPad = 5;
+const circleRadius = 2;
+const circleSpacing = (circleRadius * 2) + 1;
 
 let testData = null;
 
@@ -69,7 +76,7 @@ function loadData() {
     };
   }).then((data) => {
     testData = data;
-    console.log(testData);
+    // console.log(testData);
 
     // kick things off
     setTimeout(init(), 0);
@@ -80,43 +87,22 @@ function setupChart() {
   const svg = figure.select("div").append("svg");
   svg.attr("width", width).attr("height", height);
 
-  const circles = svg.selectAll("circle").data(data);
+  const circles = svg.selectAll("circle").data(testData);
 
   circles
     .join("circle")
-    .attr("cx", (d, i) => (width / data.length) * i + rScale(d))
-    .attr("cy", (d) => height - d)
-    .attr("r", (d) => rScale(d))
-    .attr("fill", "blue")
+    .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+    .attr("cy", (d) => height - 10)
+    .attr("r", (d) => circleRadius)
+    .attr("fill", "#fff")
     .attr("stroke", "#fff");
-}
-
-function drawCircles(circles) {
-  circles.join(
-    (enter) =>
-      enter
-        .append("circle")
-        .attr("cx", (d, i) => (width / data.length) * i + rScale(d))
-        .attr("cy", (d) => height - d)
-        .attr("r", (d) => rScale(d))
-        .attr("fill", "blue")
-        .attr("stroke", "#fff"),
-    (update) =>
-      update
-        .transition()
-        .duration(500)
-        .attr("fill", (d) => "red")
-        .attr("cx", (d, i) => (width / data.length) * i + rScale(d))
-        .attr("cy", (d) => height - d)
-        .attr("r", (d) => rScale(d))
-  );
 }
 
 function firstChart() {
   const svg = figure.select("div").select("svg");
-  const firstData = data.map((d) => d * 2);
+  const firstData = testData.filter(d => d.species === "Yellow-faced whip snake");
   const circles = svg.selectAll("circle").data(firstData);
-  drawCircles(circles);
+  console.log(firstData);
 
   figure
     .select("p")
@@ -125,8 +111,124 @@ function firstChart() {
     .style("opacity", 0)
     .transition()
     .duration(250)
-    .text("venomous vs non-venomous")
+    .text("Yellow-faced whip snakes")
     .style("opacity", 1);
+
+  circles.join(
+    (enter) =>
+      enter
+        .append("circle")
+        .transition()
+        .duration(500)
+        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cy", (d) => height - 10)
+        .attr("r", (d) => circleRadius)
+        .attr("fill", "yellow")
+        .attr("stroke", "#fff"),
+    (update) =>
+      update
+        .transition()
+        .duration(500)
+        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cy", (d) => height - 10)
+        .attr("r", (d) => circleRadius)
+        .attr("fill", "yellow")
+        .attr("stroke", "#fff"),
+    (exit) =>
+      exit
+        .transition()
+        .duration(500)
+        .style("opacity", 0)
+        .remove()
+  );
+}
+
+function secondChart() {
+  const svg = figure.select("div").select("svg");
+  const secondData = testData.filter(d => d.species === "Red-bellied black");
+  const circles = svg.selectAll("circle").data(secondData);
+
+  figure
+    .select("p")
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Red-bellied black snake")
+    .style("opacity", 1);
+
+  circles.join(
+    (enter) =>
+      enter
+        .append("circle")
+        .transition()
+        .duration(500)
+        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cy", (d) => height - 10)
+        .attr("r", (d) => circleRadius)
+        .attr("fill", "red")
+        .attr("stroke", "#fff"),
+    (update) =>
+      update
+        .transition()
+        .duration(500)
+        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cy", (d) => height - 10)
+        .attr("r", (d) => circleRadius)
+        .attr("fill", "red")
+        .attr("stroke", "#fff"),
+    (exit) =>
+      exit
+        .transition()
+        .duration(500)
+        .style("opacity", 0)
+        .remove()
+  );
+}
+
+function thirdChart() {
+  const svg = figure.select("div").select("svg");
+  const secondData = testData.filter(d => d.species === "Keelback");
+  const circles = svg.selectAll("circle").data(secondData);
+
+  figure
+    .select("p")
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Keelback")
+    .style("opacity", 1);
+
+  circles.join(
+    (enter) =>
+      enter
+        .append("circle")
+        .transition()
+        .duration(500)
+        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cy", (d) => height - 10)
+        .attr("r", (d) => circleRadius)
+        .attr("fill", "grey")
+        .attr("stroke", "#fff"),
+    (update) =>
+      update
+        .transition()
+        .duration(500)
+        .attr("cx", (_d, i) => leftPad + (i * circleSpacing))
+        .attr("cy", (d) => height - 10)
+        .attr("r", (d) => circleRadius)
+        .attr("fill", "grey")
+        .attr("stroke", "#fff"),
+    (exit) =>
+      exit
+        .transition()
+        .duration(500)
+        .style("opacity", 0)
+        .remove()
+  );
 }
 
 function init() {

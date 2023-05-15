@@ -30,7 +30,7 @@ function handleResize() {
 
 // scrollama event handlers
 function handleStepEnter(response) {
-  console.log(response);
+  // console.log(response);
   // response = { element, direction, index }
 
   // add color to current step only
@@ -56,6 +56,25 @@ const data = [100, 250, 175, 200, 120];
 const width = 343;
 const height = 400;
 const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
+
+const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
+
+let testData = null;
+
+function loadData() {
+  d3.csv("./data/data.csv", (d) => {
+    return {
+      date: timeParser(d.prettyDate),
+      species: d.species,
+    };
+  }).then((data) => {
+    testData = data;
+    console.log(testData);
+
+    // kick things off
+    setTimeout(init(), 0);
+  });
+}
 
 function setupChart() {
   const svg = figure.select("div").append("svg");
@@ -128,5 +147,4 @@ function init() {
     .onStepEnter(handleStepEnter);
 }
 
-// kick things off
-init();
+loadData();

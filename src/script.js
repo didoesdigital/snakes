@@ -2,14 +2,30 @@
 // https://github.com/russellsamora/scrollama/blob/main/docs/sticky-overlay/index.html
 
 // using d3 for convenience
-var main = d3.select("main");
-var scrolly = main.select("#scrolly");
-var figure = scrolly.select("figure");
-var article = scrolly.select("article");
-var step = article.selectAll(".step");
+const main = d3.select("main");
+const scrolly = main.select("#scrolly");
+const figure = scrolly.select("figure");
+const article = scrolly.select("article");
+const step = article.selectAll(".step");
 
 // initialize the scrollama
-var scroller = scrollama();
+const scroller = scrollama();
+
+const width = 343;
+const height = 400;
+const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
+
+const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
+const leftPad = 5;
+const circleRadius = 10;
+const circleSpacing = circleRadius * 2 + 1;
+const hideOffscreen = 80;
+const focalPointY = 300;
+const opacityFade = 0; // 0.2;
+
+let circles = null;
+let nodes = null;
+let testData = null;
 
 // generic window resize listener event
 function handleResize() {
@@ -34,7 +50,7 @@ function handleStepEnter(response) {
   // response = { element, direction, index }
 
   // add color to current step only
-  step.classed("is-active", function (d, i) {
+  step.classed("is-active", function (_d, i) {
     return i === response.index;
   });
 
@@ -52,29 +68,19 @@ function handleStepEnter(response) {
   }
 }
 
-const data = [100, 250, 175, 200, 120];
-const width = 343;
-const height = 400;
-const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
-
-const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
-const leftPad = 5;
-const circleRadius = 2;
-const circleSpacing = circleRadius * 2 + 1;
-
-let testData = null;
-
 function loadData() {
   d3.csv("./data/data.csv", (d) => {
     return {
       date: timeParser(d.prettyDate),
       species: d.species,
+      // initialize x/y values for force simulation to start from center
+      x: width / 2,
+      y: height / 2,
     };
   }).then((data) => {
     testData = data;
     // console.log(testData);
 
-    // kick things off
     setTimeout(init(), 0);
   });
 }
@@ -83,25 +89,50 @@ function setupChart() {
   const svg = figure.select("div").append("svg");
   svg.attr("width", width).attr("height", height);
 
-  const circles = svg.selectAll("circle").data(testData);
+  nodes = svg.selectAll("circle").data(testData);
 
-  circles
+  circles = nodes
     .join("circle")
     .attr("cx", (_d, i) => leftPad + i * circleSpacing)
-    .attr("cy", (d) => height - 10)
-    .attr("r", (d) => circleRadius)
-    .attr("fill", "#fff")
+    .attr("cy", (_d) => height - 10)
+    .attr("r", (_d) => circleRadius)
+    .attr("opacity", 0.8)
+    .attr("fill", "#09A573")
     .attr("stroke", "#fff");
+
+  circles.on("mouseenter", onMouseEnter);
+
+  simulation = d3.forceSimulation(testData);
+
+  simulation.on("tick", () => {
+    circles
+      .attr("cx", (d) => d.x)
+      .attr("cy", (d) => d.y);
+  });
+
+  simulation.stop();
+
+  simulation
+    // .force("charge", d3.forceManyBody().strength(2))
+    .force(
+      "forceX",
+      d3.forceX((_d) => 170)
+    )
+    .force(
+      "forceY",
+      d3.forceY((_d) => focalPointY)
+    )
+    .force(
+      "collide",
+      d3.forceCollide((_d) => circleRadius)
+    )
+    .alphaDecay(0.02)
+    .velocityDecay(0.4);
+
+  simulation.alpha(0.9).restart();
 }
 
 function yellowFacedWhipSnakes() {
-  const svg = figure.select("div").select("svg");
-  const firstData = testData.filter(
-    (d) => d.species === "Yellow-faced whip snake"
-  );
-  const circles = svg.selectAll("circle").data(firstData);
-  // console.log(firstData);
-
   figure
     .select("p")
     .transition()
@@ -112,35 +143,28 @@ function yellowFacedWhipSnakes() {
     .text("Yellow-faced whip snakes")
     .style("opacity", 1);
 
-  circles.join(
-    (enter) =>
-      enter
-        .append("circle")
-        .transition()
-        .duration(500)
-        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
-        .attr("cy", (d) => height - 10)
-        .attr("r", (d) => circleRadius)
-        .attr("fill", "yellow")
-        .attr("stroke", "#fff"),
-    (update) =>
-      update
-        .transition()
-        .duration(500)
-        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
-        .attr("cy", (d) => height - 10)
-        .attr("r", (d) => circleRadius)
-        .attr("fill", "yellow")
-        .attr("stroke", "#fff"),
-    (exit) => exit.transition().duration(500).style("opacity", 0).remove()
-  );
+  simulation
+    .force(
+      "collide",
+      d3.forceCollide((d) =>
+        d.species === "Yellow-faced whip snake" ? circleRadius : 0
+      )
+    );
+
+  circles
+    .transition()
+    .duration(200)
+    .attr("fill", (d) =>
+      d.species === "Yellow-faced whip snake" ? "yellow" : "#fff"
+    )
+    .attr("opacity", (d) =>
+      d.species === "Yellow-faced whip snake" ? 1 : opacityFade
+    );
+
+  simulation.alpha(0.9).restart();
 }
 
 function redBellies() {
-  const svg = figure.select("div").select("svg");
-  const secondData = testData.filter((d) => d.species === "Red-bellied black");
-  const circles = svg.selectAll("circle").data(secondData);
-
   figure
     .select("p")
     .transition()
@@ -151,35 +175,25 @@ function redBellies() {
     .text("Red-bellied black snake")
     .style("opacity", 1);
 
-  circles.join(
-    (enter) =>
-      enter
-        .append("circle")
-        .transition()
-        .duration(500)
-        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
-        .attr("cy", (d) => height - 10)
-        .attr("r", (d) => circleRadius)
-        .attr("fill", "red")
-        .attr("stroke", "#fff"),
-    (update) =>
-      update
-        .transition()
-        .duration(500)
-        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
-        .attr("cy", (d) => height - 10)
-        .attr("r", (d) => circleRadius)
-        .attr("fill", "red")
-        .attr("stroke", "#fff"),
-    (exit) => exit.transition().duration(500).style("opacity", 0).remove()
+  simulation.force(
+    "collide",
+    d3.forceCollide((d) =>
+      d.species === "Red-bellied black" ? circleRadius : 0
+    )
   );
+
+  circles
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => (d.species === "Red-bellied black" ? "red" : "#fff"))
+    .attr("opacity", (d) =>
+      d.species === "Red-bellied black" ? 1 : opacityFade
+    );
+
+  simulation.alpha(0.9).restart();
 }
 
 function keelbacks() {
-  const svg = figure.select("div").select("svg");
-  const secondData = testData.filter((d) => d.species === "Keelback");
-  const circles = svg.selectAll("circle").data(secondData);
-
   figure
     .select("p")
     .transition()
@@ -190,32 +204,26 @@ function keelbacks() {
     .text("Keelback")
     .style("opacity", 1);
 
-  circles.join(
-    (enter) =>
-      enter
-        .append("circle")
-        .transition()
-        .duration(500)
-        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
-        .attr("cy", (d) => height - 10)
-        .attr("r", (d) => circleRadius)
-        .attr("fill", "grey")
-        .attr("stroke", "#fff"),
-    (update) =>
-      update
-        .transition()
-        .duration(500)
-        .attr("cx", (_d, i) => leftPad + i * circleSpacing)
-        .attr("cy", (d) => height - 10)
-        .attr("r", (d) => circleRadius)
-        .attr("fill", "grey")
-        .attr("stroke", "#fff"),
-    (exit) => exit.transition().duration(500).style("opacity", 0).remove()
+  simulation.force(
+    "collide",
+    d3.forceCollide((d) => (d.species === "Keelback" ? circleRadius : 0))
   );
+
+  circles
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => (d.species === "Keelback" ? "grey" : "#fff"))
+    .attr("opacity", (d) => (d.species === "Keelback" ? 1 : opacityFade));
+
+  simulation.alpha(0.9).restart();
 }
 
 function fin() {
   figure.select("p").text("FIN");
+}
+
+function onMouseEnter(_event, d) {
+  console.log(d);
 }
 
 function init() {

@@ -76,7 +76,8 @@ figure p {
   text-align: center;
   padding: 1rem;
   position: absolute;
-  top: 50%;
+  /* top: 50%; */
+  top: 30%;
   left: 50%;
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
@@ -97,7 +98,7 @@ figure p {
 }
 
 .step.is-active p {
-  background-color: goldenrod;
+  background-color: rgba(255, 255, 255, 0.8);
   color: #3b3b3b;
 }
 

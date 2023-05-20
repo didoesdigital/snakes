@@ -7,7 +7,9 @@ function loadData() {
       ...d,
       date: timeParser(d.date),
       temp:
-        d.temperature !== "unknown" ? d.temperature : d.estimatedTemperature,
+        d.temperature !== "unknown"
+          ? d.temperature
+          : d.estimatedTemperature.replace("~", ""),
     };
   }).then((data) => {
     sightingsData = data;
@@ -42,11 +44,13 @@ function loadData() {
 }
 
 function analyse(columnName) {
-  const result = d3.rollup(
-    sightingsData,
-    (v) => v.length,
-    (d) => d[columnName]
-  );
+  const result = d3
+    .rollups(
+      sightingsData,
+      (v) => v.length,
+      (d) => d[columnName]
+    )
+    .sort((a, b) => d3.descending(a[1], b[1]));
 
   return result;
 }

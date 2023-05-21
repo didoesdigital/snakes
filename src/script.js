@@ -92,6 +92,20 @@ function setupScales() {
   const allSnakeSpecies = Array.from(new Set(testData.map((d) => d.species)));
 
   speciesAngleScale = d3.scaleBand().domain(allSnakeSpecies).range([0, 360]);
+
+  speciesColorScale = d3
+    .scaleOrdinal()
+    .domain(allSnakeSpecies)
+    .range([
+      "#09A573",
+      "#5598E2",
+      "#9880C2",
+      "#E26F99",
+      "#E8686A",
+      "#E17547",
+      "#CD840E",
+      "#CFAA07",
+    ]);
 }
 
 function setupChart() {
@@ -107,10 +121,7 @@ function setupChart() {
     .attr("r", (_d) => circleRadius)
     .attr("opacity", 1)
     .attr("fill", (d) => {
-      if (d.species === "Keelback") return "#868091";
-      if (d.species === "Yellow-faced whip snake") return "#CFAA07";
-      if (d.species === "Red-bellied black") return "#E8686A";
-      return "#fff";
+      return speciesColorScale(d.species)
     })
     .attr("stroke", "#fff");
 

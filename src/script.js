@@ -22,10 +22,13 @@ const circleSpacing = circleRadius * 2 + 1;
 const hideOffscreen = 80;
 const focalPointY = 300;
 const opacityFade = 0; // 0.2;
+const speciesRadius = 50;
 
 let circles = null;
 let nodes = null;
 let testData = null;
+
+let speciesAngleScale = null;
 
 // generic window resize listener event
 function handleResize() {
@@ -85,6 +88,12 @@ function loadData() {
   });
 }
 
+function setupScales() {
+  const allSnakeSpecies = Array.from(new Set(testData.map((d) => d.species)));
+
+  speciesAngleScale = d3.scaleBand().domain(allSnakeSpecies).range([0, 360]);
+}
+
 function setupChart() {
   const svg = figure.select("div").append("svg");
   svg.attr("width", width).attr("height", height);
@@ -96,8 +105,13 @@ function setupChart() {
     .attr("cx", (_d, i) => leftPad + i * circleSpacing)
     .attr("cy", (_d) => height - 10)
     .attr("r", (_d) => circleRadius)
-    .attr("opacity", 0.8)
-    .attr("fill", "#09A573")
+    .attr("opacity", 1)
+    .attr("fill", (d) => {
+      if (d.species === "Keelback") return "#868091";
+      if (d.species === "Yellow-faced whip snake") return "#CFAA07";
+      if (d.species === "Red-bellied black") return "#E8686A";
+      return "#fff";
+    })
     .attr("stroke", "#fff");
 
   circles.on("mouseenter", onMouseEnter);
@@ -105,22 +119,25 @@ function setupChart() {
   simulation = d3.forceSimulation(testData);
 
   simulation.on("tick", () => {
-    circles
-      .attr("cx", (d) => d.x)
-      .attr("cy", (d) => d.y);
+    circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
   });
 
   simulation.stop();
 
   simulation
-    // .force("charge", d3.forceManyBody().strength(2))
+    .force("charge", d3.forceManyBody().strength(2))
+    .force("center", d3.forceCenter(170, focalPointY).strength(1))
     .force(
       "forceX",
-      d3.forceX((_d) => 170)
+      d3
+        .forceX((d) => speciesRadius * Math.sin(speciesAngleScale(d.species)))
+        .strength(3)
     )
     .force(
       "forceY",
-      d3.forceY((_d) => focalPointY)
+      d3
+        .forceY((d) => speciesRadius * Math.cos(speciesAngleScale(d.species)))
+        .strength(3)
     )
     .force(
       "collide",
@@ -143,13 +160,12 @@ function yellowFacedWhipSnakes() {
     .text("Yellow-faced whip snakes")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "collide",
-      d3.forceCollide((d) =>
-        d.species === "Yellow-faced whip snake" ? circleRadius : 0
-      )
-    );
+  simulation.force(
+    "collide",
+    d3.forceCollide((d) =>
+      d.species === "Yellow-faced whip snake" ? circleRadius : 0
+    )
+  );
 
   circles
     .transition()
@@ -227,6 +243,7 @@ function onMouseEnter(_event, d) {
 }
 
 function init() {
+  setupScales();
   setupChart();
 
   // 1. force a resize on load to ensure proper dimensions are sent to scrollama

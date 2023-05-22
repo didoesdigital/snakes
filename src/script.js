@@ -11,17 +11,19 @@ const step = article.selectAll(".step");
 // initialize the scrollama
 const scroller = scrollama();
 
-const width = 343;
-const height = 400;
+const width = 343; // 375 - 16 - 16
+const height = 555;//400;
 const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 
 const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
 const leftPad = 5;
-const circleRadius = 10;
+const circleDiameter = 48; // big enough to tap
+const circleRadius = circleDiameter / 2;
 const circleSpacing = circleRadius * 2 + 1;
 const hideOffscreen = 80;
-const focalPointX = 170;
-const focalPointY = 300;
+const goldenRatio = 1.618;
+const focalPointX = width / 2;
+const focalPointY = height / goldenRatio / goldenRatio;
 const opacityFade = 0; // 0.2;
 const speciesRadius = 50;
 
@@ -34,7 +36,7 @@ let speciesAngleScale = null;
 // generic window resize listener event
 function handleResize() {
   // 1. update height of step elements
-  var stepH = Math.floor(window.innerHeight * 0.75);
+  var stepH = Math.floor(window.innerHeight * (goldenRatio - 1));
   step.style("height", stepH + "px");
 
   var figureHeight = window.innerHeight / 2;
@@ -149,7 +151,7 @@ function setupChart() {
             speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
             focalPointX
         )
-        .strength(0.1)
+        .strength(1.5)
     )
     .force(
       "forceY",
@@ -159,7 +161,7 @@ function setupChart() {
             speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
             focalPointY
         )
-        .strength(0.1)
+        .strength(1.5)
     )
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
     .alphaDecay(0.02)

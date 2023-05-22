@@ -77,7 +77,8 @@ figure p {
   padding: 1rem;
   position: absolute;
   /* top: 50%; */
-  top: 30%;
+  /* top: 30%; */
+  top: 16px;
   left: 50%;
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
@@ -85,6 +86,7 @@ figure p {
   font-size: 1rem;
   font-weight: 900;
   color: #fff;
+  min-width: 343px;
 }
 
 .step {

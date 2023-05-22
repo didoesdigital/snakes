@@ -24,12 +24,14 @@ h3 {
 }
 
 .page {
-  background-color: #fff;
+  background-color: #ecf9f5;
   min-height: 667px;
 }
 
 h1 {
   padding-top: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   text-align: center;
 }
 

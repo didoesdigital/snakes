@@ -12,7 +12,7 @@ const step = article.selectAll(".step");
 const scroller = scrollama();
 
 const width = 343; // 375 - 16 - 16
-const height = 555;//400;
+const height = 555; //400;
 const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 
 const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
@@ -26,12 +26,24 @@ const focalPointX = width / 2;
 const focalPointY = height / goldenRatio / goldenRatio;
 const opacityFade = 0; // 0.2;
 const speciesRadius = 50;
+const speciesColors = [
+  "#F1EEF6",
+  "#E4DDEE",
+  "#D5CBE6",
+  "#B19CD3",
+  "#9880C2",
+  "#5F428F",
+  "#452D6C",
+  "#331A5B",
+  "#1C0A39",
+];
 
 let circles = null;
 let nodes = null;
 let sightingsData = null;
 
 let speciesAngleScale = null;
+let speciesColorScale = null;
 
 // generic window resize listener event
 function handleResize() {
@@ -98,19 +110,29 @@ function setupScales() {
 
   speciesAngleScale = d3.scaleBand().domain(allSnakeSpecies).range([0, 360]);
 
-  speciesColorScale = d3
-    .scaleOrdinal()
-    .domain(allSnakeSpecies)
-    .range([
-      "#09A573",
-      "#5598E2",
-      "#9880C2",
-      "#E26F99",
-      "#E8686A",
-      "#E17547",
-      "#CD840E",
-      "#CFAA07",
-    ]);
+  speciesColorScale = (species) => {
+    switch (species) {
+      case "Yellow-faced whip snake":
+        return "#F6D43C";
+      case "Red-bellied black":
+        return "#930B0D";
+      case "Keelback":
+        return "#5598E2";
+      case "Common tree snake":
+        return "#067551";
+      case "Verreaux's skink":
+        return "#E17547";
+      case "Eastern small-eyed snake":
+        return "#E26F99";
+      case "Marsh snake":
+        return "#CD840E";
+      case "Carpet python":
+        return "#045D40";
+      default:
+        return speciesColors[Math.floor(Math.random() * speciesColors.length)];
+        break;
+    }
+  };
 }
 
 function setupChart() {

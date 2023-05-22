@@ -20,6 +20,7 @@ const leftPad = 5;
 const circleRadius = 10;
 const circleSpacing = circleRadius * 2 + 1;
 const hideOffscreen = 80;
+const focalPointX = 170;
 const focalPointY = 300;
 const opacityFade = 0; // 0.2;
 const speciesRadius = 50;
@@ -121,7 +122,7 @@ function setupChart() {
     .attr("r", (_d) => circleRadius)
     .attr("opacity", 1)
     .attr("fill", (d) => {
-      return speciesColorScale(d.species)
+      return speciesColorScale(d.species);
     })
     .attr("stroke", "#fff");
 
@@ -136,28 +137,33 @@ function setupChart() {
   simulation.stop();
 
   simulation
-    .force("charge", d3.forceManyBody().strength(2))
+    // .force("charge", d3.forceManyBody().strength(2).distanceMax(50))
     .force("center", d3.forceCenter(170, focalPointY).strength(1))
     .force(
       "forceX",
       d3
-        .forceX((d) => speciesRadius * Math.sin(speciesAngleScale(d.species)))
-        .strength(3)
+        .forceX(
+          (d) =>
+            speciesRadius * Math.sin(speciesAngleScale(d.species)) + focalPointX
+        )
+        .strength(0.1)
     )
     .force(
       "forceY",
       d3
-        .forceY((d) => speciesRadius * Math.cos(speciesAngleScale(d.species)))
-        .strength(3)
+        .forceY(
+          (d) =>
+            speciesRadius * Math.cos(speciesAngleScale(d.species)) + focalPointY
+        )
+        .strength(0.1)
     )
-    .force(
-      "collide",
-      d3.forceCollide((_d) => circleRadius)
-    )
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
     .alphaDecay(0.02)
-    .velocityDecay(0.4);
+    .velocityDecay(0.4)
+    .alpha(0.9)
+    .stop();
 
-  simulation.alpha(0.9).restart();
+  simulation.restart();
 }
 
 function yellowFacedWhipSnakes() {

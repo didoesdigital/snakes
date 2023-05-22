@@ -4,22 +4,45 @@
   padding: 0;
 }
 
+:root {
+  accent-color: #5f428f;
+  --coolgrey-100: #faf9fb;
+  --coolgrey-200: #f2f1f4;
+  --coolgrey-300: #ece9ee;
+  --coolgrey-400: #e2e0e5;
+  --coolgrey-500: #a6a1af;
+  --coolgrey-600: #868091;
+  --coolgrey-700: #676170;
+  --coolgrey-800: #504c57;
+  --coolgrey-900: #3c3941;
+  --coolgrey-1000: #232027;
+  --coolgrey-1100: #0f0e11;
+}
+
 html {
   /* TODO: delete this when ready to publish */
   background-color: #ebebeb;
+
+  font-size: 16px;
 }
 
 body {
+  font-family: "Source Sans Pro", "Work Sans", "Lato", "Noto Sans", "Assistant",
+    "Libre Franklin", "Open Sans", "Roboto Condensed", "Titillium Web",
+    "Varela Round", "Raleway", "Merriweather Sans", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
   margin: 0px auto;
   max-width: 375px;
   line-height: 1.5;
-  font-size: 18px;
-  color: #444;
+  color: var(--coolgrey-900);
 }
 
 h1,
 h2,
 h3 {
+  font-family: "Gaegu", "Marker Felt", "Comic Sans MS", cursive;
   line-height: 1.2;
 }
 
@@ -29,10 +52,12 @@ h3 {
 }
 
 h1 {
+  font-weight: 400;
   padding-top: 1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
   text-align: center;
+}
+h1 strong {
+  font-weight: 700;
 }
 
 /* Scrollama sticky-overlay example */
@@ -40,7 +65,6 @@ h1 {
 #intro {
   max-width: 40rem;
   margin: 1rem auto;
-  text-align: center;
   margin-bottom: 320px;
 }
 
@@ -50,7 +74,7 @@ h1 {
 
 #scrolly {
   position: relative;
-  background-color: #f3f3f3;
+  background-color: #fff;
   padding: 1rem;
 }
 
@@ -70,11 +94,13 @@ figure {
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
-  background-color: #8a8a8a;
+  background-color: transparent;
+  /* outline: 1px dashed #cadff7; */
   z-index: 0;
 }
 
 figure p {
+  font-family: "Gaegu", "Marker Felt", "Comic Sans MS", cursive;
   text-align: center;
   padding: 1rem;
   position: absolute;
@@ -85,30 +111,42 @@ figure p {
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  font-size: 1rem;
-  font-weight: 900;
-  color: #fff;
+  font-size: 1.5rem;
+  /* font-weight: 900; */
+  /* font-weight: 700; */
+  font-weight: 400;
+  color: var(--coolgrey-900);
   min-width: 343px;
 }
 
 .step {
   margin: 0 auto 2rem auto;
   color: #fff;
-  background-color: rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  /* outline: 1px dashed #E8686A; */
+  position: relative;
+  /* background-color: rgba(0, 0, 0, 0.1); */
 }
 
 .step:last-child {
   margin-bottom: 0;
 }
 
-.step.is-active p {
-  background-color: rgba(255, 255, 255, 0.8);
-  color: #3b3b3b;
-}
+/* .step.is-active p { */
+/*   /1* background-color: rgba(255, 255, 255, 0.8); *1/ */
+/*   /1* color: var(--coolgrey-900); *1/ */
+/* } */
 
 .step p {
   text-align: center;
-  padding: 1rem;
-  font-size: 1rem;
-  background-color: #3b3b3b;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  color: var(--coolgrey-900);
+  background-color: #fff;
+  border: 1px solid #E2E0E5;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
 }

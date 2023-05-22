@@ -17,9 +17,10 @@ const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 
 const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
 const leftPad = 5;
-const circleDiameter = 48; // big enough to tap
+const circleDiameter = 40; // big enough to tap
 const circleRadius = circleDiameter / 2;
 const circleSpacing = circleRadius * 2 + 1;
+const circleStroke = "#525252";
 const hideOffscreen = 80;
 const goldenRatio = 1.618;
 const focalPointX = width / 2;
@@ -150,7 +151,7 @@ function setupChart() {
     .attr("fill", (d) => {
       return speciesColorScale(d.speciesBestGuess);
     })
-    .attr("stroke", "#fff");
+    .attr("stroke", circleStroke);
 
   circles.on("mouseenter", onMouseEnter);
 

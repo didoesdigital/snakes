@@ -6,6 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="@DiDoesDigital" />
     <link href="./styles.css" rel="stylesheet" type="text/css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg"> -->
     <link
       rel="icon"
@@ -15,17 +30,34 @@
   <body>
     <main>
       <div class="page">
-        <section id="intro">
-          <h1>I moved to Queensland and met 44 snakes</h1>
+        <section id="intro" style="padding-left: 16px; padding-right: 16px">
+          <h1 style="font-size: 3rem; font-weight: 700; text-align: center">
+            I moved to Queensland and met 44 snakes
+          </h1>
+          <p style="margin-top: 0.5rem; text-align: center">
+            <small>by Diana MacDonald</small>
+          </p>
+          <p style="margin-top: 6rem">
+            During the pandemic, I moved ~2,000km north to a subtropical part of
+            Australia.
+          </p>
+          <p style="margin-top: 1.25rem">I expected more wildlife…</p>
+          <p style="margin-top: 1.25rem">But not like this!</p>
         </section>
 
         <section id="scrolly">
           <figure>
-            <p>Total number of snake sightings</p>
+            <p>Total number of snakes</p>
             <div id="viz"></div>
           </figure>
 
           <article>
+            <div class="step" data-step-function="">
+              <p>
+                I've seen at least
+                <span id="js-snake-species-count">7</span> species.
+              </p>
+            </div>
             <div class="step" data-step-function="yellowFacedWhipSnakes">
               <p>Whip snakes have the largest eyes</p>
             </div>
@@ -47,7 +79,23 @@
           </article>
         </section>
 
-        <section id="outro"></section>
+        <section id="outro" style="padding-left: 16px; padding-right: 16px">
+          <h2 style="margin-top: 6rem;font-size: 3rem; font-weight: 700; text-align: center">
+            The end
+          </h2>
+          <h3 style="margin-top: 6rem;font-size: 1.5rem; font-weight: 400; text-align: left">
+            About the data
+          </h3>
+          <p style="margin-top: 1rem; font-size: 1.25rem;">
+            I've excluded snake skin sightings, dead snakes, snakes seen by people outside my household, and snakes I've seen while travelling around the region.
+          </p>
+          <h3 style="margin-top: 6rem;font-size: 1.5rem; font-weight: 400; text-align: left">
+            About Di
+          </h3>
+          <p style="margin-top: 0.5rem; text-align: left">
+            <small>@DiDoesDigital</small>
+          </p>
+        </section>
       </div>
     </main>
 

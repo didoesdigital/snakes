@@ -27,7 +27,7 @@ const speciesRadius = 50;
 
 let circles = null;
 let nodes = null;
-let testData = null;
+let sightingsData = null;
 
 let speciesAngleScale = null;
 
@@ -73,24 +73,26 @@ function handleStepEnter(response) {
 }
 
 function loadData() {
-  d3.csv("./data/data.csv", (d) => {
+  d3.csv("./data/snake-sightings-public.csv", (d) => {
     return {
-      date: timeParser(d.prettyDate),
-      species: d.species,
+      ...d,
+      date: timeParser(d.date),
       // initialize x/y values for force simulation to start from center
       x: width / 2,
       y: height / 2,
     };
   }).then((data) => {
-    testData = data;
-    // console.log(testData);
+    sightingsData = data.filter((d) => d.family !== "Pygopodidae"); // Legless lizards
+    // console.log(sightingsData);
 
     setTimeout(init(), 0);
   });
 }
 
 function setupScales() {
-  const allSnakeSpecies = Array.from(new Set(testData.map((d) => d.species)));
+  const allSnakeSpecies = Array.from(
+    new Set(sightingsData.map((d) => d.speciesBestGuess))
+  );
 
   speciesAngleScale = d3.scaleBand().domain(allSnakeSpecies).range([0, 360]);
 
@@ -113,7 +115,7 @@ function setupChart() {
   const svg = figure.select("div").append("svg");
   svg.attr("width", width).attr("height", height);
 
-  nodes = svg.selectAll("circle").data(testData);
+  nodes = svg.selectAll("circle").data(sightingsData);
 
   circles = nodes
     .join("circle")
@@ -122,13 +124,13 @@ function setupChart() {
     .attr("r", (_d) => circleRadius)
     .attr("opacity", 1)
     .attr("fill", (d) => {
-      return speciesColorScale(d.species);
+      return speciesColorScale(d.speciesBestGuess);
     })
     .attr("stroke", "#fff");
 
   circles.on("mouseenter", onMouseEnter);
 
-  simulation = d3.forceSimulation(testData);
+  simulation = d3.forceSimulation(sightingsData);
 
   simulation.on("tick", () => {
     circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
@@ -144,7 +146,8 @@ function setupChart() {
       d3
         .forceX(
           (d) =>
-            speciesRadius * Math.sin(speciesAngleScale(d.species)) + focalPointX
+            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointX
         )
         .strength(0.1)
     )
@@ -153,7 +156,8 @@ function setupChart() {
       d3
         .forceY(
           (d) =>
-            speciesRadius * Math.cos(speciesAngleScale(d.species)) + focalPointY
+            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointY
         )
         .strength(0.1)
     )
@@ -180,7 +184,7 @@ function yellowFacedWhipSnakes() {
   simulation.force(
     "collide",
     d3.forceCollide((d) =>
-      d.species === "Yellow-faced whip snake" ? circleRadius : 0
+      d.speciesBestGuess === "Yellow-faced whip snake" ? circleRadius : 0
     )
   );
 
@@ -188,10 +192,10 @@ function yellowFacedWhipSnakes() {
     .transition()
     .duration(200)
     .attr("fill", (d) =>
-      d.species === "Yellow-faced whip snake" ? "yellow" : "#fff"
+      d.speciesBestGuess === "Yellow-faced whip snake" ? "yellow" : "#fff"
     )
     .attr("opacity", (d) =>
-      d.species === "Yellow-faced whip snake" ? 1 : opacityFade
+      d.speciesBestGuess === "Yellow-faced whip snake" ? 1 : opacityFade
     );
 
   simulation.alpha(0.9).restart();
@@ -211,16 +215,18 @@ function redBellies() {
   simulation.force(
     "collide",
     d3.forceCollide((d) =>
-      d.species === "Red-bellied black" ? circleRadius : 0
+      d.speciesBestGuess === "Red-bellied black" ? circleRadius : 0
     )
   );
 
   circles
     .transition()
     .duration(200)
-    .attr("fill", (d) => (d.species === "Red-bellied black" ? "red" : "#fff"))
+    .attr("fill", (d) =>
+      d.speciesBestGuess === "Red-bellied black" ? "red" : "#fff"
+    )
     .attr("opacity", (d) =>
-      d.species === "Red-bellied black" ? 1 : opacityFade
+      d.speciesBestGuess === "Red-bellied black" ? 1 : opacityFade
     );
 
   simulation.alpha(0.9).restart();
@@ -239,14 +245,18 @@ function keelbacks() {
 
   simulation.force(
     "collide",
-    d3.forceCollide((d) => (d.species === "Keelback" ? circleRadius : 0))
+    d3.forceCollide((d) =>
+      d.speciesBestGuess === "Keelback" ? circleRadius : 0
+    )
   );
 
   circles
     .transition()
     .duration(200)
-    .attr("fill", (d) => (d.species === "Keelback" ? "grey" : "#fff"))
-    .attr("opacity", (d) => (d.species === "Keelback" ? 1 : opacityFade));
+    .attr("fill", (d) => (d.speciesBestGuess === "Keelback" ? "grey" : "#fff"))
+    .attr("opacity", (d) =>
+      d.speciesBestGuess === "Keelback" ? 1 : opacityFade
+    );
 
   simulation.alpha(0.9).restart();
 }

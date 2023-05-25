@@ -103,7 +103,7 @@ function handleStepEnter(response) {
     yellowFacedWhipSnakes,
     redBellies,
     keelbacks,
-    temperatureScatter,
+    temperatureStripPlot,
     timeline,
     fin,
   };
@@ -422,8 +422,8 @@ function keelbacks() {
   simulation.alpha(0.9).restart();
 }
 
-function temperatureScatter() {
-  hideOtherChartStuff("temperatureScatter");
+function temperatureStripPlot() {
+  hideOtherChartStuff("temperatureStripPlot");
   figure
     .select("p")
     .transition()
@@ -460,26 +460,26 @@ function temperatureScatter() {
 
   const svg = figure.select("#viz").select("svg");
 
-  let tempScatterYAxis = d3.axisLeft(temperatureScale);
+  let tempStripPlotYAxis = d3.axisLeft(temperatureScale);
   svg
     .append("g")
-    .attr("class", "scatter-y")
+    .attr("class", "strip-plot-y")
     .attr("transform", `translate(${dimensions.margin.left}, 0)`)
-    .call(tempScatterYAxis)
+    .call(tempStripPlotYAxis)
     .call((g) => g.select(".domain").remove())
     .attr("stroke-opacity", 0.2)
     .attr("stroke-dasharray", 2.5)
     .lower();
 
-  let tempScatterXAxis = d3.axisBottom(speciesBandScale).tickSize(0);
+  let tempStripPlotXAxis = d3.axisBottom(speciesBandScale).tickSize(0);
   svg
     .append("g")
-    .attr("class", "scatter-x")
+    .attr("class", "strip-plot-x")
     .attr(
       "transform",
       `translate(0, ${dimensions.boundedHeight + dimensions.margin.bottom / 2})`
     )
-    .call(tempScatterXAxis)
+    .call(tempStripPlotXAxis)
     .call((g) =>
       g
         .selectAll(".tick text")
@@ -507,9 +507,9 @@ function fin() {
 }
 
 function hideOtherChartStuff(stepFunctionName) {
-  if (stepFunctionName !== "temperatureScatter") {
-    figure.select(".scatter-x").remove();
-    figure.select(".scatter-y").remove();
+  if (stepFunctionName !== "temperatureStripPlot") {
+    figure.select(".strip-plot-x").remove();
+    figure.select(".strip-plot-y").remove();
   }
 }
 

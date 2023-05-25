@@ -293,7 +293,7 @@ function yellowFacedWhipSnakes() {
     .force(
       "collide",
       d3.forceCollide((d) =>
-        d.speciesBestGuess === "Yellow-faced whip snake" ? circleRadius : 0
+        d[metricSpeciesProp] === "Yellow-faced whip snake" ? circleRadius : 0
       )
     );
 
@@ -301,10 +301,12 @@ function yellowFacedWhipSnakes() {
     .transition()
     .duration(200)
     .attr("fill", (d) =>
-      d.speciesBestGuess === "Yellow-faced whip snake" ? "yellow" : "#fff"
+      d[metricSpeciesProp] === "Yellow-faced whip snake"
+        ? speciesColorScale(d[metricSpeciesProp])
+        : "#fff"
     )
     .attr("opacity", (d) =>
-      d.speciesBestGuess === "Yellow-faced whip snake" ? 1 : opacityFade
+      d[metricSpeciesProp] === "Yellow-faced whip snake" ? 1 : opacityFade
     );
 
   simulation.alpha(0.9).restart();
@@ -346,7 +348,7 @@ function redBellies() {
     .force(
       "collide",
       d3.forceCollide((d) =>
-        d.speciesBestGuess === "Red-bellied black" ? circleRadius : 0
+        d[metricSpeciesProp] === "Red-bellied black" ? circleRadius : 0
       )
     );
 
@@ -354,10 +356,12 @@ function redBellies() {
     .transition()
     .duration(200)
     .attr("fill", (d) =>
-      d.speciesBestGuess === "Red-bellied black" ? "red" : "#fff"
+      d[metricSpeciesProp] === "Red-bellied black"
+        ? speciesColorScale(d[metricSpeciesProp])
+        : "#fff"
     )
     .attr("opacity", (d) =>
-      d.speciesBestGuess === "Red-bellied black" ? 1 : opacityFade
+      d[metricSpeciesProp] === "Red-bellied black" ? 1 : opacityFade
     );
 
   simulation.alpha(0.9).restart();
@@ -399,16 +403,20 @@ function keelbacks() {
     .force(
       "collide",
       d3.forceCollide((d) =>
-        d.speciesBestGuess === "Keelback" ? circleRadius : 0
+        d[metricSpeciesProp] === "Keelback" ? circleRadius : 0
       )
     );
 
   circles
     .transition()
     .duration(200)
-    .attr("fill", (d) => (d.speciesBestGuess === "Keelback" ? "grey" : "#fff"))
+    .attr("fill", (d) =>
+      d[metricSpeciesProp] === "Keelback"
+        ? speciesColorScale(d[metricSpeciesProp])
+        : "#fff"
+    )
     .attr("opacity", (d) =>
-      d.speciesBestGuess === "Keelback" ? 1 : opacityFade
+      d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade
     );
 
   simulation.alpha(0.9).restart();

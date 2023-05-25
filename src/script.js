@@ -460,7 +460,7 @@ function temperatureStripPlot() {
 
   const svg = figure.select("#viz").select("svg");
 
-  let tempStripPlotYAxis = d3.axisLeft(temperatureScale);
+  let tempStripPlotYAxis = d3.axisLeft(temperatureScale).tickSize(4);
   svg
     .append("g")
     .attr("class", "strip-plot-y")
@@ -468,7 +468,6 @@ function temperatureStripPlot() {
     .call(tempStripPlotYAxis)
     .call((g) => g.select(".domain").remove())
     .attr("stroke-opacity", 0.2)
-    .attr("stroke-dasharray", 2.5)
     .lower();
 
   let tempStripPlotXAxis = d3.axisBottom(speciesBandScale).tickSize(0);

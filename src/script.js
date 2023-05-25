@@ -17,7 +17,8 @@ const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 
 const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
 const leftPad = 5;
-const circleDiameter = 40; // big enough to tap
+// const circleDiameter = 40; // big enough to tap
+const circleDiameter = 10; // small enough to fit within plot area
 const circleRadius = circleDiameter / 2;
 const circleSpacing = circleRadius * 2 + 1;
 const circleStroke = "#525252";
@@ -39,12 +40,35 @@ const speciesColors = [
   "#1C0A39",
 ];
 
+const dimensions = {
+  width: 343,
+  height: 400,
+  margin: {
+    top: 48,
+    right: 0,
+    bottom: 48,
+    left: 36,
+  },
+};
+dimensions.boundedWidth =
+  dimensions.width - dimensions.margin.left - dimensions.margin.right;
+dimensions.boundedHeight =
+  dimensions.height - dimensions.margin.top - dimensions.margin.bottom;
+
 let circles = null;
 let nodes = null;
 let sightingsData = null;
 
 let speciesAngleScale = null;
 let speciesColorScale = null;
+let speciesBandScale = null;
+
+let temperatureScale = null;
+let temperatureColorScale = null;
+
+const metricTempProp = "temp";
+const metricTempAccessor = (d) => d[metricTempProp];
+const metricSpeciesProp = "speciesBestGuess";
 
 // generic window resize listener event
 function handleResize() {
@@ -79,6 +103,8 @@ function handleStepEnter(response) {
     yellowFacedWhipSnakes,
     redBellies,
     keelbacks,
+    temperatureScatter,
+    timeline,
     fin,
   };
   const stepFn = stepFunctions[stepFunctionName];
@@ -92,6 +118,10 @@ function loadData() {
     return {
       ...d,
       date: timeParser(d.date),
+      temp:
+        d.temperature !== "unknown"
+          ? +d.temperature
+          : +d.estimatedTemperature.replace("~", ""),
       // initialize x/y values for force simulation to start from center
       x: width / 2,
       y: height / 2,
@@ -99,6 +129,8 @@ function loadData() {
   }).then((data) => {
     sightingsData = data.filter((d) => d.family !== "Pygopodidae"); // Legless lizards
     // console.log(sightingsData);
+    // console.log(sightingsData.map((d) => d.temp).sort());
+    // console.log(d3.extent(sightingsData, (d) => d.temp));
 
     setTimeout(init(), 0);
   });
@@ -108,8 +140,27 @@ function setupScales() {
   const allSnakeSpecies = Array.from(
     new Set(sightingsData.map((d) => d.speciesBestGuess))
   );
+  const orderedSnakeSpecies = d3
+    .rollups(
+      sightingsData,
+      (v) => v.length,
+      (d) => d[metricSpeciesProp]
+    )
+    .sort((a, b) => {
+      if (a[0] === "unknown") return 1;
+      if (b[0] === "unknown") return -1;
+      return b[1] < a[1] ? -1 : b[1] > a[1] ? 1 : b[1] >= a[1] ? 0 : 0;
+    })
+    .map((d) => d[0]);
+  // console.log(orderedSnakeSpecies);
 
   speciesAngleScale = d3.scaleBand().domain(allSnakeSpecies).range([0, 360]);
+
+  speciesBandScale = d3
+    .scalePoint()
+    .domain(orderedSnakeSpecies)
+    .range([dimensions.margin.left, dimensions.boundedWidth])
+    .padding(1);
 
   speciesColorScale = (species) => {
     switch (species) {
@@ -131,13 +182,22 @@ function setupScales() {
         return "#045D40";
       default:
         return speciesColors[Math.floor(Math.random() * speciesColors.length)];
-        break;
     }
   };
+
+  temperatureScale = d3
+    .scaleLinear()
+    .domain(d3.extent(sightingsData, metricTempAccessor))
+    .range([dimensions.boundedHeight, dimensions.margin.bottom]);
+
+  temperatureColorScale = d3
+    .scaleSequential()
+    .domain(d3.extent(sightingsData, metricTempAccessor))
+    .interpolator(d3.interpolateHsl("#7BB2EF", "#ED9798"));
 }
 
 function setupChart() {
-  const svg = figure.select("div").append("svg");
+  const svg = figure.select("#viz").append("svg");
   svg.attr("width", width).attr("height", height);
 
   nodes = svg.selectAll("circle").data(sightingsData);
@@ -196,6 +256,8 @@ function setupChart() {
 }
 
 function yellowFacedWhipSnakes() {
+  hideOtherChartStuff("yellowFacedWhipSnakes");
+
   figure
     .select("p")
     .transition()
@@ -206,12 +268,34 @@ function yellowFacedWhipSnakes() {
     .text("Yellow-faced whip snakes")
     .style("opacity", 1);
 
-  simulation.force(
-    "collide",
-    d3.forceCollide((d) =>
-      d.speciesBestGuess === "Yellow-faced whip snake" ? circleRadius : 0
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointX
+        )
+        .strength(1.5)
     )
-  );
+    // .force("forceY", d3.forceY(focalPointY));
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointY
+        )
+        .strength(1.5)
+    )
+    .force(
+      "collide",
+      d3.forceCollide((d) =>
+        d.speciesBestGuess === "Yellow-faced whip snake" ? circleRadius : 0
+      )
+    );
 
   circles
     .transition()
@@ -227,6 +311,7 @@ function yellowFacedWhipSnakes() {
 }
 
 function redBellies() {
+  hideOtherChartStuff("redBellies");
   figure
     .select("p")
     .transition()
@@ -237,12 +322,33 @@ function redBellies() {
     .text("Red-bellied black snake")
     .style("opacity", 1);
 
-  simulation.force(
-    "collide",
-    d3.forceCollide((d) =>
-      d.speciesBestGuess === "Red-bellied black" ? circleRadius : 0
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointX
+        )
+        .strength(1.5)
     )
-  );
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointY
+        )
+        .strength(1.5)
+    )
+    .force(
+      "collide",
+      d3.forceCollide((d) =>
+        d.speciesBestGuess === "Red-bellied black" ? circleRadius : 0
+      )
+    );
 
   circles
     .transition()
@@ -258,6 +364,7 @@ function redBellies() {
 }
 
 function keelbacks() {
+  hideOtherChartStuff("keelbacks");
   figure
     .select("p")
     .transition()
@@ -268,12 +375,33 @@ function keelbacks() {
     .text("Keelback")
     .style("opacity", 1);
 
-  simulation.force(
-    "collide",
-    d3.forceCollide((d) =>
-      d.speciesBestGuess === "Keelback" ? circleRadius : 0
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointX
+        )
+        .strength(1.5)
     )
-  );
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointY
+        )
+        .strength(1.5)
+    )
+    .force(
+      "collide",
+      d3.forceCollide((d) =>
+        d.speciesBestGuess === "Keelback" ? circleRadius : 0
+      )
+    );
 
   circles
     .transition()
@@ -286,12 +414,100 @@ function keelbacks() {
   simulation.alpha(0.9).restart();
 }
 
+function temperatureScatter() {
+  hideOtherChartStuff("temperatureScatter");
+  figure
+    .select("p")
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Do they like it hot?")
+    .style("opacity", 1);
+
+  simulation
+    .force("charge", null)
+    .force("center", null)
+    .force("forceX", null)
+    .force("forceY", null)
+    .force("collide", null);
+
+  simulation
+    .force(
+      "forceX",
+      d3.forceX((d) => speciesBandScale(d[metricSpeciesProp])).strength(1)
+    )
+    .force(
+      "forceY",
+      d3.forceY((d) => temperatureScale(d[metricTempProp])).strength(1)
+    )
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  circles
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
+    .attr("opacity", 1);
+
+  const svg = figure.select("#viz").select("svg");
+
+  let tempScatterYAxis = d3.axisLeft(temperatureScale);
+  svg
+    .append("g")
+    .attr("class", "scatter-y")
+    .attr("transform", `translate(${dimensions.margin.left}, 0)`)
+    .call(tempScatterYAxis)
+    .call((g) => g.select(".domain").remove())
+    .attr("stroke-opacity", 0.2)
+    .attr("stroke-dasharray", 2.5)
+    .lower();
+
+  let tempScatterXAxis = d3.axisBottom(speciesBandScale).tickSize(0);
+  svg
+    .append("g")
+    .attr("class", "scatter-x")
+    .attr(
+      "transform",
+      `translate(0, ${dimensions.boundedHeight + dimensions.margin.bottom / 2})`
+    )
+    .call(tempScatterXAxis)
+    .call((g) =>
+      g
+        .selectAll(".tick text")
+        // .attr("text-anchor", "end")
+        // .attr("transform", "rotate(-35)")
+        .attr("text-anchor", "start")
+        .attr("transform", "rotate(35)")
+    )
+    .attr("stroke-opacity", 0.2)
+    .attr("stroke-dasharray", 2.5)
+    .lower();
+
+  simulation.alpha(0.9).restart();
+}
+
+function timeline() {
+  figure
+    .select("p")
+    .text("On average, I've seen a snake every two and a half weeks");
+}
+
 function fin() {
+  hideOtherChartStuff("fin");
   figure.select("p").text("FIN");
+}
+
+function hideOtherChartStuff(stepFunctionName) {
+  if (stepFunctionName !== "temperatureScatter") {
+    figure.select(".scatter-x").remove();
+    figure.select(".scatter-y").remove();
+  }
 }
 
 function onMouseEnter(_event, d) {
   console.log(d);
+  // console.log([d.temp, d.speciesBestGuess]);
 }
 
 function init() {

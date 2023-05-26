@@ -15,6 +15,9 @@ const width = 343; // 375 - 16 - 16
 const height = 555; //400;
 const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 
+const sansSerifStack =
+  '"Source Sans Pro", "Work Sans", "Lato", "Noto Sans", "Assistant", "Helvetica", arial, sans-serif';
+const sansSerifSize = "0.75rem";
 const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
 const leftPad = 5;
 // const circleDiameter = 40; // big enough to tap
@@ -472,6 +475,8 @@ function temperatureStripPlot() {
     )
     .call(tempStripPlotXAxis)
     .call((g) => g.select(".domain").remove())
+    .call((g) => g.selectAll("text").style("font-family", sansSerifStack))
+    .call((g) => g.selectAll("text").style("font-size", sansSerifSize))
     .attr("stroke-opacity", 0.2)
     .lower();
 
@@ -495,6 +500,8 @@ function temperatureStripPlot() {
         .attr("x", 0)
         .attr("dx", "-1em")
         .attr("dy", getLabelPartYShift)
+        .style("font-family", sansSerifStack)
+        .style("font-size", sansSerifSize)
         .text((d) => `${d}`)
     )
     .attr("stroke-opacity", 0.2)

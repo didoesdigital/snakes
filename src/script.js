@@ -17,7 +17,7 @@ const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 
 const sansSerifStack =
   '"Source Sans Pro", "Work Sans", "Lato", "Noto Sans", "Assistant", "Helvetica", arial, sans-serif';
-const sansSerifSize = "0.75rem";
+const sansSerifSize = "0.875rem";
 const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
 const leftPad = 5;
 // const circleDiameter = 40; // big enough to tap
@@ -50,7 +50,7 @@ const dimensions = {
     top: 48,
     right: 24, // at least circleRadius wide
     bottom: 24,
-    left: 80,
+    left: 96,
   },
 };
 
@@ -465,7 +465,8 @@ function temperatureStripPlot() {
 
   const svg = figure.select("#viz").select("svg");
 
-  let tempStripPlotXAxis = d3.axisBottom(temperatureScale).tickSize(4);
+  let tempStripPlotXAxis = d3.axisBottom(temperatureScale).tickSize(0).ticks(6);
+  // X-Axis labels:
   svg
     .append("g")
     .attr("class", "strip-plot-x")
@@ -477,14 +478,11 @@ function temperatureStripPlot() {
     .call((g) => g.select(".domain").remove())
     .call((g) => g.selectAll("text").style("font-family", sansSerifStack))
     .call((g) => g.selectAll("text").style("font-size", sansSerifSize))
-    .attr("stroke-opacity", 0.2)
     .lower();
 
-  let tempStripPlotYAxis = d3
-    .axisLeft(speciesBandScale)
-    .tickSizeInner(12)
-    .tickSizeOuter(0)
-    .tickFormat("");
+  let tempStripPlotYAxis = d3.axisLeft(speciesBandScale).tickFormat("");
+
+  // Y-Axis labels:
   svg
     .append("g")
     .attr("class", "strip-plot-y")
@@ -498,12 +496,33 @@ function temperatureStripPlot() {
         .data((species) => splitSpeciesLabels(species))
         .join("tspan")
         .attr("x", 0)
-        .attr("dx", "-1em")
+        .attr("dx", -(circleRadius + 8))
         .attr("dy", getLabelPartYShift)
         .style("font-family", sansSerifStack)
         .style("font-size", sansSerifSize)
         .text((d) => `${d}`)
     )
+    .attr("stroke-opacity", 0.2)
+    .attr("stroke-dasharray", 2.5)
+    .lower();
+
+  // Y-Axis grid lines:
+  svg
+    .append("g")
+    .attr("class", "strip-plot-y-grid-lines")
+    .attr(
+      "transform",
+      `translate(${dimensions.width - dimensions.margin.right}, 0)`
+    )
+    .call(
+      d3
+        .axisLeft(speciesBandScale)
+        .tickSize(
+          dimensions.width - dimensions.margin.right - dimensions.margin.left
+        )
+        .tickFormat("")
+    )
+    .call((g) => g.select(".domain").remove())
     .attr("stroke-opacity", 0.2)
     .attr("stroke-dasharray", 2.5)
     .lower();
@@ -526,6 +545,7 @@ function hideOtherChartStuff(stepFunctionName) {
   if (stepFunctionName !== "temperatureStripPlot") {
     figure.select(".strip-plot-x").remove();
     figure.select(".strip-plot-y").remove();
+    figure.select(".strip-plot-y-grid-lines").remove();
   }
 }
 

@@ -1,15 +1,13 @@
-// Scrollama sticky-overlay example
-// https://github.com/russellsamora/scrollama/blob/main/docs/sticky-overlay/index.html
-
-// using d3 for convenience
+// Selections
 const main = d3.select("main");
 const scrolly = main.select("#scrolly");
 const figure = scrolly.select("figure");
-const svg = figure.select("svg");
+const chartTitle = scrolly.select("#chart-title");
+const svg = scrolly.select("#viz svg");
 const article = scrolly.select("article");
 const step = article.selectAll(".step");
 
-// initialize the scrollama
+// Initialize the scrollama
 const scroller = scrollama();
 
 const width = 343; // 375 - 16 - 16
@@ -72,7 +70,7 @@ const metricSpeciesProp = "speciesBestGuess";
 
 // generic window resize listener event
 function handleResize() {
-  // 1. update height of step elements
+  // Update height of step elements
   var stepH = Math.floor(window.innerHeight * (goldenRatio - 1));
   step.style("height", stepH + "px");
 
@@ -83,11 +81,10 @@ function handleResize() {
     .style("height", figureHeight + "px")
     .style("top", figureMarginTop + "px");
 
-  // 3. tell scrollama to update new element dimensions
+  // Tell scrollama to update new element dimensions
   scroller.resize();
 }
 
-// scrollama event handlers
 function handleStepEnter(response) {
   // console.log(response);
   // response = { element, direction, index }
@@ -330,8 +327,7 @@ function setupAxes() {
 function yellowFacedWhipSnakes() {
   hideOtherChartStuff("yellowFacedWhipSnakes");
 
-  figure
-    .select("p")
+  chartTitle
     .transition()
     .duration(250)
     .style("opacity", 0)
@@ -386,8 +382,7 @@ function yellowFacedWhipSnakes() {
 
 function redBellies() {
   hideOtherChartStuff("redBellies");
-  figure
-    .select("p")
+  chartTitle
     .transition()
     .duration(250)
     .style("opacity", 0)
@@ -441,8 +436,7 @@ function redBellies() {
 
 function keelbacks() {
   hideOtherChartStuff("keelbacks");
-  figure
-    .select("p")
+  chartTitle
     .transition()
     .duration(250)
     .style("opacity", 0)
@@ -496,8 +490,7 @@ function keelbacks() {
 
 function temperatureStripPlot() {
   hideOtherChartStuff("temperatureStripPlot");
-  figure
-    .select("p")
+  chartTitle
     .transition()
     .duration(250)
     .style("opacity", 0)
@@ -537,21 +530,19 @@ function temperatureStripPlot() {
 }
 
 function timeline() {
-  figure
-    .select("p")
-    .text("On average, I've seen a snake every two and a half weeks");
+  chartTitle.text("On average, I've seen a snake every two and a half weeks");
 }
 
 function fin() {
   hideOtherChartStuff("fin");
-  figure.select("p").text("FIN");
+  chartTitle.text("FIN");
 }
 
 function hideOtherChartStuff(stepFunctionName) {
   if (stepFunctionName !== "temperatureStripPlot") {
-    figure.select(".strip-plot-x").transition().attr("opacity", 0);
-    figure.select(".strip-plot-y").transition().attr("opacity", 0);
-    figure.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
+    svg.select(".strip-plot-x").transition().attr("opacity", 0);
+    svg.select(".strip-plot-y").transition().attr("opacity", 0);
+    svg.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
   }
 }
 

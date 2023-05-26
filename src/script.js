@@ -66,6 +66,8 @@ let temperatureColorScale = null;
 
 const metricTempProp = "temp";
 const metricTempAccessor = (d) => d[metricTempProp];
+const metricDateProp = "date";
+const metricDateAccessor = (d) => d[metricDateProp];
 const metricSpeciesProp = "speciesBestGuess";
 
 // generic window resize listener event
@@ -114,7 +116,7 @@ function loadData() {
   d3.csv("./data/snake-sightings-public.csv", (d) => {
     return {
       ...d,
-      date: timeParser(d.date),
+      date: timeParser(`${d.date}`), // TODO: add AEST timezone
       temp:
         d.temperature !== "unknown"
           ? +d.temperature
@@ -184,6 +186,14 @@ function setupScales() {
         return speciesColors[Math.floor(Math.random() * speciesColors.length)];
     }
   };
+
+  timelineScale = d3
+    .scaleTime()
+    .domain(d3.extent(sightingsData, metricDateAccessor))
+    .range([
+      dimensions.margin.left,
+      dimensions.width - dimensions.margin.right,
+    ]);
 
   temperatureScale = d3
     .scaleLinear()
@@ -530,7 +540,38 @@ function temperatureStripPlot() {
 }
 
 function timeline() {
-  chartTitle.text("On average, I've seen a snake every two and a half weeks");
+  hideOtherChartStuff("timeline");
+
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("On average, I've seen a snake every two and a half weeks")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3.forceX((d) => timelineScale(d[metricDateProp])).strength(1.5)
+    )
+    .force("forceY", d3.forceY(focalPointY))
+    // .force(
+    //   "forceY",
+    //   d3.forceY((d) => speciesBandScale(d[metricSpeciesProp])).strength(0.1)
+    // )
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  circles
+    .transition()
+    .duration(200)
+    .attr("opacity", 1)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    });
+
+  simulation.alpha(0.9).restart();
 }
 
 function fin() {

@@ -45,15 +45,11 @@ const dimensions = {
   height: 400,
   margin: {
     top: 48,
-    right: 8, // at least circleRadius wide
-    bottom: 48,
+    right: 24, // at least circleRadius wide
+    bottom: 24,
     left: 80,
   },
 };
-dimensions.boundedWidth =
-  dimensions.width - dimensions.margin.left - dimensions.margin.right;
-dimensions.boundedHeight =
-  dimensions.height - dimensions.margin.top - dimensions.margin.bottom;
 
 let circles = null;
 let nodes = null;
@@ -159,8 +155,11 @@ function setupScales() {
   speciesBandScale = d3
     .scalePoint()
     .domain(orderedSnakeSpecies)
-    .range([dimensions.margin.top, dimensions.boundedHeight])
-    .padding(1);
+    .range([
+      dimensions.margin.top,
+      dimensions.height - dimensions.margin.bottom,
+    ])
+    .padding(0.5);
 
   speciesColorScale = (species) => {
     switch (species) {
@@ -467,7 +466,10 @@ function temperatureStripPlot() {
   svg
     .append("g")
     .attr("class", "strip-plot-x")
-    .attr("transform", `translate(0, ${dimensions.boundedHeight})`)
+    .attr(
+      "transform",
+      `translate(0, ${dimensions.height - dimensions.margin.bottom})`
+    )
     .call(tempStripPlotXAxis)
     .call((g) => g.select(".domain").remove())
     .attr("stroke-opacity", 0.2)

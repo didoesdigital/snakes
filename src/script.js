@@ -260,7 +260,72 @@ function setupChart() {
   simulation.restart();
 }
 
-function setupAxes() {}
+function setupAxes() {
+  let tempStripPlotXAxis = d3.axisBottom(temperatureScale).tickSize(0).ticks(6);
+  // X-Axis labels:
+  svg
+    .append("g")
+    .attr("class", "strip-plot-x")
+    .attr("opacity", 0)
+    .attr(
+      "transform",
+      `translate(0, ${dimensions.height - dimensions.margin.bottom})`
+    )
+    .call(tempStripPlotXAxis)
+    .call((g) => g.select(".domain").remove())
+    .call((g) => g.selectAll("text").style("font-family", sansSerifStack))
+    .call((g) => g.selectAll("text").style("font-size", sansSerifSize))
+    .lower();
+
+  let tempStripPlotYAxis = d3.axisLeft(speciesBandScale).tickFormat("");
+
+  // Y-Axis labels:
+  svg
+    .append("g")
+    .attr("class", "strip-plot-y")
+    .attr("opacity", 0)
+    .attr("transform", `translate(${dimensions.margin.left}, 0)`)
+    .call(tempStripPlotYAxis)
+    .call((g) => g.select(".domain").remove())
+    .call((g) =>
+      g
+        .selectAll(".tick text")
+        .selectAll("tspan")
+        .data((species) => splitSpeciesLabels(species))
+        .join("tspan")
+        .attr("x", 0)
+        .attr("dx", -(circleRadius + 8))
+        .attr("dy", getLabelPartYShift)
+        .style("font-family", sansSerifStack)
+        .style("font-size", sansSerifSize)
+        .text((d) => `${d}`)
+    )
+    .attr("stroke-opacity", 0.2)
+    .attr("stroke-dasharray", 2.5)
+    .lower();
+
+  // Y-Axis grid lines:
+  svg
+    .append("g")
+    .attr("class", "strip-plot-y-grid-lines")
+    .attr("opacity", 0)
+    .attr(
+      "transform",
+      `translate(${dimensions.width - dimensions.margin.right}, 0)`
+    )
+    .call(
+      d3
+        .axisLeft(speciesBandScale)
+        .tickSize(
+          dimensions.width - dimensions.margin.right - dimensions.margin.left
+        )
+        .tickFormat("")
+    )
+    .call((g) => g.select(".domain").remove())
+    .attr("stroke-opacity", 0.2)
+    .attr("stroke-dasharray", 2.5)
+    .lower();
+}
 
 function yellowFacedWhipSnakes() {
   hideOtherChartStuff("yellowFacedWhipSnakes");
@@ -465,68 +530,9 @@ function temperatureStripPlot() {
     .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
     .attr("opacity", 1);
 
-  let tempStripPlotXAxis = d3.axisBottom(temperatureScale).tickSize(0).ticks(6);
-  // X-Axis labels:
-  svg
-    .append("g")
-    .attr("class", "strip-plot-x")
-    .attr(
-      "transform",
-      `translate(0, ${dimensions.height - dimensions.margin.bottom})`
-    )
-    .call(tempStripPlotXAxis)
-    .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").style("font-family", sansSerifStack))
-    .call((g) => g.selectAll("text").style("font-size", sansSerifSize))
-    .lower();
-
-  let tempStripPlotYAxis = d3.axisLeft(speciesBandScale).tickFormat("");
-
-  // Y-Axis labels:
-  svg
-    .append("g")
-    .attr("class", "strip-plot-y")
-    .attr("transform", `translate(${dimensions.margin.left}, 0)`)
-    .call(tempStripPlotYAxis)
-    .call((g) => g.select(".domain").remove())
-    .call((g) =>
-      g
-        .selectAll(".tick text")
-        .selectAll("tspan")
-        .data((species) => splitSpeciesLabels(species))
-        .join("tspan")
-        .attr("x", 0)
-        .attr("dx", -(circleRadius + 8))
-        .attr("dy", getLabelPartYShift)
-        .style("font-family", sansSerifStack)
-        .style("font-size", sansSerifSize)
-        .text((d) => `${d}`)
-    )
-    .attr("stroke-opacity", 0.2)
-    .attr("stroke-dasharray", 2.5)
-    .lower();
-
-  // Y-Axis grid lines:
-  svg
-    .append("g")
-    .attr("class", "strip-plot-y-grid-lines")
-    .attr(
-      "transform",
-      `translate(${dimensions.width - dimensions.margin.right}, 0)`
-    )
-    .call(
-      d3
-        .axisLeft(speciesBandScale)
-        .tickSize(
-          dimensions.width - dimensions.margin.right - dimensions.margin.left
-        )
-        .tickFormat("")
-    )
-    .call((g) => g.select(".domain").remove())
-    .attr("stroke-opacity", 0.2)
-    .attr("stroke-dasharray", 2.5)
-    .lower();
-
+  d3.select(".strip-plot-x").transition().attr("opacity", 1);
+  d3.select(".strip-plot-y").transition().attr("opacity", 1);
+  d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
   simulation.alpha(0.9).restart();
 }
 
@@ -543,9 +549,9 @@ function fin() {
 
 function hideOtherChartStuff(stepFunctionName) {
   if (stepFunctionName !== "temperatureStripPlot") {
-    figure.select(".strip-plot-x").remove();
-    figure.select(".strip-plot-y").remove();
-    figure.select(".strip-plot-y-grid-lines").remove();
+    figure.select(".strip-plot-x").transition().attr("opacity", 0);
+    figure.select(".strip-plot-y").transition().attr("opacity", 0);
+    figure.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
   }
 }
 

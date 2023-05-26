@@ -45,9 +45,9 @@ const dimensions = {
   height: 400,
   margin: {
     top: 48,
-    right: 0,
+    right: 8, // at least circleRadius wide
     bottom: 48,
-    left: 36,
+    left: 80,
   },
 };
 dimensions.boundedWidth =
@@ -159,7 +159,7 @@ function setupScales() {
   speciesBandScale = d3
     .scalePoint()
     .domain(orderedSnakeSpecies)
-    .range([dimensions.margin.left, dimensions.boundedWidth])
+    .range([dimensions.margin.top, dimensions.boundedHeight])
     .padding(1);
 
   speciesColorScale = (species) => {
@@ -188,7 +188,10 @@ function setupScales() {
   temperatureScale = d3
     .scaleLinear()
     .domain(d3.extent(sightingsData, metricTempAccessor))
-    .range([dimensions.boundedHeight, dimensions.margin.bottom]);
+    .range([
+      dimensions.margin.left,
+      dimensions.width - dimensions.margin.right,
+    ]);
 
   temperatureColorScale = d3
     .scaleSequential()
@@ -444,11 +447,11 @@ function temperatureStripPlot() {
   simulation
     .force(
       "forceX",
-      d3.forceX((d) => speciesBandScale(d[metricSpeciesProp])).strength(1)
+      d3.forceX((d) => temperatureScale(d[metricTempProp])).strength(1)
     )
     .force(
       "forceY",
-      d3.forceY((d) => temperatureScale(d[metricTempProp])).strength(1)
+      d3.forceY((d) => speciesBandScale(d[metricSpeciesProp])).strength(1)
     )
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
@@ -460,35 +463,40 @@ function temperatureStripPlot() {
 
   const svg = figure.select("#viz").select("svg");
 
-  let tempStripPlotXAxis = d3.axisBottom(speciesBandScale).tickSize(0);
+  let tempStripPlotXAxis = d3.axisBottom(temperatureScale).tickSize(4);
   svg
     .append("g")
     .attr("class", "strip-plot-x")
-    .attr(
-      "transform",
-      `translate(0, ${dimensions.boundedHeight + dimensions.margin.bottom / 2})`
-    )
+    .attr("transform", `translate(0, ${dimensions.boundedHeight})`)
     .call(tempStripPlotXAxis)
-    .call((g) =>
-      g
-        .selectAll(".tick text")
-        // .attr("text-anchor", "end")
-        // .attr("transform", "rotate(-35)")
-        .attr("text-anchor", "start")
-        .attr("transform", "rotate(35)")
-    )
+    .call((g) => g.select(".domain").remove())
     .attr("stroke-opacity", 0.2)
-    .attr("stroke-dasharray", 2.5)
     .lower();
 
-  let tempStripPlotYAxis = d3.axisLeft(temperatureScale).tickSize(4);
+  let tempStripPlotYAxis = d3
+    .axisLeft(speciesBandScale)
+    .tickSizeInner(12)
+    .tickSizeOuter(0)
+    .tickFormat("");
   svg
     .append("g")
     .attr("class", "strip-plot-y")
     .attr("transform", `translate(${dimensions.margin.left}, 0)`)
     .call(tempStripPlotYAxis)
     .call((g) => g.select(".domain").remove())
+    .call((g) =>
+      g
+        .selectAll(".tick text")
+        .selectAll("tspan")
+        .data((species) => splitSpeciesLabels(species))
+        .join("tspan")
+        .attr("x", 0)
+        .attr("dx", "-1em")
+        .attr("dy", getLabelPartYShift)
+        .text((d) => `${d}`)
+    )
     .attr("stroke-opacity", 0.2)
+    .attr("stroke-dasharray", 2.5)
     .lower();
 
   simulation.alpha(0.9).restart();
@@ -515,6 +523,20 @@ function hideOtherChartStuff(stepFunctionName) {
 function onMouseEnter(_event, d) {
   console.log(d);
   // console.log([d.temp, d.speciesBestGuess]);
+}
+
+function splitSpeciesLabels(species) {
+  const speciesLabelParts = {
+    "Yellow-faced whip snake": ["Yellow-faced", "whip snake"],
+    "Eastern small-eyed snake": ["Small-eyed", "snake"],
+    "Red-bellied black": ["Red-bellied", "black"],
+    "Common tree snake": ["Common tree", "snake"],
+  };
+  return speciesLabelParts[species] ?? [species];
+}
+
+function getLabelPartYShift(_d, i, labelParts) {
+  return labelParts.length === 1 ? "0.32em" : i < 1 ? "-0.32em" : "1em";
 }
 
 function init() {

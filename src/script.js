@@ -5,6 +5,7 @@
 const main = d3.select("main");
 const scrolly = main.select("#scrolly");
 const figure = scrolly.select("figure");
+const svg = figure.select("svg");
 const article = scrolly.select("article");
 const step = article.selectAll(".step");
 
@@ -202,7 +203,6 @@ function setupScales() {
 }
 
 function setupChart() {
-  const svg = figure.select("#viz").append("svg");
   svg.attr("width", width).attr("height", height);
 
   nodes = svg.selectAll("circle").data(sightingsData);
@@ -259,6 +259,8 @@ function setupChart() {
 
   simulation.restart();
 }
+
+function setupAxes() {}
 
 function yellowFacedWhipSnakes() {
   hideOtherChartStuff("yellowFacedWhipSnakes");
@@ -463,8 +465,6 @@ function temperatureStripPlot() {
     .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
     .attr("opacity", 1);
 
-  const svg = figure.select("#viz").select("svg");
-
   let tempStripPlotXAxis = d3.axisBottom(temperatureScale).tickSize(0).ticks(6);
   // X-Axis labels:
   svg
@@ -571,6 +571,7 @@ function getLabelPartYShift(_d, i, labelParts) {
 function init() {
   setupScales();
   setupChart();
+  setupAxes();
 
   // 1. force a resize on load to ensure proper dimensions are sent to scrollama
   handleResize();

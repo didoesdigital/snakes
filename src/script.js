@@ -64,6 +64,10 @@ let speciesBandScale = null;
 let temperatureScale = null;
 let temperatureColorScale = null;
 
+let timeScale = null;
+let timeDelayScale = null;
+const delay = 100;
+
 const metricTempProp = "temp";
 const metricTempAccessor = (d) => d[metricTempProp];
 const metricDateProp = "date";
@@ -187,13 +191,28 @@ function setupScales() {
     }
   };
 
-  timelineScale = d3
+  // timeCategoryScale = d3
+  //   .scalePoint()
+  //   .domain(["Summer", "Autumn", "Winter", "Spring"])
+  //   .range([
+  //     dimensions.margin.left,
+  //     dimensions.width - dimensions.margin.right,
+  //   ]);
+
+  timeScale = d3
     .scaleTime()
     .domain(d3.extent(sightingsData, metricDateAccessor))
     .range([
-      dimensions.margin.left,
-      dimensions.width - dimensions.margin.right,
-    ]);
+      dimensions.margin.top + circleSpacing,
+      dimensions.height - circleSpacing,
+    ])
+    .nice();
+
+  timeDelayScale = d3
+    .scaleLinear()
+    .domain(d3.extent(sightingsData, metricDateAccessor))
+    // .range([0, 716 * 20]);
+    .range([0, sightingsData.length * delay]);
 
   temperatureScale = d3
     .scaleLinear()
@@ -286,7 +305,7 @@ function setupAxes() {
 
   let tempStripPlotYAxis = d3.axisLeft(speciesBandScale).tickFormat("");
 
-  // Y-Axis labels:
+  // Temperature Y-Axis labels:
   svg
     .append("g")
     .attr("class", "strip-plot-y")
@@ -311,7 +330,7 @@ function setupAxes() {
     .attr("stroke-dasharray", 2.5)
     .lower();
 
-  // Y-Axis grid lines:
+  // Temperature Y-Axis grid lines:
   svg
     .append("g")
     .attr("class", "strip-plot-y-grid-lines")
@@ -331,6 +350,31 @@ function setupAxes() {
     .call((g) => g.select(".domain").remove())
     .attr("stroke-opacity", 0.2)
     .attr("stroke-dasharray", 2.5)
+    .lower();
+
+  let timeAxis = d3
+    .axisLeft(timeScale)
+    .tickSizeOuter(20)
+    .tickFormat((d) => d3.timeFormat("%b %Y")(d));
+
+  // Timeline Y-Axis labels:
+  svg
+    .append("g")
+    .attr("class", "timeline-y-axis")
+    .attr("opacity", 0)
+    .attr("transform", `translate(${dimensions.margin.left}, 0)`)
+    .call(timeAxis)
+    .call((g) => g.select(".domain").remove())
+    .call((g) =>
+      g
+        .selectAll(".tick text")
+        .style("font-family", sansSerifStack)
+        .style("font-size", sansSerifSize)
+    )
+    .call((g) => {
+      g.selectAll(".tick:last-child").remove();
+    })
+    .attr("stroke-opacity", 0.2)
     .lower();
 }
 
@@ -552,25 +596,27 @@ function timeline() {
     .style("opacity", 1);
 
   simulation
+    // .force("forceX", d3.forceX(focalPointX).strength(1.55))
+    .force("forceX", d3.forceX(xWiggle).strength(1.55))
     .force(
-      "forceX",
-      d3.forceX((d) => timelineScale(d[metricDateProp])).strength(1.5)
+      "forceY",
+      d3.forceY((d) => timeScale(d[metricDateProp])).strength(1.5)
     )
-    .force("forceY", d3.forceY(focalPointY))
-    // .force(
-    //   "forceY",
-    //   d3.forceY((d) => speciesBandScale(d[metricSpeciesProp])).strength(0.1)
-    // )
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
   circles
+    .attr("opacity", 0)
     .transition()
     .duration(200)
-    .attr("opacity", 1)
     .attr("fill", (d) => {
       return speciesColorScale(d.speciesBestGuess);
-    });
+    })
+    .transition()
+    .duration(10)
+    .delay((d) => accelerate(timeDelayScale(d[metricDateProp])))
+    .attr("opacity", 1);
 
+  d3.select(".timeline-y-axis").transition().attr("opacity", 1);
   simulation.alpha(0.9).restart();
 }
 
@@ -584,6 +630,7 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".strip-plot-x").transition().attr("opacity", 0);
     svg.select(".strip-plot-y").transition().attr("opacity", 0);
     svg.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
+    svg.select(".timeline-y-axis").transition().attr("opacity", 0);
   }
 }
 
@@ -624,6 +671,20 @@ function init() {
       debug: false,
     })
     .onStepEnter(handleStepEnter);
+}
+
+
+function xWiggle(_d, i) {
+  return 10 * Math.sin(i % 4) + focalPointX;
+  // return focalPointX;
+}
+
+function accelerate(delay) {
+  const max = timeDelayScale.range()[1];
+  const delayDecimal = delay / max;
+  const customEaseOut = 1 - Math.pow(1 - delayDecimal, 6);
+  const easedDelay = customEaseOut * max;
+  return easedDelay;
 }
 
 loadData();

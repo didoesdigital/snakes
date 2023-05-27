@@ -237,7 +237,7 @@ function setupChart() {
 
   simulation
     // .force("charge", d3.forceManyBody().strength(2).distanceMax(50))
-    .force("center", d3.forceCenter(170, focalPointY).strength(1))
+    // .force("center", d3.forceCenter(170, focalPointY).strength(1))
     .force(
       "forceX",
       d3

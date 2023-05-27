@@ -66,6 +66,7 @@ let temperatureColorScale = null;
 
 let timeScale = null;
 let timeDelayScale = null;
+let seasonScale = null;
 const delay = 100;
 
 const metricTempProp = "temp";
@@ -108,6 +109,7 @@ function handleStepEnter(response) {
     keelbacks,
     temperatureStripPlot,
     timeline,
+    seasons,
     fin,
   };
   const stepFn = stepFunctions[stepFunctionName];
@@ -191,13 +193,11 @@ function setupScales() {
     }
   };
 
-  // timeCategoryScale = d3
-  //   .scalePoint()
-  //   .domain(["Summer", "Autumn", "Winter", "Spring"])
-  //   .range([
-  //     dimensions.margin.left,
-  //     dimensions.width - dimensions.margin.right,
-  //   ]);
+  seasonScale = d3
+    .scalePoint()
+    .domain(["Summer", "Autumn", "Winter", "Spring"])
+    .range([circleSpacing, dimensions.width - circleSpacing])
+    .padding(1);
 
   timeScale = d3
     .scaleTime()
@@ -375,6 +375,26 @@ function setupAxes() {
       g.selectAll(".tick:last-child").remove();
     })
     .attr("stroke-opacity", 0.2)
+    .lower();
+
+  const seasonAxis = d3.axisBottom(seasonScale).tickSize(0);
+
+  // Seasons axis
+  svg
+    .append("g")
+    .attr("class", "seasons-axis")
+    .attr("opacity", 0)
+    .attr(
+      "transform",
+      `translate(0, ${
+        focalPointY + 6 * circleSpacing
+        // dimensions.height - dimensions.margin.bottom - 50
+      })`
+    )
+    .call(seasonAxis)
+    .call((g) => g.select(".domain").remove())
+    .call((g) => g.selectAll("text").style("font-family", sansSerifStack))
+    .call((g) => g.selectAll("text").style("font-size", sansSerifSize))
     .lower();
 }
 
@@ -620,6 +640,40 @@ function timeline() {
   simulation.alpha(0.9).restart();
 }
 
+function seasons() {
+  hideOtherChartStuff("seasons");
+
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Fewer snek in Winter")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX((d) => seasonScale(getSeason(d[metricDateProp].getMonth())))
+        .strength(1.5)
+    )
+    .force("forceY", d3.forceY(focalPointY).strength(1.6))
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  circles
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .attr("opacity", 1);
+
+  d3.select(".seasons-axis").transition().attr("opacity", 1);
+  simulation.alpha(0.9).restart();
+}
+
 function fin() {
   hideOtherChartStuff("fin");
   chartTitle.text("FIN");
@@ -631,6 +685,7 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".strip-plot-y").transition().attr("opacity", 0);
     svg.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
     svg.select(".timeline-y-axis").transition().attr("opacity", 0);
+    svg.select(".seasons-axis").transition().attr("opacity", 0);
   }
 }
 
@@ -673,6 +728,23 @@ function init() {
     .onStepEnter(handleStepEnter);
 }
 
+const monthIndexToSeason = {
+  0: "Summer",
+  1: "Summer",
+  2: "Autumn",
+  3: "Autumn",
+  4: "Autumn",
+  5: "Winter",
+  6: "Winter",
+  7: "Winter",
+  8: "Spring",
+  9: "Spring",
+  10: "Spring",
+  11: "Summer",
+};
+function getSeason(zeroIndexedMonth) {
+  return monthIndexToSeason[zeroIndexedMonth];
+}
 
 function xWiggle(_d, i) {
   return 10 * Math.sin(i % 4) + focalPointX;

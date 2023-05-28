@@ -259,8 +259,6 @@ function setupChart() {
   simulation.stop();
 
   simulation
-    // .force("charge", d3.forceManyBody().strength(2).distanceMax(50))
-    // .force("center", d3.forceCenter(170, focalPointY).strength(1))
     .force(
       "forceX",
       d3
@@ -578,8 +576,6 @@ function temperatureStripPlot() {
     .style("opacity", 1);
 
   simulation
-    .force("charge", null)
-    .force("center", null)
     .force("forceX", null)
     .force("forceY", null)
     .force("collide", null);

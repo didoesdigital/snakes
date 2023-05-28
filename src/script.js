@@ -17,7 +17,7 @@ const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 const sansSerifStack =
   '"Source Sans Pro", "Work Sans", "Lato", "Noto Sans", "Assistant", "Helvetica", arial, sans-serif';
 const sansSerifSize = "0.875rem";
-const timeParser = d3.timeParse("%d %b %Y"); // "02 Jan 2023"
+const timeParser = d3.timeParse("%d %b %Y %H"); // "02 Jan 2023 06"
 const leftPad = 5;
 // const circleDiameter = 40; // big enough to tap
 const circleDiameter = 10; // small enough to fit within plot area
@@ -122,7 +122,10 @@ function loadData() {
   d3.csv("./data/snake-sightings-public.csv", (d) => {
     return {
       ...d,
-      date: timeParser(`${d.date}`), // TODO: add AEST timezone
+      // Note: the data is recorded in AEST but we're going to treat it all as local time so that, for example, 01 Oct 2021 is always shown as 01 Oct 2021 and not accidentally 30 Sep 2021, which could change how data are grouped into months, etc.
+      // We add 6 hours to it so that regions with daylight savings don't change a date like 01 Oct 2021 midnight to 30 Sep 2021 11pm
+      // date: timeParser(`${d.date} +1000`), // AEST
+      date: timeParser(`${d.date} 06`),
       temp:
         d.temperature !== "unknown"
           ? +d.temperature
@@ -133,6 +136,7 @@ function loadData() {
     };
   }).then((data) => {
     sightingsData = data.filter((d) => d.family !== "Pygopodidae"); // Legless lizards
+    // console.log(sightingsData.map((d) => d.date));
     // console.log(sightingsData);
     // console.log(sightingsData.map((d) => d.temp).sort());
     // console.log(d3.extent(sightingsData, (d) => d.temp));
@@ -692,6 +696,7 @@ function hideOtherChartStuff(stepFunctionName) {
 function onMouseEnter(_event, d) {
   console.log(d);
   // console.log([d.temp, d.speciesBestGuess]);
+  // console.log([d3.timeFormat("%d %b %Y")(d.date), d.speciesBestGuess]);
 }
 
 function splitSpeciesLabels(species) {

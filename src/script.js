@@ -109,6 +109,7 @@ function handleStepEnter(response) {
     keelbacks,
     temperatureStripPlot,
     timeline,
+    species,
     seasons,
     fin,
   };
@@ -405,6 +406,51 @@ function setupAxes() {
     .lower();
 }
 
+function species() {
+  hideOtherChartStuff("species");
+
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("All species")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointX
+        )
+        .strength(1)
+    )
+    // .force("forceY", d3.forceY(focalPointY));
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            focalPointY
+        )
+        .strength(1)
+    )
+    .force("charge", d3.forceManyBody().strength(-40))
+
+  circles
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => speciesColorScale(d[metricSpeciesProp]))
+    .attr("opacity", 1);
+
+  simulation.alpha(0.9).restart();
+}
+
 function yellowFacedWhipSnakes() {
   hideOtherChartStuff("yellowFacedWhipSnakes");
 
@@ -426,7 +472,7 @@ function yellowFacedWhipSnakes() {
             speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
             focalPointX
         )
-        .strength(1.5)
+        .strength(1)
     )
     // .force("forceY", d3.forceY(focalPointY));
     .force(
@@ -437,15 +483,15 @@ function yellowFacedWhipSnakes() {
             speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
             focalPointY
         )
-        .strength(1.5)
+        .strength(1)
     )
-    .force("charge", d3.forceManyBody().strength(-30))
-    // .force(
-    //   "collide",
-    //   d3.forceCollide((d) =>
-    //     d[metricSpeciesProp] === "Yellow-faced whip snake" ? circleRadius : 0
-    //   )
-    // );
+    .force("charge", d3.forceManyBody().strength(-40))
+  // .force(
+  //   "collide",
+  //   d3.forceCollide((d) =>
+  //     d[metricSpeciesProp] === "Yellow-faced whip snake" ? circleRadius : 0
+  //   )
+  // );
 
   circles
     .transition()
@@ -482,7 +528,7 @@ function redBellies() {
             speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
             focalPointX
         )
-        .strength(1.5)
+        .strength(1)
     )
     .force(
       "forceY",
@@ -492,15 +538,15 @@ function redBellies() {
             speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
             focalPointY
         )
-        .strength(1.5)
+        .strength(1)
     )
-    .force("charge", d3.forceManyBody().strength(-30))
-    // .force(
-    //   "collide",
-    //   d3.forceCollide((d) =>
-    //     d[metricSpeciesProp] === "Red-bellied black" ? circleRadius : 0
-    //   )
-    // );
+    .force("charge", d3.forceManyBody().strength(-40))
+  // .force(
+  //   "collide",
+  //   d3.forceCollide((d) =>
+  //     d[metricSpeciesProp] === "Red-bellied black" ? circleRadius : 0
+  //   )
+  // );
 
   circles
     .transition()
@@ -537,7 +583,7 @@ function keelbacks() {
             speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
             focalPointX
         )
-        .strength(1.5)
+        .strength(1)
     )
     .force(
       "forceY",
@@ -547,15 +593,15 @@ function keelbacks() {
             speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
             focalPointY
         )
-        .strength(1.5)
+        .strength(1)
     )
-    .force("charge", d3.forceManyBody().strength(-30))
-    // .force(
-    //   "collide",
-    //   d3.forceCollide((d) =>
-    //     d[metricSpeciesProp] === "Keelback" ? circleRadius : 0
-    //   )
-    // );
+    .force("charge", d3.forceManyBody().strength(-40))
+  // .force(
+  //   "collide",
+  //   d3.forceCollide((d) =>
+  //     d[metricSpeciesProp] === "Keelback" ? circleRadius : 0
+  //   )
+  // );
 
   circles
     .transition()
@@ -583,11 +629,11 @@ function temperatureStripPlot() {
     .text("Whip snakes like it hot")
     .style("opacity", 1);
 
-  simulation
-    .force("forceX", null)
-    .force("forceY", null)
-    .force("charge", null)
-    // .force("collide", null);
+  simulation.force("forceX", null).force("forceY", null).force("charge", null);
+
+  const jitterX = (i) => {
+    return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
+  };
 
   simulation
     .force(
@@ -628,12 +674,9 @@ function timeline() {
   simulation
     // .force("forceX", d3.forceX(focalPointX).strength(1.55))
     .force("forceX", d3.forceX(xWiggle).strength(1))
-    .force(
-      "forceY",
-      d3.forceY((d) => timeScale(d[metricDateProp])).strength(1)
-    )
+    .force("forceY", d3.forceY((d) => timeScale(d[metricDateProp])).strength(1))
     .force("charge", d3.forceManyBody().strength(-20))
-    // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+  // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
   circles
     .attr("opacity", 0)
@@ -671,8 +714,8 @@ function seasons() {
         .strength(1)
     )
     .force("forceY", d3.forceY(focalPointY).strength(1))
-    .force("charge", d3.forceManyBody().strength(-30))
-    // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
+    .force("charge", d3.forceManyBody().strength(-40))
+  // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
 
   circles
     .transition()

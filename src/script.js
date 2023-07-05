@@ -267,7 +267,7 @@ function setupChart() {
             speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
             focalPointX
         )
-        .strength(1.5)
+        .strength(1)
     )
     .force(
       "forceY",
@@ -277,12 +277,17 @@ function setupChart() {
             speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
             focalPointY
         )
-        .strength(1.5)
+        .strength(1)
     )
-    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
-    .alphaDecay(0.02)
-    .velocityDecay(0.4)
+    .force("charge", d3.forceManyBody().strength(-30))
+    // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
+    // .alpha(1)
+    // .alphaDecay(0.0228)
+    // .alphaMin(0.001)
+    // .alphaTarget(0)
+    // .velocityDecay(0.4);
     .alpha(0.9)
+    .velocityDecay(0.6)
     .stop();
 
   simulation.restart();
@@ -434,12 +439,13 @@ function yellowFacedWhipSnakes() {
         )
         .strength(1.5)
     )
-    .force(
-      "collide",
-      d3.forceCollide((d) =>
-        d[metricSpeciesProp] === "Yellow-faced whip snake" ? circleRadius : 0
-      )
-    );
+    .force("charge", d3.forceManyBody().strength(-30))
+    // .force(
+    //   "collide",
+    //   d3.forceCollide((d) =>
+    //     d[metricSpeciesProp] === "Yellow-faced whip snake" ? circleRadius : 0
+    //   )
+    // );
 
   circles
     .transition()
@@ -488,12 +494,13 @@ function redBellies() {
         )
         .strength(1.5)
     )
-    .force(
-      "collide",
-      d3.forceCollide((d) =>
-        d[metricSpeciesProp] === "Red-bellied black" ? circleRadius : 0
-      )
-    );
+    .force("charge", d3.forceManyBody().strength(-30))
+    // .force(
+    //   "collide",
+    //   d3.forceCollide((d) =>
+    //     d[metricSpeciesProp] === "Red-bellied black" ? circleRadius : 0
+    //   )
+    // );
 
   circles
     .transition()
@@ -542,12 +549,13 @@ function keelbacks() {
         )
         .strength(1.5)
     )
-    .force(
-      "collide",
-      d3.forceCollide((d) =>
-        d[metricSpeciesProp] === "Keelback" ? circleRadius : 0
-      )
-    );
+    .force("charge", d3.forceManyBody().strength(-30))
+    // .force(
+    //   "collide",
+    //   d3.forceCollide((d) =>
+    //     d[metricSpeciesProp] === "Keelback" ? circleRadius : 0
+    //   )
+    // );
 
   circles
     .transition()
@@ -578,7 +586,8 @@ function temperatureStripPlot() {
   simulation
     .force("forceX", null)
     .force("forceY", null)
-    .force("collide", null);
+    .force("charge", null)
+    // .force("collide", null);
 
   simulation
     .force(
@@ -589,6 +598,7 @@ function temperatureStripPlot() {
       "forceY",
       d3.forceY((d) => speciesBandScale(d[metricSpeciesProp])).strength(1)
     )
+    .force("charge", d3.forceManyBody().strength(-30))
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
   circles
@@ -617,12 +627,13 @@ function timeline() {
 
   simulation
     // .force("forceX", d3.forceX(focalPointX).strength(1.55))
-    .force("forceX", d3.forceX(xWiggle).strength(1.55))
+    .force("forceX", d3.forceX(xWiggle).strength(1))
     .force(
       "forceY",
-      d3.forceY((d) => timeScale(d[metricDateProp])).strength(1.5)
+      d3.forceY((d) => timeScale(d[metricDateProp])).strength(1)
     )
-    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+    .force("charge", d3.forceManyBody().strength(-20))
+    // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
   circles
     .attr("opacity", 0)
@@ -657,10 +668,11 @@ function seasons() {
       "forceX",
       d3
         .forceX((d) => seasonScale(getSeason(d[metricDateProp].getMonth())))
-        .strength(1.5)
+        .strength(1)
     )
-    .force("forceY", d3.forceY(focalPointY).strength(1.6))
-    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+    .force("forceY", d3.forceY(focalPointY).strength(1))
+    .force("charge", d3.forceManyBody().strength(-30))
+    // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
 
   circles
     .transition()
@@ -671,7 +683,7 @@ function seasons() {
     .attr("opacity", 1);
 
   d3.select(".seasons-axis").transition().attr("opacity", 1);
-  simulation.alpha(0.9).restart();
+  simulation.restart();
 }
 
 function fin() {
@@ -748,8 +760,8 @@ function getSeason(zeroIndexedMonth) {
 }
 
 function xWiggle(_d, i) {
-  return 10 * Math.sin(i % 4) + focalPointX;
-  // return focalPointX;
+  // return 5 * Math.sin(i % 4) + focalPointX;
+  return focalPointX;
 }
 
 function accelerate(delay) {

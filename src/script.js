@@ -683,7 +683,7 @@ function seasons() {
     .attr("opacity", 1);
 
   d3.select(".seasons-axis").transition().attr("opacity", 1);
-  simulation.restart();
+  simulation.alpha(0.9).restart();
 }
 
 function fin() {

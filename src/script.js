@@ -572,7 +572,7 @@ function temperatureStripPlot() {
     .style("opacity", 0)
     .transition()
     .duration(250)
-    .text("Do they like it hot?")
+    .text("Whip snakes like it hot")
     .style("opacity", 1);
 
   simulation
@@ -676,7 +676,7 @@ function seasons() {
 
 function fin() {
   hideOtherChartStuff("fin");
-  chartTitle.text("FIN");
+  chartTitle.text("All snakes, all the time");
 }
 
 function hideOtherChartStuff(stepFunctionName) {

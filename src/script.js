@@ -281,6 +281,7 @@ function setupChart() {
         .strength(1)
     )
     .force("charge", d3.forceManyBody().strength(-30))
+    .force("collide", null)
     // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
     // .alpha(1)
     // .alphaDecay(0.0228)
@@ -441,6 +442,7 @@ function species() {
         .strength(1)
     )
     .force("charge", d3.forceManyBody().strength(-40))
+    .force("collide", null);
 
   circles
     .transition()
@@ -486,6 +488,7 @@ function yellowFacedWhipSnakes() {
         .strength(1)
     )
     .force("charge", d3.forceManyBody().strength(-40))
+    .force("collide", null);
   // .force(
   //   "collide",
   //   d3.forceCollide((d) =>
@@ -541,6 +544,7 @@ function redBellies() {
         .strength(1)
     )
     .force("charge", d3.forceManyBody().strength(-40))
+    .force("collide", null);
   // .force(
   //   "collide",
   //   d3.forceCollide((d) =>
@@ -596,6 +600,7 @@ function keelbacks() {
         .strength(1)
     )
     .force("charge", d3.forceManyBody().strength(-40))
+    .force("collide", null);
   // .force(
   //   "collide",
   //   d3.forceCollide((d) =>
@@ -630,6 +635,7 @@ function temperatureStripPlot() {
     .style("opacity", 1);
 
   simulation.force("forceX", null).force("forceY", null).force("charge", null);
+  // .force("collide", null);
 
   const jitterX = (i) => {
     return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
@@ -638,14 +644,17 @@ function temperatureStripPlot() {
   simulation
     .force(
       "forceX",
-      d3.forceX((d) => temperatureScale(d[metricTempProp])).strength(1)
+      d3
+        .forceX((d, i) => temperatureScale(d[metricTempProp]) + jitterX(i))
+        .strength(0.9)
     )
     .force(
       "forceY",
-      d3.forceY((d) => speciesBandScale(d[metricSpeciesProp])).strength(1)
+      d3.forceY((d) => speciesBandScale(d[metricSpeciesProp])).strength(0.9)
     )
-    .force("charge", d3.forceManyBody().strength(-30))
-    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+    // .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
+    .force("collide", d3.forceCollide(circleRadius).strength(1));
 
   circles
     .transition()
@@ -676,6 +685,7 @@ function timeline() {
     .force("forceX", d3.forceX(xWiggle).strength(1))
     .force("forceY", d3.forceY((d) => timeScale(d[metricDateProp])).strength(1))
     .force("charge", d3.forceManyBody().strength(-20))
+    .force("collide", null);
   // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
   circles
@@ -715,6 +725,7 @@ function seasons() {
     )
     .force("forceY", d3.forceY(focalPointY).strength(1))
     .force("charge", d3.forceManyBody().strength(-40))
+    .force("collide", null);
   // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
 
   circles

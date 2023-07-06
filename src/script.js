@@ -164,7 +164,7 @@ function setupScales() {
     .map((d) => d[0]);
   // console.log(orderedSnakeSpecies);
 
-  speciesAngleScale = d3.scaleBand().domain(allSnakeSpecies).range([0, 360]);
+  speciesAngleScale = d3.scaleBand().domain(orderedSnakeSpecies).range([0, 360]);
 
   speciesBandScale = d3
     .scalePoint()
@@ -265,7 +265,10 @@ function setupChart() {
       d3
         .forceX(
           (d) =>
-            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointX
         )
         .strength(1)
@@ -275,7 +278,10 @@ function setupChart() {
       d3
         .forceY(
           (d) =>
-            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointY
         )
         .strength(1)
@@ -425,7 +431,10 @@ function species() {
       d3
         .forceX(
           (d) =>
-            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointX
         )
         .strength(1)
@@ -436,7 +445,10 @@ function species() {
       d3
         .forceY(
           (d) =>
-            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointY
         )
         .strength(1)
@@ -471,7 +483,10 @@ function yellowFacedWhipSnakes() {
       d3
         .forceX(
           (d) =>
-            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointX
         )
         .strength(1)
@@ -482,7 +497,10 @@ function yellowFacedWhipSnakes() {
       d3
         .forceY(
           (d) =>
-            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointY
         )
         .strength(1)
@@ -528,7 +546,10 @@ function redBellies() {
       d3
         .forceX(
           (d) =>
-            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointX
         )
         .strength(1)
@@ -538,7 +559,10 @@ function redBellies() {
       d3
         .forceY(
           (d) =>
-            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointY
         )
         .strength(1)
@@ -584,7 +608,10 @@ function keelbacks() {
       d3
         .forceX(
           (d) =>
-            speciesRadius * Math.sin(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointX
         )
         .strength(1)
@@ -594,7 +621,10 @@ function keelbacks() {
       d3
         .forceY(
           (d) =>
-            speciesRadius * Math.cos(speciesAngleScale(d.speciesBestGuess)) +
+            speciesRadius *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
             focalPointY
         )
         .strength(1)

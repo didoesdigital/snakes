@@ -20,11 +20,14 @@ const sansSerifSize = "0.875rem";
 const timeParser = d3.timeParse("%d %b %Y %H"); // "02 Jan 2023 06"
 const leftPad = 5;
 // const circleDiameter = 40; // big enough to tap
-// const circleDiameter = 24; // small enough to fit within plot area
-const circleDiameter = 10; // small enough to fit within plot area
+const circleDiameter = 24; // small enough to fit within plot area
+// const circleDiameter = 10; // small enough to fit within plot area
 const circleRadius = circleDiameter / 2;
 const circleSpacing = circleDiameter + 2;
-const circleStroke = "#525252";
+const circleStroke = "#3C3941";
+// const circleStroke = "#525252";
+const snekChargeStrength = -180;
+const snekChargeStrength2 = -20;
 const hideOffscreen = 80;
 const goldenRatio = 1.618;
 const focalPointX = width / 2;
@@ -166,7 +169,10 @@ function setupScales() {
     .map((d) => d[0]);
   // console.log(orderedSnakeSpecies);
 
-  speciesAngleScale = d3.scaleBand().domain(orderedSnakeSpecies).range([0, 360]);
+  speciesAngleScale = d3
+    .scaleBand()
+    .domain(orderedSnakeSpecies)
+    .range([0, 360]);
   // speciesAngleScale = d3.scaleBand().domain(allSnakeSpecies).range([0, 360]);
 
   speciesBandScale = d3
@@ -245,21 +251,24 @@ function setupChart() {
     .join("path")
     .attr(
       "d",
-      // "M20.9419 12.7552C20.0054 12.3204 18.9014 11.7867 19.7829 12.9411C21.0272 14.572 22.0145 16.2463 21.8431 17.7912C21.6926 19.1472 20.6414 19.5082 19.525 19.3795C18.8371 19.3002 18.2688 18.7094 17.8656 18.2013C16.0688 15.9322 12.9485 15.3866 10.6714 17.3108C9.76002 18.0811 8.85765 19.4725 7.51998 19.475C6.13716 19.4695 5.33619 17.8816 5.80509 16.6783C6.66144 14.4919 9.13257 13.4757 10.8743 12.1333C13.0014 10.4943 14.3284 8.0177 13.9456 5.81558C13.5444 3.51028 11.8999 1.76687 9.43902 1.53836C7.20324 1.33075 6.45726 1.97744 4.68867 3.19783C3.77349 3.36958 2.28491 2.85465 0.900788 4.80019C0.0977723 5.92937 0.20221 7.6025 0.0504286 7.82759C-0.100884 8.05304 0.0013971 9.28412 1.59824 9.14945C3.19505 9.0152 6.28935 6.16817 6.28935 6.16817C7.32132 5.37275 8.11035 4.55428 9.39642 5.12932C10.6441 5.69369 10.6595 7.22654 9.90285 8.23259C9.57507 8.66741 8.4966 9.62735 8.0511 9.92696C7.46667 10.3188 6.87375 10.6981 6.30216 11.1081C5.13843 11.9419 4.04673 12.9096 3.27131 14.1253C1.75809 16.4988 1.90045 19.5538 4.01811 21.5254C5.05356 22.4892 6.45894 22.9973 7.87335 22.8962C9.29199 22.7952 10.5524 22.0782 11.6087 21.1639C12.2481 20.6114 12.9221 19.5321 13.8582 19.5299C14.7998 19.5372 15.3207 20.5956 15.9418 21.1468C17.464 22.498 19.6742 22.9942 21.5345 22.0385C25.4242 20.041 24.3193 14.7485 20.9419 12.7552Z"
-      "M8.7258 5.31467C8.33559 5.13351 7.87557 4.91115 8.24289 5.39212C8.76133 6.07165 9.1727 6.76931 9.10129 7.413C9.03859 7.97798 8.6006 8.12842 8.13543 8.0748C7.84878 8.04175 7.61201 7.79557 7.44399 7.58386C6.69535 6.63843 5.39521 6.41108 4.4464 7.21285C4.06667 7.5338 3.69069 8.11352 3.13332 8.11458C2.55715 8.11227 2.22341 7.45067 2.41879 6.94927C2.7756 6.0383 3.80524 5.61487 4.53096 5.05556C5.41725 4.37262 5.97015 3.34071 5.81065 2.42316C5.64351 1.46262 4.95828 0.736198 3.93292 0.640983C3.00135 0.554479 2.69052 0.823932 1.95361 1.33243C1.57229 1.40399 0.952048 1.18944 0.375328 2.00008C0.0407385 2.47057 0.0842541 3.16771 0.0210119 3.26149C-0.042035 3.35543 0.000582123 3.86838 0.665934 3.81227C1.33127 3.75633 2.62056 2.57007 2.62056 2.57007C3.05055 2.23864 3.37931 1.89762 3.91517 2.13722C4.43506 2.37237 4.44146 3.01106 4.12619 3.43024C3.98961 3.61142 3.54025 4.0114 3.35462 4.13623C3.11111 4.29948 2.86406 4.45755 2.6259 4.62838C2.14101 4.97581 1.68614 5.379 1.36305 5.88556C0.732536 6.87448 0.791852 8.14744 1.67421 8.9689C2.10565 9.37049 2.69122 9.5822 3.28056 9.54009C3.87166 9.498 4.39685 9.19925 4.83698 8.81827C5.10338 8.58807 5.3842 8.13837 5.77424 8.13747C6.16659 8.1405 6.38364 8.5815 6.64243 8.81116C7.27668 9.37419 8.19758 9.58094 8.9727 9.18272C10.5934 8.35043 10.133 6.14521 8.7258 5.31467Z"
+      "M20.9419 12.7552C20.0054 12.3204 18.9014 11.7867 19.7829 12.9411C21.0272 14.572 22.0145 16.2463 21.8431 17.7912C21.6926 19.1472 20.6414 19.5082 19.525 19.3795C18.8371 19.3002 18.2688 18.7094 17.8656 18.2013C16.0688 15.9322 12.9485 15.3866 10.6714 17.3108C9.76002 18.0811 8.85765 19.4725 7.51998 19.475C6.13716 19.4695 5.33619 17.8816 5.80509 16.6783C6.66144 14.4919 9.13257 13.4757 10.8743 12.1333C13.0014 10.4943 14.3284 8.0177 13.9456 5.81558C13.5444 3.51028 11.8999 1.76687 9.43902 1.53836C7.20324 1.33075 6.45726 1.97744 4.68867 3.19783C3.77349 3.36958 2.28491 2.85465 0.900788 4.80019C0.0977723 5.92937 0.20221 7.6025 0.0504286 7.82759C-0.100884 8.05304 0.0013971 9.28412 1.59824 9.14945C3.19505 9.0152 6.28935 6.16817 6.28935 6.16817C7.32132 5.37275 8.11035 4.55428 9.39642 5.12932C10.6441 5.69369 10.6595 7.22654 9.90285 8.23259C9.57507 8.66741 8.4966 9.62735 8.0511 9.92696C7.46667 10.3188 6.87375 10.6981 6.30216 11.1081C5.13843 11.9419 4.04673 12.9096 3.27131 14.1253C1.75809 16.4988 1.90045 19.5538 4.01811 21.5254C5.05356 22.4892 6.45894 22.9973 7.87335 22.8962C9.29199 22.7952 10.5524 22.0782 11.6087 21.1639C12.2481 20.6114 12.9221 19.5321 13.8582 19.5299C14.7998 19.5372 15.3207 20.5956 15.9418 21.1468C17.464 22.498 19.6742 22.9942 21.5345 22.0385C25.4242 20.041 24.3193 14.7485 20.9419 12.7552Z"
+      // "M8.7258 5.31467C8.33559 5.13351 7.87557 4.91115 8.24289 5.39212C8.76133 6.07165 9.1727 6.76931 9.10129 7.413C9.03859 7.97798 8.6006 8.12842 8.13543 8.0748C7.84878 8.04175 7.61201 7.79557 7.44399 7.58386C6.69535 6.63843 5.39521 6.41108 4.4464 7.21285C4.06667 7.5338 3.69069 8.11352 3.13332 8.11458C2.55715 8.11227 2.22341 7.45067 2.41879 6.94927C2.7756 6.0383 3.80524 5.61487 4.53096 5.05556C5.41725 4.37262 5.97015 3.34071 5.81065 2.42316C5.64351 1.46262 4.95828 0.736198 3.93292 0.640983C3.00135 0.554479 2.69052 0.823932 1.95361 1.33243C1.57229 1.40399 0.952048 1.18944 0.375328 2.00008C0.0407385 2.47057 0.0842541 3.16771 0.0210119 3.26149C-0.042035 3.35543 0.000582123 3.86838 0.665934 3.81227C1.33127 3.75633 2.62056 2.57007 2.62056 2.57007C3.05055 2.23864 3.37931 1.89762 3.91517 2.13722C4.43506 2.37237 4.44146 3.01106 4.12619 3.43024C3.98961 3.61142 3.54025 4.0114 3.35462 4.13623C3.11111 4.29948 2.86406 4.45755 2.6259 4.62838C2.14101 4.97581 1.68614 5.379 1.36305 5.88556C0.732536 6.87448 0.791852 8.14744 1.67421 8.9689C2.10565 9.37049 2.69122 9.5822 3.28056 9.54009C3.87166 9.498 4.39685 9.19925 4.83698 8.81827C5.10338 8.58807 5.3842 8.13837 5.77424 8.13747C6.16659 8.1405 6.38364 8.5815 6.64243 8.81116C7.27668 9.37419 8.19758 9.58094 8.9727 9.18272C10.5934 8.35043 10.133 6.14521 8.7258 5.31467Z"
       // "M7.5 4C7.5 5.933 5.933 7.5 4 7.5C2.067 7.5 0.5 5.933 0.5 4C0.5 2.067 2.067 0.5 4 0.5C5.933 0.5 7.5 2.067 7.5 4Z"
     )
     .attr("fill", (d) => speciesColorScale(d.speciesBestGuess))
+    // .attr("opacity", 0.8)
+    // .attr("style", "mix-blend-mode: color-dodge")
     .attr(
       "transform",
       (_d, i) => `translate(${leftPad + i * circleSpacing}, ${height - 10})`
     )
-    .attr("stroke", "#fff")
-    .attr("stroke-width", 2)
-    .attr("stroke-opacity", 0.2);
-  // .attr("stroke",(d) => speciesColorScale(d.speciesBestGuess))
-  // .attr("stroke", circleStroke);
-
+    // .attr("stroke", "#fff")
+    // .attr("stroke-width", 2)
+    // .attr("stroke-opacity", 0.2);
+    // .attr("stroke",(d) => speciesColorScale(d.speciesBestGuess))
+    .attr("stroke-width", 0.5)
+    .attr("stroke-width", 1)
+    .attr("stroke", circleStroke)
   // circles = nodes
   //   .join("circle")
   //   .attr("cx", (_d, i) => leftPad + i * circleSpacing)
@@ -313,7 +322,7 @@ function setupChart() {
         )
         .strength(1)
     )
-    .force("charge", d3.forceManyBody().strength(-30))
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null)
     // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
     // .alpha(1)
@@ -480,7 +489,7 @@ function species() {
         )
         .strength(1)
     )
-    .force("charge", d3.forceManyBody().strength(-40))
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
 
   // circles
@@ -533,7 +542,7 @@ function yellowFacedWhipSnakes() {
         )
         .strength(1)
     )
-    .force("charge", d3.forceManyBody().strength(-40))
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
   // .force(
   //   "collide",
@@ -596,7 +605,7 @@ function redBellies() {
         )
         .strength(1)
     )
-    .force("charge", d3.forceManyBody().strength(-40))
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
   // .force(
   //   "collide",
@@ -659,7 +668,7 @@ function keelbacks() {
         )
         .strength(1)
     )
-    .force("charge", d3.forceManyBody().strength(-40))
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
   // .force(
   //   "collide",
@@ -751,7 +760,7 @@ function timeline() {
     // .force("forceX", d3.forceX(focalPointX).strength(1.55))
     .force("forceX", d3.forceX(xWiggle).strength(1))
     .force("forceY", d3.forceY((d) => timeScale(d[metricDateProp])).strength(1))
-    .force("charge", d3.forceManyBody().strength(-20))
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength2))
     .force("collide", null);
   // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
@@ -792,7 +801,7 @@ function seasons() {
         .strength(1)
     )
     .force("forceY", d3.forceY(focalPointY).strength(1))
-    .force("charge", d3.forceManyBody().strength(-40))
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
   // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
 

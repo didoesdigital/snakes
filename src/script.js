@@ -124,7 +124,7 @@ function handleStepEnter(response) {
     keelback,
     commonTreeSnake,
     carpetPython,
-    unknown,
+    unknownSpecies,
     easternSmallEyedSnake,
     marshSnake,
     temperatureStripPlot,
@@ -952,8 +952,8 @@ function carpetPython() {
   simulation.alpha(0.9).restart();
 }
 
-function unknown() {
-  hideOtherChartStuff("unknown");
+function unknownSpecies() {
+  hideOtherChartStuff("unknownSpecies");
   chartTitle
     .transition()
     .duration(250)

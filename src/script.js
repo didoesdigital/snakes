@@ -117,12 +117,12 @@ function handleStepEnter(response) {
   // update graphic based on step
   const stepFunctionName = response.element.getAttribute("data-step-function");
   const stepFunctions = {
-    yellowFacedWhipSnakes,
-    redBellies,
-    keelbacks,
-    commonTreeSnakes,
-    carpetPythons,
-    easternSmallEyedSnakes,
+    yellowFacedWhipSnake,
+    redBelly,
+    keelback,
+    commonTreeSnake,
+    carpetPython,
+    easternSmallEyedSnake,
     temperatureStripPlot,
     timeline,
     species,
@@ -523,8 +523,8 @@ function species() {
   simulation.alpha(0.9).restart();
 }
 
-function yellowFacedWhipSnakes() {
-  hideOtherChartStuff("yellowFacedWhipSnakes");
+function yellowFacedWhipSnake() {
+  hideOtherChartStuff("yellowFacedWhipSnake");
 
   chartTitle
     .transition()
@@ -588,8 +588,8 @@ function yellowFacedWhipSnakes() {
   simulation.alpha(0.9).restart();
 }
 
-function redBellies() {
-  hideOtherChartStuff("redBellies");
+function redBelly() {
+  hideOtherChartStuff("redBelly");
   chartTitle
     .transition()
     .duration(250)
@@ -651,8 +651,8 @@ function redBellies() {
   simulation.alpha(0.9).restart();
 }
 
-function commonTreeSnakes() {
-  hideOtherChartStuff("commonTreeSnakes");
+function commonTreeSnake() {
+  hideOtherChartStuff("commonTreeSnake");
   chartTitle
     .transition()
     .duration(250)
@@ -714,8 +714,8 @@ function commonTreeSnakes() {
   simulation.alpha(0.9).restart();
 }
 
-function easternSmallEyedSnakes() {
-  hideOtherChartStuff("easternSmallEyedSnakes");
+function easternSmallEyedSnake() {
+  hideOtherChartStuff("easternSmallEyedSnake");
   chartTitle
     .transition()
     .duration(250)
@@ -777,8 +777,8 @@ function easternSmallEyedSnakes() {
   simulation.alpha(0.9).restart();
 }
 
-function carpetPythons() {
-  hideOtherChartStuff("carpetPythons");
+function carpetPython() {
+  hideOtherChartStuff("carpetPython");
   chartTitle
     .transition()
     .duration(250)
@@ -840,8 +840,8 @@ function carpetPythons() {
   simulation.alpha(0.9).restart();
 }
 
-function keelbacks() {
-  hideOtherChartStuff("keelbacks");
+function keelback() {
+  hideOtherChartStuff("keelback");
   chartTitle
     .transition()
     .duration(250)

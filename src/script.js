@@ -152,6 +152,7 @@ function handleStepEnter(response) {
     attacked,
     fled,
     chill,
+    defensive,
     temperatureStripPlot,
     venom,
     timeline,
@@ -1435,6 +1436,63 @@ function birds() {
       return speciesColorScale(d.speciesBestGuess);
     })
     .attr("opacity", (d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
+
+  simulation.alpha(0.9).restart();
+}
+
+function defensive() {
+  hideOtherChartStuff("defensive");
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("This red belly flattened its neck at me from 3m away")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointX
+        )
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointY
+        )
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
+    )
+    // .force("charge", null)
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .attr("opacity", (d) => (d["watchingMe"] === "flattened" ? 1 : 0.2));
 
   simulation.alpha(0.9).restart();
 }

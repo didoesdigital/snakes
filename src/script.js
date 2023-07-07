@@ -803,10 +803,11 @@ function seasons() {
         .forceX((d) => seasonScale(getSeason(d[metricDateProp].getMonth())))
         .strength(1)
     )
-    .force("forceY", d3.forceY(focalPointY).strength(1))
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
-  // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
+    .force("forceY", d3.forceY(focalPointY).strength(0.3))
+    .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
   // circles
   sneks

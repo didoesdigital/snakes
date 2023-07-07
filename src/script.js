@@ -710,20 +710,20 @@ function temperatureStripPlot() {
   simulation.force("forceX", null).force("forceY", null).force("charge", null);
   // .force("collide", null);
 
-  const jitterX = (i) => {
+  const jitter = (i) => {
     return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
   };
 
   simulation
     .force(
       "forceX",
-      d3
-        .forceX((d, i) => temperatureScale(d[metricTempProp]) + jitterX(i))
-        .strength(0.9)
+      d3.forceX((d) => temperatureScale(d[metricTempProp])).strength(0.9)
     )
     .force(
       "forceY",
-      d3.forceY((d) => speciesBandScale(d[metricSpeciesProp])).strength(0.9)
+      d3
+        .forceY((d, i) => speciesBandScale(d[metricSpeciesProp]) + jitter(i))
+        .strength(0.9)
     )
     // .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines

@@ -34,6 +34,7 @@ const goldenRatio = 1.618;
 const focalPointX = width / 2;
 const focalPointY = height / goldenRatio / goldenRatio;
 const opacityFade = 0; // 0.2;
+
 const speciesRadius = 50;
 const speciesColors = [
   "#F1EEF6",
@@ -57,6 +58,12 @@ const dimensions = {
     left: 96,
   },
 };
+
+const boundingPadding = 0;
+const boundingMinX = circleRadius;
+const boundingMaxX = dimensions.width - circleRadius;
+const boundingMinY = circleRadius;
+const boundingMaxY = dimensions.height - circleRadius;
 
 let circles = null;
 let sneks = null;
@@ -295,6 +302,14 @@ function setupChart() {
   simulation.stop();
 
   simulation
+    .force("bounding-rect", () => {
+      sightingsData.forEach((node) => {
+        node.x = Math.max(node.x, boundingMinX + boundingPadding);
+        node.x = Math.min(node.x, boundingMaxX - boundingPadding);
+        node.y = Math.max(node.y, boundingMinY + boundingPadding);
+        node.y = Math.min(node.y, boundingMaxY - boundingPadding);
+      });
+    })
     .force(
       "forceX",
       d3

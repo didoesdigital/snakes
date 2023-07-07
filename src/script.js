@@ -212,7 +212,7 @@ function setupScales() {
     .scalePoint()
     .domain(["Summer", "Autumn", "Winter", "Spring"])
     .range([circleSpacing, dimensions.width - circleSpacing])
-    .padding(1);
+    .padding(0.25);
 
   timeScale = d3
     .scaleTime()

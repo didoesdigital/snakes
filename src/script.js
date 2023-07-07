@@ -1290,7 +1290,13 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".strip-plot-y").transition().attr("opacity", 0);
     svg.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
     svg.select(".timeline-y-axis").transition().attr("opacity", 0);
+  }
+
+  if (stepFunctionName !== "seasons") {
     svg.select(".seasons-axis").transition().attr("opacity", 0);
+  }
+
+  if (stepFunctionName !== "venom") {
     svg.select(".venom-axis").transition().attr("opacity", 0);
   }
 }

@@ -231,7 +231,7 @@ function setupScales() {
 
   venomScale = d3
     .scalePoint()
-    .domain(["non venomous", "mildly venomous", "highly venomous"])
+    .domain(["non venomous", "mildly venomous", "highly venomous", "unknown"])
     .range([circleSpacing, dimensions.width - circleSpacing])
     .padding(0.25);
 
@@ -479,6 +479,15 @@ function setupAxes() {
     .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
     .lower();
 
+  const venomLabel = (d) => {
+    const labels = {
+      "non venomous": "Nope",
+      "mildly venomous": "Mildly",
+      "highly venomous": "Highly",
+    };
+    return labels[d] ?? "probably";
+  };
+
   // Venom axis
   const venomAxis = d3.axisBottom(venomScale).tickSize(0);
   svg
@@ -488,7 +497,7 @@ function setupAxes() {
     .attr(
       "transform",
       `translate(0, ${
-        focalPointY / goldenRatio / goldenRatio + 6 * circleSpacing
+        focalPointY / goldenRatio + 6 * circleSpacing
         // dimensions.height - dimensions.margin.bottom - 50
       })`
     )
@@ -497,25 +506,7 @@ function setupAxes() {
     .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
     .call((g) => g.selectAll("text").style("font-size", chartTextSize))
     .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
-    .lower();
-  svg
-    .append("g")
-    .attr("class", "venom-unknown")
-    .attr("opacity", 0)
-    .attr(
-      "transform",
-      `translate(${focalPointX}, ${
-        focalPointY + 20 + 6 * circleSpacing
-        // dimensions.height - dimensions.margin.bottom - 50
-      })`
-    )
-    .append("text")
-    .text("unknown")
-    .style("text-anchor", "middle")
-    .style("font-family", chartTextFamily)
-    .style("font-size", chartTextSize)
-    .style("font-weight", chartTextWeight)
-    .attr("fill", "#868091")
+    .call((g) => g.selectAll("text").text((d) => venomLabel(d)))
     .lower();
 }
 
@@ -1213,7 +1204,7 @@ function venom() {
     .style("opacity", 0)
     .transition()
     .duration(250)
-    .text("Many nope ropes")
+    .text("Are they venomous?")
     .style("opacity", 1);
 
   const jitter = (d) => {
@@ -1230,23 +1221,10 @@ function venom() {
     .force(
       "forceX",
       d3
-        .forceX(
-          (d) =>
-            (venomScale(metricVenomAccessor(d)) || focalPointX) +
-            jitter(d) * 0.5
-        )
-        .strength((d) => (metricVenomAccessor(d) === "unknown" ? 0.1 : 0.8))
+        .forceX((d) => venomScale(metricVenomAccessor(d)) + jitter(d) * 0.5)
+        .strength(1)
     )
-    .force(
-      "forceY",
-      d3
-        .forceY((d) =>
-          metricVenomAccessor(d) === "unknown"
-            ? focalPointY + 120
-            : focalPointY - 60 + jitter(d)
-        )
-        .strength(0.3)
-    )
+    .force("forceY", d3.forceY((d) => focalPointY + jitter(d)).strength(0.3))
     .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     // .force("collide", null);
@@ -1262,7 +1240,6 @@ function venom() {
     .attr("opacity", (d) => (metricVenomAccessor(d) === "unknown" ? 0.2 : 1));
 
   d3.select(".venom-axis").transition().attr("opacity", 1);
-  d3.select(".venom-unknown").transition().attr("opacity", 1);
   simulation.alpha(0.9).restart();
 }
 
@@ -1279,7 +1256,6 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".timeline-y-axis").transition().attr("opacity", 0);
     svg.select(".seasons-axis").transition().attr("opacity", 0);
     svg.select(".venom-axis").transition().attr("opacity", 0);
-    svg.select(".venom-unknown").transition().attr("opacity", 0);
   }
 }
 

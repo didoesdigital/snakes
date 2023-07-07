@@ -14,9 +14,10 @@ const width = 343; // 375 - 16 - 16
 const height = 555; //400;
 const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 
-const sansSerifStack =
-  '"Source Sans Pro", "Work Sans", "Lato", "Noto Sans", "Assistant", "Helvetica", arial, sans-serif';
-const sansSerifSize = "0.875rem";
+const chartTextFamily =
+  '"Overpass Mono", "Varela", "Varela Round", "Helvetica", arial, sans-serif';
+const chartTextSize = "0.875rem";
+const chartTextWeight = 300;
 const timeParser = d3.timeParse("%d %b %Y %H"); // "02 Jan 2023 06"
 const leftPad = 5;
 // const circleDiameter = 40; // big enough to tap
@@ -348,8 +349,9 @@ function setupAxes() {
     )
     .call(tempStripPlotXAxis)
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").style("font-family", sansSerifStack))
-    .call((g) => g.selectAll("text").style("font-size", sansSerifSize))
+    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
+    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
+    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
     .lower();
 
   let tempStripPlotYAxis = d3.axisLeft(speciesBandScale).tickFormat("");
@@ -371,8 +373,9 @@ function setupAxes() {
         .attr("x", 0)
         .attr("dx", -(circleRadius + 8))
         .attr("dy", getLabelPartYShift)
-        .style("font-family", sansSerifStack)
-        .style("font-size", sansSerifSize)
+        .style("font-family", chartTextFamily)
+        .style("font-size", chartTextSize)
+        .style("font-weight", chartTextWeight)
         .text((d) => `${d}`)
     )
     .attr("stroke-opacity", 0.2)
@@ -417,8 +420,9 @@ function setupAxes() {
     .call((g) =>
       g
         .selectAll(".tick text")
-        .style("font-family", sansSerifStack)
-        .style("font-size", sansSerifSize)
+        .style("font-family", chartTextFamily)
+        .style("font-size", chartTextSize)
+        .style("font-weight", chartTextWeight)
     )
     .call((g) => {
       g.selectAll(".tick:last-child").remove();
@@ -442,8 +446,9 @@ function setupAxes() {
     )
     .call(seasonAxis)
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").style("font-family", sansSerifStack))
-    .call((g) => g.selectAll("text").style("font-size", sansSerifSize))
+    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
+    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
+    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
     .lower();
 }
 

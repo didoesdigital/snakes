@@ -27,12 +27,12 @@ html {
 }
 
 body {
-  font-family: "Source Sans Pro", "Work Sans", "Lato", "Noto Sans", "Assistant",
-    "Libre Franklin", "Open Sans", "Roboto Condensed", "Titillium Web",
-    "Varela Round", "Raleway", "Merriweather Sans", "Helvetica Neue", Helvetica,
-    Arial, sans-serif;
-  font-size: 1.5rem;
-  font-weight: 300;
+  font-family: "Overpass", "Varela", "Varela Round", "Source Sans Pro",
+    "Work Sans", "Lato", "Noto Sans", "Assistant", "Libre Franklin", "Open Sans",
+    "Roboto Condensed", "Titillium Web", "Raleway", "Merriweather Sans",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
   margin: 0px auto;
   max-width: 375px;
   line-height: 1.5;
@@ -113,7 +113,6 @@ figure p {
   line-height: 1;
   /* font-weight: 900; */
   /* font-weight: 700; */
-  font-weight: 400;
   color: var(--coolgrey-900);
   min-width: 343px;
 }
@@ -139,7 +138,7 @@ figure p {
 .step p {
   text-align: center;
   padding: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: var(--coolgrey-900);
   background-color: #fff;
   border: 1px solid #e2e0e5;

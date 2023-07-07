@@ -16,7 +16,7 @@ const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
 
 const chartTextFamily =
   '"Overpass Mono", "Varela", "Varela Round", "Helvetica", arial, sans-serif';
-const chartTextSize = "0.875rem";
+const chartTextSize = "0.75rem";
 const chartTextWeight = 300;
 const timeParser = d3.timeParse("%d %b %Y %H"); // "02 Jan 2023 06"
 const leftPad = 5;
@@ -55,7 +55,7 @@ const dimensions = {
     top: 48,
     right: 24, // at least circleRadius wide
     bottom: 24,
-    left: 96,
+    left: 112,
   },
 };
 

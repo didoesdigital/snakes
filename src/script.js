@@ -1243,6 +1243,42 @@ function venom() {
   simulation.alpha(0.9).restart();
 }
 
+function all() {
+  hideOtherChartStuff("all");
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("TODO")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(focalPointX)
+        .strength(0.9)
+    )
+    .force("forceY", d3.forceY(focalPointY).strength(1))
+    // .force("charge", null)
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .attr("opacity", 1);
+
+  simulation.alpha(0.9).restart();
+}
+
 function fin() {
   hideOtherChartStuff("fin");
   chartTitle.text("All snakes, all the time");

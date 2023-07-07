@@ -101,6 +101,11 @@ const didFlee = (d) => {
   );
 };
 
+const didChill = (d) => {
+  const departure = d["departure"];
+  return departure.includes("chill") || departure.includes("slowly");
+};
+
 // generic window resize listener event
 function handleResize() {
   // Update height of step elements
@@ -146,6 +151,7 @@ function handleStepEnter(response) {
     climbing,
     attacked,
     fled,
+    chill,
     temperatureStripPlot,
     venom,
     timeline,
@@ -1429,6 +1435,63 @@ function birds() {
       return speciesColorScale(d.speciesBestGuess);
     })
     .attr("opacity", (d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
+
+  simulation.alpha(0.9).restart();
+}
+
+function chill() {
+  hideOtherChartStuff("chill");
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Bend frends")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointX
+        )
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointY
+        )
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
+    )
+    // .force("charge", null)
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .attr("opacity", (d) => (!didChill(d) ? 0.2 : 1));
 
   simulation.alpha(0.9).restart();
 }

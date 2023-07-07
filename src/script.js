@@ -128,6 +128,8 @@ function handleStepEnter(response) {
     carpetPython,
     unknownSpecies,
     all,
+    mating,
+    courting,
     temperatureStripPlot,
     venom,
     timeline,
@@ -1244,6 +1246,120 @@ function venom() {
   simulation.alpha(0.9).restart();
 }
 
+function mating() {
+  hideOtherChartStuff("mating");
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Caught in the act!")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointX
+        )
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointY
+        )
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
+    )
+    // .force("charge", null)
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .attr("opacity", (d) => (d["mating"] === "mating" ? 1 : 0.2));
+
+  simulation.alpha(0.9).restart();
+}
+
+function courting() {
+  hideOtherChartStuff("Mating");
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Separated by a roller door!")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointX
+        )
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointY
+        )
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
+    )
+    // .force("charge", null)
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .attr("opacity", (d) => (d["mating"] === "probably" ? 1 : 0.2));
+
+  simulation.alpha(0.9).restart();
+}
+
 function all() {
   hideOtherChartStuff("all");
   chartTitle
@@ -1252,17 +1368,10 @@ function all() {
     .style("opacity", 0)
     .transition()
     .duration(250)
-    .text("TODO")
+    .text("They're all good snakes, mate")
     .style("opacity", 1);
 
   simulation
-    // .force(
-    //   "forceX",
-    //   d3
-    //     .forceX(focalPointX)
-    //     .strength(0.9)
-    // )
-    // .force("forceY", d3.forceY(focalPointY).strength(1))
     .force(
       "forceX",
       d3

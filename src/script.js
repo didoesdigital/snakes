@@ -123,6 +123,7 @@ function handleStepEnter(response) {
     commonTreeSnake,
     carpetPython,
     easternSmallEyedSnake,
+    marshSnake,
     temperatureStripPlot,
     timeline,
     species,
@@ -772,6 +773,69 @@ function easternSmallEyedSnake() {
     )
     .attr("opacity", (d) =>
       d[metricSpeciesProp] === "Eastern small-eyed snake" ? 1 : opacityFade
+    );
+
+  simulation.alpha(0.9).restart();
+}
+
+function marshSnake() {
+  hideOtherChartStuff("marshSnake");
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Marsh snake")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            speciesRadius *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointX
+        )
+        .strength(1)
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            speciesRadius *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointY
+        )
+        .strength(1)
+    )
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    .force("collide", null);
+  // .force(
+  //   "collide",
+  //   d3.forceCollide((d) =>
+  //     d[metricSpeciesProp] === "Marsh snake" ? circleRadius : 0
+  //   )
+  // );
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) =>
+      d[metricSpeciesProp] === "Marsh snake"
+        ? speciesColorScale(d[metricSpeciesProp])
+        : "#fff"
+    )
+    .attr("opacity", (d) =>
+      d[metricSpeciesProp] === "Marsh snake" ? 1 : opacityFade
     );
 
   simulation.alpha(0.9).restart();

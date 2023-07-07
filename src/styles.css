@@ -148,3 +148,7 @@ figure p {
   transform: translateX(-50%);
   width: 100%;
 }
+
+tspan {
+  letter-spacing: -0.05rem;
+}

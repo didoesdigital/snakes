@@ -120,6 +120,7 @@ function handleStepEnter(response) {
     yellowFacedWhipSnakes,
     redBellies,
     keelbacks,
+    commonTreeSnakes,
     temperatureStripPlot,
     timeline,
     species,
@@ -643,6 +644,69 @@ function redBellies() {
     )
     .attr("opacity", (d) =>
       d[metricSpeciesProp] === "Red-bellied black" ? 1 : opacityFade
+    );
+
+  simulation.alpha(0.9).restart();
+}
+
+function commonTreeSnakes() {
+  hideOtherChartStuff("commonTreeSnakes");
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Common tree snake")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            speciesRadius *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointX
+        )
+        .strength(1)
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            speciesRadius *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointY
+        )
+        .strength(1)
+    )
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    .force("collide", null);
+  // .force(
+  //   "collide",
+  //   d3.forceCollide((d) =>
+  //     d[metricSpeciesProp] === "Keelback" ? circleRadius : 0
+  //   )
+  // );
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) =>
+      d[metricSpeciesProp] === "Common tree snake"
+        ? speciesColorScale(d[metricSpeciesProp])
+        : "#fff"
+    )
+    .attr("opacity", (d) =>
+      d[metricSpeciesProp] === "Common tree snake" ? 1 : opacityFade
     );
 
   simulation.alpha(0.9).restart();

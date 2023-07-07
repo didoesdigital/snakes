@@ -123,10 +123,11 @@ function handleStepEnter(response) {
     redBelly,
     keelback,
     commonTreeSnake,
-    carpetPython,
-    unknownSpecies,
     easternSmallEyedSnake,
     marshSnake,
+    carpetPython,
+    unknownSpecies,
+    all,
     temperatureStripPlot,
     venom,
     timeline,
@@ -1255,13 +1256,41 @@ function all() {
     .style("opacity", 1);
 
   simulation
+    // .force(
+    //   "forceX",
+    //   d3
+    //     .forceX(focalPointX)
+    //     .strength(0.9)
+    // )
+    // .force("forceY", d3.forceY(focalPointY).strength(1))
     .force(
       "forceX",
       d3
-        .forceX(focalPointX)
-        .strength(0.9)
+        .forceX(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointX
+        )
+        .strength(1)
     )
-    .force("forceY", d3.forceY(focalPointY).strength(1))
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            circleRadius *
+              1.25 *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointY
+        )
+        .strength(1)
+    )
     // .force("charge", null)
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     // .force("collide", null);

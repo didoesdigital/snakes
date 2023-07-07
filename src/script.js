@@ -87,6 +87,8 @@ const metricTempAccessor = (d) => d[metricTempProp];
 const metricDateProp = "date";
 const metricDateAccessor = (d) => d[metricDateProp];
 const metricSpeciesProp = "speciesBestGuess";
+const metricVenomProp = "venom";
+const metricVenomAccessor = (d) => d[metricVenomProp];
 
 // generic window resize listener event
 function handleResize() {
@@ -126,6 +128,7 @@ function handleStepEnter(response) {
     easternSmallEyedSnake,
     marshSnake,
     temperatureStripPlot,
+    venom,
     timeline,
     species,
     seasons,
@@ -223,6 +226,12 @@ function setupScales() {
   seasonScale = d3
     .scalePoint()
     .domain(["Summer", "Autumn", "Winter", "Spring"])
+    .range([circleSpacing, dimensions.width - circleSpacing])
+    .padding(0.25);
+
+  venomScale = d3
+    .scalePoint()
+    .domain(["non venomous", "mildly venomous", "highly venomous"])
     .range([circleSpacing, dimensions.width - circleSpacing])
     .padding(0.25);
 
@@ -450,9 +459,8 @@ function setupAxes() {
     .attr("stroke-opacity", 0.2)
     .lower();
 
-  const seasonAxis = d3.axisBottom(seasonScale).tickSize(0);
-
   // Seasons axis
+  const seasonAxis = d3.axisBottom(seasonScale).tickSize(0);
   svg
     .append("g")
     .attr("class", "seasons-axis")
@@ -469,6 +477,45 @@ function setupAxes() {
     .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
     .call((g) => g.selectAll("text").style("font-size", chartTextSize))
     .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
+    .lower();
+
+  // Venom axis
+  const venomAxis = d3.axisBottom(venomScale).tickSize(0);
+  svg
+    .append("g")
+    .attr("class", "venom-axis")
+    .attr("opacity", 0)
+    .attr(
+      "transform",
+      `translate(0, ${
+        focalPointY / goldenRatio / goldenRatio + 6 * circleSpacing
+        // dimensions.height - dimensions.margin.bottom - 50
+      })`
+    )
+    .call(venomAxis)
+    .call((g) => g.select(".domain").remove())
+    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
+    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
+    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
+    .lower();
+  svg
+    .append("g")
+    .attr("class", "venom-unknown")
+    .attr("opacity", 0)
+    .attr(
+      "transform",
+      `translate(${focalPointX}, ${
+        focalPointY + 20 + 6 * circleSpacing
+        // dimensions.height - dimensions.margin.bottom - 50
+      })`
+    )
+    .append("text")
+    .text("unknown")
+    .style("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .attr("fill", "#868091")
     .lower();
 }
 
@@ -1157,6 +1204,68 @@ function seasons() {
   simulation.alpha(0.9).restart();
 }
 
+function venom() {
+  hideOtherChartStuff("venom");
+
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Many nope ropes")
+    .style("opacity", 1);
+
+  const jitter = (d) => {
+    return d[metricSpeciesProp] === "Keelback"
+      ? -10
+      : d[metricSpeciesProp] === "Common tree snake"
+      ? 16
+      : d[metricSpeciesProp] === "Carpet python"
+      ? 18
+      : 0;
+  };
+
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            (venomScale(metricVenomAccessor(d)) || focalPointX) +
+            jitter(d) * 0.5
+        )
+        .strength((d) => (metricVenomAccessor(d) === "unknown" ? 0.1 : 0.8))
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY((d) =>
+          metricVenomAccessor(d) === "unknown"
+            ? focalPointY + 120
+            : focalPointY - 60 + jitter(d)
+        )
+        .strength(0.3)
+    )
+    .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .attr("opacity", (d) => (metricVenomAccessor(d) === "unknown" ? 0.2 : 1));
+
+  d3.select(".venom-axis").transition().attr("opacity", 1);
+  d3.select(".venom-unknown").transition().attr("opacity", 1);
+  simulation.alpha(0.9).restart();
+}
+
 function fin() {
   hideOtherChartStuff("fin");
   chartTitle.text("All snakes, all the time");
@@ -1169,6 +1278,8 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
     svg.select(".timeline-y-axis").transition().attr("opacity", 0);
     svg.select(".seasons-axis").transition().attr("opacity", 0);
+    svg.select(".venom-axis").transition().attr("opacity", 0);
+    svg.select(".venom-unknown").transition().attr("opacity", 0);
   }
 }
 

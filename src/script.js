@@ -1425,46 +1425,21 @@ function accelerate(delay) {
 }
 
 function addSpeciesBlobForces() {
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
+  addBlobForces(speciesRadius);
 }
 
 function addPointsOfInterestBlobForces() {
+  addBlobForces(circleRadius * 1.25);
+}
+
+function addBlobForces(radius) {
   simulation
     .force(
       "forceX",
       d3
         .forceX(
           (d) =>
-            circleRadius *
-              1.25 *
+            radius *
               Math.sin(
                 speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
               ) +
@@ -1477,8 +1452,7 @@ function addPointsOfInterestBlobForces() {
       d3
         .forceY(
           (d) =>
-            circleRadius *
-              1.25 *
+            radius *
               Math.cos(
                 speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
               ) +

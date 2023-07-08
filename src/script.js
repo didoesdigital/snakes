@@ -50,7 +50,7 @@ const speciesColors = [
 
 const dimensions = {
   width: 343,
-  height: 400,
+  height: 455, // 400,
   margin: {
     top: 48,
     right: 24, // at least circleRadius wide
@@ -357,8 +357,8 @@ function setupScales() {
     .scalePoint()
     .domain(timesOfDay)
     .range([
-      dimensions.margin.left,
-      dimensions.width - dimensions.margin.right,
+      dimensions.margin.left + circleSpacing,
+      dimensions.width - dimensions.margin.right - circleSpacing,
     ]);
 
   weatherScale = d3

@@ -359,6 +359,59 @@ function setupChart() {
       (d) => `translate(${d.x - circleRadius}, ${d.y - circleRadius})`
     );
     // circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+    const matingSnakes = sightingsData.filter((d) => d["mating"] === "mating");
+    const matingSnakeOne = matingSnakes.slice(0, 1)[0];
+    const matingSnakeTwo = matingSnakes.slice(1, 2)[0];
+
+    const startX = 60,
+      startY = 120,
+      endX = matingSnakeOne.x - circleRadius,
+      endY = matingSnakeOne.y - circleRadius * 1.5,
+      centrePointX = (startX + endX) / 2,
+      centrePointY = (startY + endY) / 2,
+      angle = Math.atan2(endY - startY, endX - startX),
+      dist = -30;
+    const arcControlPointX = -Math.sin(angle) * dist + centrePointX;
+    const arcControlPointY = Math.cos(angle) * dist + centrePointY;
+
+    const startX2 = 60,
+      startY2 = 120,
+      endX2 = matingSnakeTwo.x - circleRadius,
+      endY2 = matingSnakeTwo.y - circleRadius * 1.5,
+      centrePointX2 = (startX2 + endX2) / 2,
+      centrePointY2 = (startY2 + endY2) / 2,
+      angle2 = Math.atan2(endY2 - startY2, endX2 - startX2),
+      dist2 = -30;
+    const arcControlPointX2 = -Math.sin(angle2) * dist2 + centrePointX2;
+    const arcControlPointY2 = Math.cos(angle2) * dist2 + centrePointY2;
+
+    d3.select(".annotation-stem-one")
+      .attr(
+        "d",
+        `M60 125Q${arcControlPointX},${arcControlPointY} ${endX},${endY}`
+      )
+      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+
+    d3.select(".annotation-stem-two")
+      .attr(
+        "d",
+        `M60 125Q${arcControlPointX2},${arcControlPointY2} ${endX2},${endY2}`
+      )
+      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+
+    // d3.select(".annotation-stem-one").attr(
+    //   "d",
+    //   `M60 125L${matingSnakeOne.x - circleRadius},${
+    //     matingSnakeOne.y - circleRadius
+    //   }`
+    // );
+    // d3.select(".annotation-stem-two").attr(
+    //   "d",
+    //   `M60 125L${matingSnakeTwo.x - circleRadius},${
+    //     matingSnakeTwo.y - circleRadius
+    //   }`
+    // );
   });
 
   simulation.stop();
@@ -570,6 +623,45 @@ function setupAxes() {
     .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
     .call((g) => g.selectAll("text").text((d) => venomLabel(d)))
     .lower();
+
+  svg
+    .append("path")
+    .attr("class", "annotation-stem-one")
+    .attr("opacity", 0)
+    .attr("fill", "none")
+    .attr("stroke", "#3C3941")
+    .attr("stroke-width", 2);
+
+  svg
+    .append("path")
+    .attr("class", "annotation-stem-two")
+    .attr("opacity", 0)
+    .attr("fill", "none")
+    .attr("stroke", "#3C3941")
+    .attr("stroke-width", 2);
+
+  svg
+    .append("text")
+    .attr("class", "annotation-label")
+    .attr("opacity", 0)
+    .attr("stroke", "none")
+    .attr("fill", "#3C3941");
+
+  svg
+    .append("defs")
+    .selectAll("marker")
+    .data([0])
+    .join("marker")
+    .attr("id", "arrow-one")
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 5)
+    .attr("refY", 0)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto")
+    .append("path")
+    .attr("fill", "#000")
+    .attr("d", "M0,-5L10,0L0,5");
 }
 
 function species() {
@@ -1390,6 +1482,21 @@ function mating() {
     })
     .attr("opacity", (d) => (d["mating"] === "mating" ? 1 : 0.2));
 
+  d3.select(".annotation-stem-one").transition().attr("opacity", 1);
+
+  d3.select(".annotation-stem-two").transition().attr("opacity", 1);
+
+  d3.select(".annotation-label")
+    .text("Smoochy snakes")
+    .attr("x", 60)
+    .attr("y", 120)
+    .attr("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .attr("opacity", 1)
+    .transition();
+
   simulation.alpha(0.9).restart();
 }
 
@@ -1989,6 +2096,12 @@ function hideOtherChartStuff(stepFunctionName) {
 
   if (stepFunctionName !== "venom") {
     svg.select(".venom-axis").transition().attr("opacity", 0);
+  }
+
+  if (stepFunctionName !== "mating") {
+    svg.select(".annotation-stem-one").transition().attr("opacity", 0);
+    svg.select(".annotation-stem-two").transition().attr("opacity", 0);
+    svg.select(".annotation-label").transition().attr("opacity", 0);
   }
 }
 

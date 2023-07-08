@@ -829,7 +829,7 @@ function species() {
     .attr("fill", (d) => speciesColorScale(d[metricSpeciesProp]))
     .attr("opacity", 1);
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function yellowFacedWhipSnake() {
@@ -893,7 +893,7 @@ function yellowFacedWhipSnake() {
       d[metricSpeciesProp] === "Yellow-faced whip snake" ? 1 : opacityFade
     );
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function redBelly() {
@@ -955,7 +955,7 @@ function redBelly() {
       d[metricSpeciesProp] === "Red-bellied black" ? 1 : opacityFade
     );
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function commonTreeSnake() {
@@ -1017,7 +1017,7 @@ function commonTreeSnake() {
       d[metricSpeciesProp] === "Common tree snake" ? 1 : opacityFade
     );
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function easternSmallEyedSnake() {
@@ -1079,7 +1079,7 @@ function easternSmallEyedSnake() {
       d[metricSpeciesProp] === "Eastern small-eyed snake" ? 1 : opacityFade
     );
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function marshSnake() {
@@ -1141,7 +1141,7 @@ function marshSnake() {
       d[metricSpeciesProp] === "Marsh snake" ? 1 : opacityFade
     );
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function carpetPython() {
@@ -1203,7 +1203,7 @@ function carpetPython() {
       d[metricSpeciesProp] === "Carpet python" ? 1 : opacityFade
     );
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function unknownSpecies() {
@@ -1265,7 +1265,7 @@ function unknownSpecies() {
       d[metricSpeciesProp] === "unknown" ? 1 : opacityFade
     );
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function keelback() {
@@ -1327,7 +1327,7 @@ function keelback() {
       d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade
     );
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 function timeOfDayStripPlot() {
   hideOtherChartStuff("timeOfDayStripPlot");
@@ -1371,7 +1371,7 @@ function timeOfDayStripPlot() {
   d3.select(".strip-plot-x-time-of-day").transition().attr("opacity", 1);
   d3.select(".strip-plot-y").transition().attr("opacity", 1);
   d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function weatherStripPlot() {
@@ -1418,7 +1418,7 @@ function weatherStripPlot() {
   d3.select(".strip-plot-x-weather").transition().attr("opacity", 1);
   d3.select(".strip-plot-y").transition().attr("opacity", 1);
   d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function temperatureStripPlot() {
@@ -1463,7 +1463,7 @@ function temperatureStripPlot() {
   d3.select(".strip-plot-x-temperature").transition().attr("opacity", 1);
   d3.select(".strip-plot-y").transition().attr("opacity", 1);
   d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function timeline() {
@@ -1499,7 +1499,7 @@ function timeline() {
     .attr("opacity", 1);
 
   d3.select(".timeline-y-axis").transition().attr("opacity", 1);
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function seasons() {
@@ -1536,7 +1536,7 @@ function seasons() {
     .attr("opacity", 1);
 
   d3.select(".seasons-axis").transition().attr("opacity", 1);
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function staringContest() {
@@ -1571,7 +1571,7 @@ function staringContest() {
     .attr("opacity", 1);
 
   d3.select(".watching-me-axis").transition().attr("opacity", 1);
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function venom() {
@@ -1618,7 +1618,7 @@ function venom() {
     .attr("opacity", (d) => (metricVenomAccessor(d) === "unknown" ? 0.2 : 1));
 
   d3.select(".venom-axis").transition().attr("opacity", 1);
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function mating() {
@@ -1689,7 +1689,7 @@ function mating() {
     .attr("opacity", 1)
     .transition();
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function courting() {
@@ -1745,7 +1745,7 @@ function courting() {
     })
     .attr("opacity", (d) => (d["mating"] === "probably" ? 1 : 0.2));
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function birds() {
@@ -1801,7 +1801,7 @@ function birds() {
     })
     .attr("opacity", (d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function defensive() {
@@ -1857,7 +1857,7 @@ function defensive() {
     })
     .attr("opacity", (d) => (d["watchingMe"] === "flattened" ? 1 : 0.2));
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function chill() {
@@ -1913,7 +1913,7 @@ function chill() {
     })
     .attr("opacity", (d) => (!didChill(d) ? 0.2 : 1));
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function fled() {
@@ -1969,7 +1969,7 @@ function fled() {
     })
     .attr("opacity", (d) => (!didFlee(d) ? 0.2 : 1));
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function attacked() {
@@ -2025,7 +2025,7 @@ function attacked() {
     })
     .attr("opacity", 0.2);
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function onCamera() {
@@ -2081,7 +2081,7 @@ function onCamera() {
     })
     .attr("opacity", (d) => (d["onCamera"] === "no" ? 0.2 : 1));
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function climbing() {
@@ -2137,7 +2137,7 @@ function climbing() {
     })
     .attr("opacity", (d) => (d["climbing"] === "not climbing" ? 0.2 : 1));
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function yard() {

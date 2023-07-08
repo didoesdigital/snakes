@@ -1177,35 +1177,7 @@ function keelback() {
     .text("Keelback")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
+  addSpeciesBlobForces();
 
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade
@@ -1780,6 +1752,38 @@ function accelerate(delay) {
   const customEaseOut = 1 - Math.pow(1 - delayDecimal, 6);
   const easedDelay = customEaseOut * max;
   return easedDelay;
+}
+
+function addSpeciesBlobForces() {
+  simulation
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            speciesRadius *
+              Math.sin(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointX
+        )
+        .strength(1)
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            speciesRadius *
+              Math.cos(
+                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
+              ) +
+            focalPointY
+        )
+        .strength(1)
+    )
+    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    .force("collide", null);
 }
 
 function addPointsOfInterestBlobForces(forceXStrength, forceYStrength) {

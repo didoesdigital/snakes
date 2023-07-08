@@ -805,7 +805,7 @@ function yellowFacedWhipSnake() {
 function redBelly() {
   hideOtherChartStuff("redBelly");
 
-  updateTitle("Red-bellied black snake");
+  updateTitle("Red-bellied black snakes");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Red-bellied black" ? 1 : opacityFade
@@ -877,7 +877,7 @@ function unknownSpecies() {
 function keelback() {
   hideOtherChartStuff("keelback");
 
-  updateTitle("Keelback");
+  updateTitle("Keelbacks");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade

@@ -65,7 +65,6 @@ const boundingMaxX = dimensions.width - circleRadius;
 const boundingMinY = circleRadius;
 const boundingMaxY = dimensions.height - circleRadius;
 
-let circles = null;
 let sneks = null;
 let nodes = null;
 let sightingsData = null;
@@ -404,33 +403,17 @@ function setupChart() {
       "M22.8819 19.0069C22.6277 18.8795 21.9072 19.8292 21.7507 19.9716C21.2779 20.4027 20.7026 20.798 20.0531 20.8372C18.5508 20.9275 17.9932 19.2473 17.5753 18.0835C16.5942 15.3714 14.4843 12.6244 11.3384 14.1877C10.0127 14.8466 9.17201 16.1462 8.43054 17.4037C7.96011 18.2001 7.23317 19.9633 6.16329 20.0374C4.80457 20.1315 3.98801 18.7591 4.11631 17.4891C4.26154 16.05 5.35722 15.0128 6.34479 14.1064C8.41842 12.2037 10.5743 10.6833 11.2294 7.74472C11.8991 4.73821 10.5025 1.53632 7.56559 0.563717C6.47872 0.204233 4.66742 -0.792936 2.91572 1.23473C-0.079291 4.70029 2.46145 4.35871 3.36272 4.32707C6.39242 4.22043 7.67932 4.80899 7.25329 6.46016C7.11536 6.99331 6.80792 7.5394 6.50537 7.91928C6.3117 8.1792 5.47017 8.99721 5.09744 9.33171C4.24783 10.0944 3.38697 10.8483 2.6051 11.686C1.1504 13.2434 0.0732516 15.1294 0.00306388 17.3424C-0.132499 21.5919 4.2551 25.6969 8.27319 23.2818C10.1701 22.1417 10.8478 19.9462 11.9007 18.1006C12.3397 17.3304 13.1521 16.3286 14.0703 17.1062C14.832 17.7552 15.221 18.8586 15.684 19.7295C16.5716 21.3982 18.0925 22.9273 20.1128 22.5112C21.0826 22.3112 21.8967 21.639 22.414 20.7842C22.5447 20.5677 23.2829 19.2006 22.8819 19.0069Z"
     )
     .attr("fill", (d) => speciesColorScale(d.speciesBestGuess))
-    .attr("opacity", 0)
+    // .attr("opacity", 0)
     // .attr("opacity", 0.8)
     // .attr("style", "mix-blend-mode: color-dodge")
     .attr(
       "transform",
       (_d, i) => `translate(${leftPad + i * circleSpacing}, ${height - 10})`
     )
-    // .attr("stroke", "#fff")
-    // .attr("stroke-width", 2)
-    // .attr("stroke-opacity", 0.2);
-    // .attr("stroke",(d) => speciesColorScale(d.speciesBestGuess))
-    .attr("stroke-width", 0.5)
     .attr("stroke-width", 1)
     .attr("stroke", circleStroke);
-  // circles = nodes
-  //   .join("circle")
-  //   .attr("cx", (_d, i) => leftPad + i * circleSpacing)
-  //   .attr("cy", (_d) => height - 10)
-  //   .attr("r", (_d) => circleRadius)
-  //   .attr("opacity", 1)
-  //   .attr("fill", (d) => {
-  //     return speciesColorScale(d.speciesBestGuess);
-  //   })
-  //   .attr("stroke", circleStroke);
 
   sneks.on("mouseenter", onMouseEnter);
-  // circles.on("mouseenter", onMouseEnter);
 
   simulation = d3.forceSimulation(sightingsData);
 
@@ -439,7 +422,6 @@ function setupChart() {
       "transform",
       (d) => `translate(${d.x - circleRadius}, ${d.y - circleRadius})`
     );
-    // circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
 
     const matingSnakes = sightingsData.filter((d) => d["mating"] === "mating");
     const matingSnakeOne = matingSnakes.slice(0, 1)[0];
@@ -841,7 +823,6 @@ function species() {
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -900,7 +881,6 @@ function yellowFacedWhipSnake() {
   //   )
   // );
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -963,7 +943,6 @@ function redBelly() {
   //   )
   // );
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1026,7 +1005,6 @@ function commonTreeSnake() {
   //   )
   // );
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1089,7 +1067,6 @@ function easternSmallEyedSnake() {
   //   )
   // );
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1152,7 +1129,6 @@ function marshSnake() {
   //   )
   // );
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1215,7 +1191,6 @@ function carpetPython() {
   //   )
   // );
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1278,7 +1253,6 @@ function unknownSpecies() {
   //   )
   // );
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1341,7 +1315,6 @@ function keelback() {
   //   )
   // );
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1389,7 +1362,6 @@ function timeOfDayStripPlot() {
     // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
     .force("collide", d3.forceCollide(circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1437,7 +1409,6 @@ function weatherStripPlot() {
     // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
     .force("collide", d3.forceCollide(circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1483,7 +1454,6 @@ function temperatureStripPlot() {
     // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
     .force("collide", d3.forceCollide(circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1516,7 +1486,6 @@ function timeline() {
     .force("collide", null);
   // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .attr("opacity", 0)
     .transition()
@@ -1558,7 +1527,6 @@ function seasons() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1594,7 +1562,6 @@ function staringContest() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1642,7 +1609,6 @@ function venom() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1700,7 +1666,6 @@ function mating() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1772,7 +1737,6 @@ function courting() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1829,7 +1793,6 @@ function birds() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1886,7 +1849,6 @@ function defensive() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -1943,7 +1905,6 @@ function chill() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -2000,7 +1961,6 @@ function fled() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -2057,7 +2017,6 @@ function attacked() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -2114,7 +2073,6 @@ function onCamera() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -2171,7 +2129,6 @@ function climbing() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -2228,7 +2185,6 @@ function yard() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)
@@ -2285,7 +2241,6 @@ function all() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  // circles
   sneks
     .transition()
     .duration(200)

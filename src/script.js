@@ -1493,7 +1493,7 @@ function mating() {
   hideOtherChartStuff("mating");
 
   updateTitle("Caught in the act!");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1521,7 +1521,7 @@ function courting() {
   hideOtherChartStuff("courting");
 
   updateTitle("Separated by a roller door!");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1534,7 +1534,7 @@ function birds() {
   hideOtherChartStuff("birds");
 
   updateTitle("Hungry birbs");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1547,7 +1547,7 @@ function defensive() {
   hideOtherChartStuff("defensive");
 
   updateTitle("This red belly flattened its neck at me from 3m away");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1560,7 +1560,7 @@ function chill() {
   hideOtherChartStuff("chill");
 
   updateTitle("Bend frends");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1573,7 +1573,7 @@ function fled() {
   hideOtherChartStuff("fled");
 
   updateTitle("I'm scary");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1586,7 +1586,7 @@ function attacked() {
   hideOtherChartStuff("attacked");
 
   updateTitle("Zero snakes have attacked me");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1599,7 +1599,7 @@ function onCamera() {
   hideOtherChartStuff("onCamera");
 
   updateTitle("Photographic proof!");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1612,7 +1612,7 @@ function climbing() {
   hideOtherChartStuff("climbing");
 
   updateTitle("Tree snakes zoom up trees");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1625,7 +1625,7 @@ function yard() {
   hideOtherChartStuff("yard");
 
   updateTitle("Too close to home");
-  addSpeciesBlobForces(
+  addPointsOfInterestBlobForces(
     (d) => (d["mating"] === "no mating" ? 0.8 : 1),
     (d) => (d["mating"] === "no mating" ? 0.8 : 1)
   );
@@ -1638,7 +1638,7 @@ function all() {
   hideOtherChartStuff("all");
 
   updateTitle("They're all good snakes, mate");
-  addSpeciesBlobForces(1, 1);
+  addPointsOfInterestBlobForces(1, 1);
   addVisibleSpeciesColors(1);
 
   reheatSimulation();
@@ -1782,7 +1782,7 @@ function accelerate(delay) {
   return easedDelay;
 }
 
-function addSpeciesBlobForces(forceXStrength, forceYStrength) {
+function addPointsOfInterestBlobForces(forceXStrength, forceYStrength) {
   simulation
     .force(
       "forceX",

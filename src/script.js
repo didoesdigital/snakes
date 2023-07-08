@@ -1165,10 +1165,7 @@ function mating() {
   hideOtherChartStuff("mating");
 
   updateTitle("Caught in the act!");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "mating" ? 1 : 0.2));
 
   d3.select(".annotation-stem-one").transition().attr("opacity", 1);
@@ -1193,10 +1190,7 @@ function courting() {
   hideOtherChartStuff("courting");
 
   updateTitle("Separated by a roller door!");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "probably" ? 1 : 0.2));
 
   reheatSimulation();
@@ -1206,10 +1200,7 @@ function birds() {
   hideOtherChartStuff("birds");
 
   updateTitle("Hungry birbs");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
 
   reheatSimulation();
@@ -1219,10 +1210,7 @@ function defensive() {
   hideOtherChartStuff("defensive");
 
   updateTitle("This red belly flattened its neck at me from 3m away");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["watchingMe"] === "flattened" ? 1 : 0.2));
 
   reheatSimulation();
@@ -1232,10 +1220,7 @@ function chill() {
   hideOtherChartStuff("chill");
 
   updateTitle("Bend frends");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (!didChill(d) ? 0.2 : 1));
 
   reheatSimulation();
@@ -1245,10 +1230,7 @@ function fled() {
   hideOtherChartStuff("fled");
 
   updateTitle("I'm scary");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (!didFlee(d) ? 0.2 : 1));
 
   reheatSimulation();
@@ -1258,10 +1240,7 @@ function attacked() {
   hideOtherChartStuff("attacked");
 
   updateTitle("Zero snakes have attacked me");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors(0.2);
 
   reheatSimulation();
@@ -1271,10 +1250,7 @@ function onCamera() {
   hideOtherChartStuff("onCamera");
 
   updateTitle("Photographic proof!");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["onCamera"] === "no" ? 0.2 : 1));
 
   reheatSimulation();
@@ -1284,10 +1260,7 @@ function climbing() {
   hideOtherChartStuff("climbing");
 
   updateTitle("Tree snakes zoom up trees");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["climbing"] === "not climbing" ? 0.2 : 1));
 
   reheatSimulation();
@@ -1297,10 +1270,7 @@ function yard() {
   hideOtherChartStuff("yard");
 
   updateTitle("Too close to home");
-  addPointsOfInterestBlobForces(
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
-    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
-  );
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["room"] === "elsewhere" ? 0.2 : 1));
 
   reheatSimulation();
@@ -1310,7 +1280,7 @@ function all() {
   hideOtherChartStuff("all");
 
   updateTitle("They're all good snakes, mate");
-  addPointsOfInterestBlobForces(1, 1);
+  addPointsOfInterestBlobForces();
   addVisibleSpeciesColors(1);
 
   reheatSimulation();
@@ -1486,7 +1456,7 @@ function addSpeciesBlobForces() {
     .force("collide", null);
 }
 
-function addPointsOfInterestBlobForces(forceXStrength, forceYStrength) {
+function addPointsOfInterestBlobForces() {
   simulation
     .force(
       "forceX",
@@ -1500,7 +1470,7 @@ function addPointsOfInterestBlobForces(forceXStrength, forceYStrength) {
               ) +
             focalPointX
         )
-        .strength(forceXStrength)
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
     )
     .force(
       "forceY",
@@ -1514,7 +1484,7 @@ function addPointsOfInterestBlobForces(forceXStrength, forceYStrength) {
               ) +
             focalPointY
         )
-        .strength(forceYStrength)
+        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
     )
     // .force("charge", null)
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))

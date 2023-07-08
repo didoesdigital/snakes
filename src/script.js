@@ -2185,13 +2185,7 @@ function yard() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) => {
-      return speciesColorScale(d.speciesBestGuess);
-    })
-    .attr("opacity", (d) => (d["room"] === "elsewhere" ? 0.2 : 1));
+  addVisibleSpeciesColors((d) => (d["room"] === "elsewhere" ? 0.2 : 1));
 
   simulation.alpha(0.9).restart();
 }
@@ -2201,7 +2195,7 @@ function all() {
 
   updateTitle("They're all good snakes, mate");
   addSpeciesBlobForces();
-  addVisibleSpeciesColors();
+  addVisibleSpeciesColors(1);
 
   simulation.alpha(0.9).restart();
 }
@@ -2391,14 +2385,14 @@ function updateTitle(title) {
     .style("opacity", 1);
 }
 
-function addVisibleSpeciesColors() {
+function addVisibleSpeciesColors(opacityFnOrNumber) {
   sneks
     .transition()
     .duration(200)
     .attr("fill", (d) => {
       return speciesColorScale(d.speciesBestGuess);
     })
-    .attr("opacity", 1);
+    .attr("opacity", opacityFnOrNumber);
 }
 
 loadData();

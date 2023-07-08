@@ -792,37 +792,7 @@ function species() {
     .text("All species")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    // .force("forceY", d3.forceY(focalPointY));
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
-
+  addSpeciesBlobForces();
   addVisibleSpeciesColors(1);
 
   reheatSimulation();
@@ -840,37 +810,7 @@ function yellowFacedWhipSnake() {
     .text("Yellow-faced whip snakes")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    // .force("forceY", d3.forceY(focalPointY));
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
-
+  addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Yellow-faced whip snake" ? 1 : opacityFade
   );
@@ -889,36 +829,7 @@ function redBelly() {
     .text("Red-bellied black snake")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
-
+  addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Red-bellied black" ? 1 : opacityFade
   );
@@ -937,36 +848,7 @@ function commonTreeSnake() {
     .text("Common tree snake")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
-
+  addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Common tree snake" ? 1 : opacityFade
   );
@@ -985,36 +867,7 @@ function easternSmallEyedSnake() {
     .text("Eastern small-eyed snakes")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
-
+  addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Eastern small-eyed snake" ? 1 : opacityFade
   );
@@ -1033,36 +886,7 @@ function marshSnake() {
     .text("Marsh snake")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
-
+  addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Marsh snake" ? 1 : opacityFade
   );
@@ -1081,36 +905,7 @@ function carpetPython() {
     .text("Carpet python")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
-
+  addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Carpet python" ? 1 : opacityFade
   );
@@ -1129,36 +924,7 @@ function unknownSpecies() {
     .text("unknown")
     .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            speciesRadius *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength(1)
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            speciesRadius *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength(1)
-    )
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    .force("collide", null);
-
+  addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "unknown" ? 1 : opacityFade
   );
@@ -1178,7 +944,6 @@ function keelback() {
     .style("opacity", 1);
 
   addSpeciesBlobForces();
-
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade
   );

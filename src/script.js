@@ -496,7 +496,7 @@ function setupChart() {
         rightAnnotationLabel.distance
       );
 
-    d3.select(".annotation-stem-one")
+    d3.select(".annotation-connector-one")
       .attr(
         "d",
         `M${leftAnnotationLabel.x + annotationPadding} ${
@@ -508,7 +508,7 @@ function setupChart() {
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
 
-    d3.select(".annotation-stem-two")
+    d3.select(".annotation-connector-two")
       .attr(
         "d",
         `M${leftAnnotationLabel.x + annotationPadding} ${
@@ -520,7 +520,7 @@ function setupChart() {
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
 
-    d3.select(".annotation-stem-three")
+    d3.select(".annotation-connector-three")
       .attr(
         "d",
         `M${rightAnnotationLabel.x + annotationPadding} ${
@@ -532,7 +532,7 @@ function setupChart() {
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
 
-    d3.select(".annotation-stem-four")
+    d3.select(".annotation-connector-four")
       .attr(
         "d",
         `M${rightAnnotationLabel.x + annotationPadding} ${
@@ -810,7 +810,7 @@ function setupAxes() {
 
   svg
     .append("path")
-    .attr("class", "annotation-stem-one")
+    .attr("class", "annotation-connector-one")
     .attr("opacity", 0)
     .attr("fill", "none")
     .attr("stroke", "#3C3941")
@@ -818,7 +818,7 @@ function setupAxes() {
 
   svg
     .append("path")
-    .attr("class", "annotation-stem-two")
+    .attr("class", "annotation-connector-two")
     .attr("opacity", 0)
     .attr("fill", "none")
     .attr("stroke", "#3C3941")
@@ -826,7 +826,7 @@ function setupAxes() {
 
   svg
     .append("path")
-    .attr("class", "annotation-stem-three")
+    .attr("class", "annotation-connector-three")
     .attr("opacity", 0)
     .attr("fill", "none")
     .attr("stroke", "#3C3941")
@@ -834,7 +834,7 @@ function setupAxes() {
 
   svg
     .append("path")
-    .attr("class", "annotation-stem-four")
+    .attr("class", "annotation-connector-four")
     .attr("opacity", 0)
     .attr("fill", "none")
     .attr("stroke", "#3C3941")
@@ -1266,8 +1266,8 @@ function mating() {
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "mating" ? 1 : 0.2));
 
-  d3.select(".annotation-stem-one").transition().attr("opacity", 1);
-  d3.select(".annotation-stem-two").transition().attr("opacity", 1);
+  d3.select(".annotation-connector-one").transition().attr("opacity", 1);
+  d3.select(".annotation-connector-two").transition().attr("opacity", 1);
 
   d3.select(".annotation-label")
     .text("Smoochy snakes")
@@ -1290,8 +1290,8 @@ function courting() {
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "probably" ? 1 : 0.2));
 
-  d3.select(".annotation-stem-three").transition().attr("opacity", 1);
-  d3.select(".annotation-stem-four").transition().attr("opacity", 1);
+  d3.select(".annotation-connector-three").transition().attr("opacity", 1);
+  d3.select(".annotation-connector-four").transition().attr("opacity", 1);
 
   d3.select(".annotation-label")
     .text("Looking to snuggle")
@@ -1457,14 +1457,14 @@ function hideOtherChartStuff(stepFunctionName) {
   }
 
   if (stepFunctionName !== "mating") {
-    svg.select(".annotation-stem-one").transition().attr("opacity", 0);
-    svg.select(".annotation-stem-two").transition().attr("opacity", 0);
+    svg.select(".annotation-connector-one").transition().attr("opacity", 0);
+    svg.select(".annotation-connector-two").transition().attr("opacity", 0);
     svg.select(".annotation-label").transition().attr("opacity", 0);
   }
 
   if (stepFunctionName !== "courting") {
-    svg.select(".annotation-stem-three").transition().attr("opacity", 0);
-    svg.select(".annotation-stem-four").transition().attr("opacity", 0);
+    svg.select(".annotation-connector-three").transition().attr("opacity", 0);
+    svg.select(".annotation-connector-four").transition().attr("opacity", 0);
     svg.select(".annotation-label").transition().attr("opacity", 0);
   }
 }

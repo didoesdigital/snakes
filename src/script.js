@@ -2150,7 +2150,7 @@ function yard() {
   );
   addVisibleSpeciesColors((d) => (d["room"] === "elsewhere" ? 0.2 : 1));
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function all() {
@@ -2160,7 +2160,7 @@ function all() {
   addSpeciesBlobForces(1, 1);
   addVisibleSpeciesColors(1);
 
-  simulation.alpha(0.9).restart();
+  reheatSimulation();
 }
 
 function fin() {
@@ -2356,6 +2356,10 @@ function updateTitle(title) {
     .duration(250)
     .text(title)
     .style("opacity", 1);
+}
+
+function reheatSimulation() {
+  simulation.alpha(0.9).restart();
 }
 
 loadData();

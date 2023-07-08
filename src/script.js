@@ -90,6 +90,20 @@ const metricSpeciesProp = "speciesBestGuess";
 const metricVenomProp = "venom";
 const metricVenomAccessor = (d) => d[metricVenomProp];
 
+const watchingMeGroup = (d) => {
+  const watchingMe = d["watchingMe"];
+  if (["staring"].includes(watchingMe)) {
+    return "staring";
+  }
+  if (["probably", "yes", "possibly", "flattened"].includes(watchingMe)) {
+    return "yeah";
+  }
+  if (["unlikely", "oblivious"].includes(watchingMe)) {
+    return "nah";
+  }
+  return "not sure";
+};
+
 const didFlee = (d) => {
   const departure = d["departure"];
   return (
@@ -144,6 +158,7 @@ function handleStepEnter(response) {
     carpetPython,
     unknownSpecies,
     all,
+    staringContest,
     mating,
     courting,
     birds,
@@ -248,6 +263,12 @@ function setupScales() {
         return speciesColors[Math.floor(Math.random() * speciesColors.length)];
     }
   };
+
+  watchingMeScale = d3
+    .scalePoint()
+    .domain(["staring", "yeah", "nah", "not sure"])
+    .range([circleSpacing, dimensions.width - circleSpacing])
+    .padding(0.25);
 
   seasonScale = d3
     .scalePoint()
@@ -485,18 +506,34 @@ function setupAxes() {
     .attr("stroke-opacity", 0.2)
     .lower();
 
+  // Watching me axis
+  const watchingMeAxis = d3.axisBottom(watchingMeScale).tickSize(0);
+  const watchingMeSneksTallCount = 4;
+  svg
+    .append("g")
+    .attr("class", "watching-me-axis")
+    .attr("opacity", 0)
+    .attr(
+      "transform",
+      `translate(0, ${focalPointY + watchingMeSneksTallCount * circleSpacing})`
+    )
+    .call(watchingMeAxis)
+    .call((g) => g.select(".domain").remove())
+    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
+    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
+    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
+    .lower();
+
   // Seasons axis
   const seasonAxis = d3.axisBottom(seasonScale).tickSize(0);
+  const seasonSneksTallCount = 4;
   svg
     .append("g")
     .attr("class", "seasons-axis")
     .attr("opacity", 0)
     .attr(
       "transform",
-      `translate(0, ${
-        focalPointY + 6 * circleSpacing
-        // dimensions.height - dimensions.margin.bottom - 50
-      })`
+      `translate(0, ${focalPointY + seasonSneksTallCount * circleSpacing})`
     )
     .call(seasonAxis)
     .call((g) => g.select(".domain").remove())
@@ -516,16 +553,14 @@ function setupAxes() {
 
   // Venom axis
   const venomAxis = d3.axisBottom(venomScale).tickSize(0);
+  const venomSneksTallCount = 4;
   svg
     .append("g")
     .attr("class", "venom-axis")
     .attr("opacity", 0)
     .attr(
       "transform",
-      `translate(0, ${
-        focalPointY / goldenRatio + 6 * circleSpacing
-        // dimensions.height - dimensions.margin.bottom - 50
-      })`
+      `translate(0, ${focalPointY + venomSneksTallCount * circleSpacing})`
     )
     .call(venomAxis)
     .call((g) => g.select(".domain").remove())
@@ -1216,6 +1251,42 @@ function seasons() {
   simulation.alpha(0.9).restart();
 }
 
+function staringContest() {
+  hideOtherChartStuff("staringContest");
+
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("I won a staring contest with a noodle boi")
+    .style("opacity", 1);
+
+  simulation
+    .force(
+      "forceX",
+      d3.forceX((d) => watchingMeScale(watchingMeGroup(d))).strength(1)
+    )
+    .force("forceY", d3.forceY(focalPointY).strength(0.3))
+    .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .attr("opacity", 1);
+
+  d3.select(".watching-me-axis").transition().attr("opacity", 1);
+  simulation.alpha(0.9).restart();
+}
+
 function venom() {
   hideOtherChartStuff("venom");
 
@@ -1852,6 +1923,10 @@ function hideOtherChartStuff(stepFunctionName) {
 
   if (stepFunctionName !== "seasons") {
     svg.select(".seasons-axis").transition().attr("opacity", 0);
+  }
+
+  if (stepFunctionName !== "watchingMe") {
+    svg.select(".watching-me-axis").transition().attr("opacity", 0);
   }
 
   if (stepFunctionName !== "venom") {

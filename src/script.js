@@ -823,11 +823,7 @@ function species() {
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) => speciesColorScale(d[metricSpeciesProp]))
-    .attr("opacity", 1);
+  addVisibleSpeciesColors(1);
 
   reheatSimulation();
 }
@@ -874,24 +870,10 @@ function yellowFacedWhipSnake() {
     )
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
-  // .force(
-  //   "collide",
-  //   d3.forceCollide((d) =>
-  //     d[metricSpeciesProp] === "Yellow-faced whip snake" ? circleRadius : 0
-  //   )
-  // );
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) =>
-      d[metricSpeciesProp] === "Yellow-faced whip snake"
-        ? speciesColorScale(d[metricSpeciesProp])
-        : "#fff"
-    )
-    .attr("opacity", (d) =>
-      d[metricSpeciesProp] === "Yellow-faced whip snake" ? 1 : opacityFade
-    );
+  addVisibleSpeciesColors((d) =>
+    d[metricSpeciesProp] === "Yellow-faced whip snake" ? 1 : opacityFade
+  );
 
   reheatSimulation();
 }
@@ -936,24 +918,10 @@ function redBelly() {
     )
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
-  // .force(
-  //   "collide",
-  //   d3.forceCollide((d) =>
-  //     d[metricSpeciesProp] === "Red-bellied black" ? circleRadius : 0
-  //   )
-  // );
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) =>
-      d[metricSpeciesProp] === "Red-bellied black"
-        ? speciesColorScale(d[metricSpeciesProp])
-        : "#fff"
-    )
-    .attr("opacity", (d) =>
-      d[metricSpeciesProp] === "Red-bellied black" ? 1 : opacityFade
-    );
+  addVisibleSpeciesColors((d) =>
+    d[metricSpeciesProp] === "Red-bellied black" ? 1 : opacityFade
+  );
 
   reheatSimulation();
 }
@@ -998,24 +966,10 @@ function commonTreeSnake() {
     )
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
-  // .force(
-  //   "collide",
-  //   d3.forceCollide((d) =>
-  //     d[metricSpeciesProp] === "Keelback" ? circleRadius : 0
-  //   )
-  // );
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) =>
-      d[metricSpeciesProp] === "Common tree snake"
-        ? speciesColorScale(d[metricSpeciesProp])
-        : "#fff"
-    )
-    .attr("opacity", (d) =>
-      d[metricSpeciesProp] === "Common tree snake" ? 1 : opacityFade
-    );
+  addVisibleSpeciesColors((d) =>
+    d[metricSpeciesProp] === "Common tree snake" ? 1 : opacityFade
+  );
 
   reheatSimulation();
 }
@@ -1060,24 +1014,10 @@ function easternSmallEyedSnake() {
     )
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
-  // .force(
-  //   "collide",
-  //   d3.forceCollide((d) =>
-  //     d[metricSpeciesProp] === "Eastern small-eyed snakes" ? circleRadius : 0
-  //   )
-  // );
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) =>
-      d[metricSpeciesProp] === "Eastern small-eyed snake"
-        ? speciesColorScale(d[metricSpeciesProp])
-        : "#fff"
-    )
-    .attr("opacity", (d) =>
-      d[metricSpeciesProp] === "Eastern small-eyed snake" ? 1 : opacityFade
-    );
+  addVisibleSpeciesColors((d) =>
+    d[metricSpeciesProp] === "Eastern small-eyed snake" ? 1 : opacityFade
+  );
 
   reheatSimulation();
 }
@@ -1122,24 +1062,10 @@ function marshSnake() {
     )
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
-  // .force(
-  //   "collide",
-  //   d3.forceCollide((d) =>
-  //     d[metricSpeciesProp] === "Marsh snake" ? circleRadius : 0
-  //   )
-  // );
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) =>
-      d[metricSpeciesProp] === "Marsh snake"
-        ? speciesColorScale(d[metricSpeciesProp])
-        : "#fff"
-    )
-    .attr("opacity", (d) =>
-      d[metricSpeciesProp] === "Marsh snake" ? 1 : opacityFade
-    );
+  addVisibleSpeciesColors((d) =>
+    d[metricSpeciesProp] === "Marsh snake" ? 1 : opacityFade
+  );
 
   reheatSimulation();
 }
@@ -1184,24 +1110,10 @@ function carpetPython() {
     )
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
-  // .force(
-  //   "collide",
-  //   d3.forceCollide((d) =>
-  //     d[metricSpeciesProp] === "Carpet python" ? circleRadius : 0
-  //   )
-  // );
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) =>
-      d[metricSpeciesProp] === "Carpet python"
-        ? speciesColorScale(d[metricSpeciesProp])
-        : "#fff"
-    )
-    .attr("opacity", (d) =>
-      d[metricSpeciesProp] === "Carpet python" ? 1 : opacityFade
-    );
+  addVisibleSpeciesColors((d) =>
+    d[metricSpeciesProp] === "Carpet python" ? 1 : opacityFade
+  );
 
   reheatSimulation();
 }
@@ -1246,24 +1158,10 @@ function unknownSpecies() {
     )
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
-  // .force(
-  //   "collide",
-  //   d3.forceCollide((d) =>
-  //     d[metricSpeciesProp] === "unknown" ? circleRadius : 0
-  //   )
-  // );
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) =>
-      d[metricSpeciesProp] === "unknown"
-        ? speciesColorScale(d[metricSpeciesProp])
-        : "#fff"
-    )
-    .attr("opacity", (d) =>
-      d[metricSpeciesProp] === "unknown" ? 1 : opacityFade
-    );
+  addVisibleSpeciesColors((d) =>
+    d[metricSpeciesProp] === "unknown" ? 1 : opacityFade
+  );
 
   reheatSimulation();
 }
@@ -1308,24 +1206,10 @@ function keelback() {
     )
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null);
-  // .force(
-  //   "collide",
-  //   d3.forceCollide((d) =>
-  //     d[metricSpeciesProp] === "Keelback" ? circleRadius : 0
-  //   )
-  // );
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) =>
-      d[metricSpeciesProp] === "Keelback"
-        ? speciesColorScale(d[metricSpeciesProp])
-        : "#fff"
-    )
-    .attr("opacity", (d) =>
-      d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade
-    );
+  addVisibleSpeciesColors((d) =>
+    d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade
+  );
 
   reheatSimulation();
 }

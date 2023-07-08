@@ -2142,49 +2142,12 @@ function climbing() {
 
 function yard() {
   hideOtherChartStuff("yard");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Too close to home")
-    .style("opacity", 1);
 
-  simulation
-    .force(
-      "forceX",
-      d3
-        .forceX(
-          (d) =>
-            circleRadius *
-              1.25 *
-              Math.sin(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointX
-        )
-        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY(
-          (d) =>
-            circleRadius *
-              1.25 *
-              Math.cos(
-                speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
-              ) +
-            focalPointY
-        )
-        .strength((d) => (d["mating"] === "no mating" ? 0.8 : 1))
-    )
-    // .force("charge", null)
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    // .force("collide", null);
-    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
-
+  updateTitle("Too close to home");
+  addSpeciesBlobForces(
+    (d) => (d["mating"] === "no mating" ? 0.8 : 1),
+    (d) => (d["mating"] === "no mating" ? 0.8 : 1)
+  );
   addVisibleSpeciesColors((d) => (d["room"] === "elsewhere" ? 0.2 : 1));
 
   simulation.alpha(0.9).restart();
@@ -2194,7 +2157,7 @@ function all() {
   hideOtherChartStuff("all");
 
   updateTitle("They're all good snakes, mate");
-  addSpeciesBlobForces();
+  addSpeciesBlobForces(1, 1);
   addVisibleSpeciesColors(1);
 
   simulation.alpha(0.9).restart();
@@ -2338,7 +2301,7 @@ function accelerate(delay) {
   return easedDelay;
 }
 
-function addSpeciesBlobForces() {
+function addSpeciesBlobForces(forceXStrength, forceYStrength) {
   simulation
     .force(
       "forceX",
@@ -2352,7 +2315,7 @@ function addSpeciesBlobForces() {
               ) +
             focalPointX
         )
-        .strength(1)
+        .strength(forceXStrength)
     )
     .force(
       "forceY",
@@ -2366,7 +2329,7 @@ function addSpeciesBlobForces() {
               ) +
             focalPointY
         )
-        .strength(1)
+        .strength(forceYStrength)
     )
     // .force("charge", null)
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))

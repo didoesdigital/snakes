@@ -66,10 +66,16 @@ const boundingMinY = circleRadius;
 const boundingMaxY = dimensions.height - circleRadius;
 
 const leftAnnotationLabel = {
-  x: 60,
-  y: 120,
+  x: 80,
+  y: 100,
   distance: -30,
 };
+const rightAnnotationLabel = {
+  x: 240,
+  y: 100,
+  distance: -30,
+};
+const annotationPadding = 3;
 
 let sneks = null;
 let nodes = null;
@@ -438,11 +444,11 @@ function setupChart() {
 
     const matingSnakeOneTarget = {
       x: matingSnakeOne.x - circleRadius,
-      y: matingSnakeOne.y - circleRadius * 1.5,
+      y: matingSnakeOne.y - circleRadius * 1.75,
     };
     const matingSnakeTwoTarget = {
       x: matingSnakeTwo.x - circleRadius,
-      y: matingSnakeTwo.y - circleRadius * 1.5,
+      y: matingSnakeTwo.y - circleRadius * 1.75,
     };
 
     const [matingSnakeOneControlPointX, matingSnakeOneControlPointY] =
@@ -463,19 +469,78 @@ function setupChart() {
         leftAnnotationLabel.distance
       );
 
+    const courtingSnakeOneTarget = {
+      x: courtingSnakeOne.x + circleRadius * 1.25,
+      y: courtingSnakeOne.y - circleRadius * 1.25,
+    };
+    const courtingSnakeTwoTarget = {
+      x: courtingSnakeTwo.x + circleRadius * 1.25,
+      y: courtingSnakeTwo.y - circleRadius * 1.25,
+    };
+
+    const [courtingSnakeOneControlPointX, courtingSnakeOneControlPointY] =
+      getQuadraticBezierCurveControlPoint(
+        rightAnnotationLabel.x,
+        rightAnnotationLabel.y,
+        courtingSnakeOneTarget.x,
+        courtingSnakeOneTarget.y,
+        rightAnnotationLabel.distance
+      );
+
+    const [courtingSnakeTwoControlPointX, courtingSnakeTwoControlPointY] =
+      getQuadraticBezierCurveControlPoint(
+        rightAnnotationLabel.x,
+        rightAnnotationLabel.y,
+        courtingSnakeTwoTarget.x,
+        courtingSnakeTwoTarget.y,
+        rightAnnotationLabel.distance
+      );
+
     d3.select(".annotation-stem-one")
       .attr(
         "d",
-        `M60 125
-        Q${matingSnakeOneControlPointX},${matingSnakeOneControlPointY} ${matingSnakeOneTarget.x},${matingSnakeOneTarget.y}`
+        `M${leftAnnotationLabel.x + annotationPadding} ${
+          leftAnnotationLabel.y + annotationPadding
+        }
+        Q${matingSnakeOneControlPointX},${matingSnakeOneControlPointY} ${
+          matingSnakeOneTarget.x
+        },${matingSnakeOneTarget.y}`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
 
     d3.select(".annotation-stem-two")
       .attr(
         "d",
-        `M60 125
-        Q${matingSnakeTwoControlPointX},${matingSnakeTwoControlPointY} ${matingSnakeTwoTarget.x},${matingSnakeTwoTarget.y}`
+        `M${leftAnnotationLabel.x + annotationPadding} ${
+          leftAnnotationLabel.y + annotationPadding
+        }
+        Q${matingSnakeTwoControlPointX},${matingSnakeTwoControlPointY} ${
+          matingSnakeTwoTarget.x
+        },${matingSnakeTwoTarget.y}`
+      )
+      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+
+    d3.select(".annotation-stem-three")
+      .attr(
+        "d",
+        `M${rightAnnotationLabel.x + annotationPadding} ${
+          rightAnnotationLabel.y + annotationPadding
+        }
+        Q${courtingSnakeOneControlPointX},${courtingSnakeOneControlPointY} ${
+          courtingSnakeOneTarget.x
+        },${courtingSnakeOneTarget.y}`
+      )
+      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+
+    d3.select(".annotation-stem-four")
+      .attr(
+        "d",
+        `M${rightAnnotationLabel.x + annotationPadding} ${
+          rightAnnotationLabel.y + annotationPadding
+        }
+        Q${courtingSnakeTwoControlPointX},${courtingSnakeTwoControlPointY} ${
+          courtingSnakeTwoTarget.x
+        },${courtingSnakeTwoTarget.y}`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
   });
@@ -754,6 +819,22 @@ function setupAxes() {
   svg
     .append("path")
     .attr("class", "annotation-stem-two")
+    .attr("opacity", 0)
+    .attr("fill", "none")
+    .attr("stroke", "#3C3941")
+    .attr("stroke-width", 2);
+
+  svg
+    .append("path")
+    .attr("class", "annotation-stem-three")
+    .attr("opacity", 0)
+    .attr("fill", "none")
+    .attr("stroke", "#3C3941")
+    .attr("stroke-width", 2);
+
+  svg
+    .append("path")
+    .attr("class", "annotation-stem-four")
     .attr("opacity", 0)
     .attr("fill", "none")
     .attr("stroke", "#3C3941")
@@ -1186,13 +1267,12 @@ function mating() {
   addVisibleSpeciesColors((d) => (d["mating"] === "mating" ? 1 : 0.2));
 
   d3.select(".annotation-stem-one").transition().attr("opacity", 1);
-
   d3.select(".annotation-stem-two").transition().attr("opacity", 1);
 
   d3.select(".annotation-label")
     .text("Smoochy snakes")
-    .attr("x", 60)
-    .attr("y", 120)
+    .attr("x", leftAnnotationLabel.x)
+    .attr("y", leftAnnotationLabel.y)
     .attr("text-anchor", "middle")
     .style("font-family", chartTextFamily)
     .style("font-size", chartTextSize)
@@ -1209,6 +1289,20 @@ function courting() {
   updateTitle("Separated by a roller door!");
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "probably" ? 1 : 0.2));
+
+  d3.select(".annotation-stem-three").transition().attr("opacity", 1);
+  d3.select(".annotation-stem-four").transition().attr("opacity", 1);
+
+  d3.select(".annotation-label")
+    .text("Looking to snuggle")
+    .attr("x", rightAnnotationLabel.x)
+    .attr("y", rightAnnotationLabel.y)
+    .attr("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .attr("opacity", 1)
+    .transition();
 
   reheatSimulation();
 }
@@ -1365,6 +1459,12 @@ function hideOtherChartStuff(stepFunctionName) {
   if (stepFunctionName !== "mating") {
     svg.select(".annotation-stem-one").transition().attr("opacity", 0);
     svg.select(".annotation-stem-two").transition().attr("opacity", 0);
+    svg.select(".annotation-label").transition().attr("opacity", 0);
+  }
+
+  if (stepFunctionName !== "courting") {
+    svg.select(".annotation-stem-three").transition().attr("opacity", 0);
+    svg.select(".annotation-stem-four").transition().attr("opacity", 0);
     svg.select(".annotation-label").transition().attr("opacity", 0);
   }
 }

@@ -1132,12 +1132,7 @@ function temperatureStripPlot() {
   sneks
     .transition()
     .duration(200)
-    .attr(
-      "fill",
-      (d) =>
-        console.log(temperatureColorScale(d[metricTempProp])) ||
-        temperatureColorScale(d[metricTempProp])
-    )
+    .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
     .attr("opacity", 1);
 
   d3.select(".strip-plot-x").transition().attr("opacity", 1);

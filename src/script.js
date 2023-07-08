@@ -424,42 +424,55 @@ function setupChart() {
     );
 
     const matingSnakes = sightingsData.filter((d) => d["mating"] === "mating");
-    const matingSnakeOne = matingSnakes.slice(0, 1)[0];
-    const matingSnakeTwo = matingSnakes.slice(1, 2)[0];
+    const matingSnakeOne = matingSnakes[0];
+    const matingSnakeTwo = matingSnakes[1];
 
-    const startX = 60,
-      startY = 120,
-      endX = matingSnakeOne.x - circleRadius,
-      endY = matingSnakeOne.y - circleRadius * 1.5,
-      centrePointX = (startX + endX) / 2,
-      centrePointY = (startY + endY) / 2,
-      angle = Math.atan2(endY - startY, endX - startX),
-      dist = -30;
-    const arcControlPointX = -Math.sin(angle) * dist + centrePointX;
-    const arcControlPointY = Math.cos(angle) * dist + centrePointY;
+    const leftAnnotationLabel = {
+      x: 60,
+      y: 120,
+      distance: -30,
+    };
 
-    const startX2 = 60,
-      startY2 = 120,
-      endX2 = matingSnakeTwo.x - circleRadius,
-      endY2 = matingSnakeTwo.y - circleRadius * 1.5,
-      centrePointX2 = (startX2 + endX2) / 2,
-      centrePointY2 = (startY2 + endY2) / 2,
-      angle2 = Math.atan2(endY2 - startY2, endX2 - startX2),
-      dist2 = -30;
-    const arcControlPointX2 = -Math.sin(angle2) * dist2 + centrePointX2;
-    const arcControlPointY2 = Math.cos(angle2) * dist2 + centrePointY2;
+    const matingSnakeOneTarget = {
+      x: matingSnakeOne.x - circleRadius,
+      y: matingSnakeOne.y - circleRadius * 1.5,
+    };
+    const matingSnakeTwoTarget = {
+      x: matingSnakeTwo.x - circleRadius,
+      y: matingSnakeTwo.y - circleRadius * 1.5,
+    };
+
+    const [matingSnakeOneControlPointX, matingSnakeOneControlPointY] =
+      getQuadraticBezierCurveControlPoint(
+        leftAnnotationLabel.x,
+        leftAnnotationLabel.y,
+        matingSnakeOneTarget.x,
+        matingSnakeOneTarget.y,
+        leftAnnotationLabel.distance
+      );
+
+    const [matingSnakeTwoControlPointX, matingSnakeTwoControlPointY] =
+      getQuadraticBezierCurveControlPoint(
+        leftAnnotationLabel.x,
+        leftAnnotationLabel.y,
+        matingSnakeTwoTarget.x,
+        matingSnakeTwoTarget.y,
+        leftAnnotationLabel.distance
+      );
 
     d3.select(".annotation-stem-one")
       .attr(
         "d",
-        `M60 125Q${arcControlPointX},${arcControlPointY} ${endX},${endY}`
+        `M60 125
+        Q${matingSnakeOneControlPointX},${matingSnakeOneControlPointY} ${matingSnakeOneTarget.x},${matingSnakeOneTarget.y}`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
 
     d3.select(".annotation-stem-two")
       .attr(
         "d",
-        `M60 125Q${arcControlPointX2},${arcControlPointY2} ${endX2},${endY2}`
+        `M60 125
+        Q${matingSnakeTwoControlPointX},${matingSnakeTwoControlPointY} ${matingSnakeTwoTarget.x},${matingSnakeTwoTarget.y}`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
 
@@ -1422,6 +1435,21 @@ function accelerate(delay) {
   const customEaseOut = 1 - Math.pow(1 - delayDecimal, 6);
   const easedDelay = customEaseOut * max;
   return easedDelay;
+}
+
+function getQuadraticBezierCurveControlPoint(
+  startX,
+  startY,
+  endX,
+  endY,
+  distance
+) {
+  const midPointX = (startX + endX) / 2;
+  const midPointY = (startY + endY) / 2;
+  const angle = Math.atan2(endY - startY, endX - startX);
+  const controlPointX = -Math.sin(angle) * distance + midPointX;
+  const controlPointY = Math.cos(angle) * distance + midPointY;
+  return [controlPointX, controlPointY];
 }
 
 function addSpeciesBlobForces() {

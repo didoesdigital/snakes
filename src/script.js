@@ -1527,13 +1527,7 @@ function seasons() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) => {
-      return speciesColorScale(d.speciesBestGuess);
-    })
-    .attr("opacity", 1);
+  addVisibleSpeciesColors(1);
 
   d3.select(".seasons-axis").transition().attr("opacity", 1);
   reheatSimulation();
@@ -1562,13 +1556,7 @@ function staringContest() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) => {
-      return speciesColorScale(d.speciesBestGuess);
-    })
-    .attr("opacity", 1);
+  addVisibleSpeciesColors(1);
 
   d3.select(".watching-me-axis").transition().attr("opacity", 1);
   reheatSimulation();
@@ -1609,13 +1597,9 @@ function venom() {
     // .force("collide", null);
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) => {
-      return speciesColorScale(d.speciesBestGuess);
-    })
-    .attr("opacity", (d) => (metricVenomAccessor(d) === "unknown" ? 0.2 : 1));
+  addVisibleSpeciesColors((d) =>
+    metricVenomAccessor(d) === "unknown" ? 0.2 : 1
+  );
 
   d3.select(".venom-axis").transition().attr("opacity", 1);
   reheatSimulation();

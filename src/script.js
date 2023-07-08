@@ -1352,7 +1352,7 @@ function timeOfDayStripPlot() {
     .style("opacity", 0)
     .transition()
     .duration(250)
-    .text("Time of day?")
+    .text("I see Keelbacks only at dusk")
     .style("opacity", 1);
 
   simulation.force("forceX", null).force("forceY", null).force("charge", null);
@@ -1398,7 +1398,9 @@ function weatherStripPlot() {
     .style("opacity", 0)
     .transition()
     .duration(250)
-    .text("Rail, hail, or shine, there be nope ropes")
+    .text("Nope ropes in all weather")
+    // .text("Nope ropes, rain, hail, or shine")
+    // .text("Rain, hail, or shine, there be nope ropes")
     .style("opacity", 1);
 
   simulation.force("forceX", null).force("forceY", null).force("charge", null);

@@ -65,9 +65,20 @@ const boundingMaxX = dimensions.width - circleRadius;
 const boundingMinY = circleRadius;
 const boundingMaxY = dimensions.height - circleRadius;
 
+const leftAnnotationLabel = {
+  x: 60,
+  y: 120,
+  distance: -30,
+};
+
 let sneks = null;
 let nodes = null;
 let sightingsData = null;
+
+let matingSnakeOne = null;
+let matingSnakeTwo = null;
+let courtingSnakeOne = null;
+let courtingSnakeTwo = null;
 
 let speciesAngleScale = null;
 let speciesColorScale = null;
@@ -96,6 +107,8 @@ const metricDateAccessor = (d) => d[metricDateProp];
 const metricSpeciesProp = "speciesBestGuess";
 const metricVenomProp = "venom";
 const metricVenomAccessor = (d) => d[metricVenomProp];
+const metricMatingProp = "mating";
+const metricMatingAccessor = (d) => d[metricMatingProp];
 
 const weatherGroup = (d) => {
   const weather = d[metricWeatherProp];
@@ -423,16 +436,6 @@ function setupChart() {
       (d) => `translate(${d.x - circleRadius}, ${d.y - circleRadius})`
     );
 
-    const matingSnakes = sightingsData.filter((d) => d["mating"] === "mating");
-    const matingSnakeOne = matingSnakes[0];
-    const matingSnakeTwo = matingSnakes[1];
-
-    const leftAnnotationLabel = {
-      x: 60,
-      y: 120,
-      distance: -30,
-    };
-
     const matingSnakeOneTarget = {
       x: matingSnakeOne.x - circleRadius,
       y: matingSnakeOne.y - circleRadius * 1.5,
@@ -475,19 +478,6 @@ function setupChart() {
         Q${matingSnakeTwoControlPointX},${matingSnakeTwoControlPointY} ${matingSnakeTwoTarget.x},${matingSnakeTwoTarget.y}`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
-
-    // d3.select(".annotation-stem-one").attr(
-    //   "d",
-    //   `M60 125L${matingSnakeOne.x - circleRadius},${
-    //     matingSnakeOne.y - circleRadius
-    //   }`
-    // );
-    // d3.select(".annotation-stem-two").attr(
-    //   "d",
-    //   `M60 125L${matingSnakeTwo.x - circleRadius},${
-    //     matingSnakeTwo.y - circleRadius
-    //   }`
-    // );
   });
 
   simulation.stop();
@@ -791,6 +781,20 @@ function setupAxes() {
     .append("path")
     .attr("fill", "#000")
     .attr("d", "M0,-5L10,0L0,5");
+}
+
+function setupPointsOfInterestDataPoints() {
+  const matingSnakes = sightingsData.filter(
+    (d) => d[metricMatingProp] === "mating"
+  );
+  matingSnakeOne = matingSnakes[0];
+  matingSnakeTwo = matingSnakes[1];
+
+  const courtingSnakes = sightingsData.filter(
+    (d) => d[metricMatingProp] === "probably"
+  );
+  courtingSnakeOne = courtingSnakes[0];
+  courtingSnakeTwo = courtingSnakes[1];
 }
 
 function species() {
@@ -1389,6 +1393,7 @@ function init() {
   setupScales();
   setupChart();
   setupAxes();
+  setupPointsOfInterestDataPoints();
 
   // 1. force a resize on load to ensure proper dimensions are sent to scrollama
   handleResize();

@@ -2285,7 +2285,9 @@ function all() {
 
 function fin() {
   hideOtherChartStuff("fin");
-  chartTitle.text("All snakes, all the time");
+  chartTitle.text("");
+  chartTitle.attr("opacity", 0);
+  sneks.transition().duration(200).attr("opacity", 0);
 }
 
 function hideOtherChartStuff(stepFunctionName) {

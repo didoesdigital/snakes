@@ -2374,6 +2374,16 @@ function addSpeciesBlobForces() {
     .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 }
 
+function addVisibleSpeciesColors(opacityFnOrNumber) {
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .attr("opacity", opacityFnOrNumber);
+}
+
 function updateTitle(title) {
   chartTitle
     .transition()
@@ -2383,16 +2393,6 @@ function updateTitle(title) {
     .duration(250)
     .text(title)
     .style("opacity", 1);
-}
-
-function addVisibleSpeciesColors(opacityFnOrNumber) {
-  sneks
-    .transition()
-    .duration(200)
-    .attr("fill", (d) => {
-      return speciesColorScale(d.speciesBestGuess);
-    })
-    .attr("opacity", opacityFnOrNumber);
 }
 
 loadData();

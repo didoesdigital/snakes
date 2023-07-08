@@ -33,7 +33,7 @@ const hideOffscreen = 80;
 const goldenRatio = 1.618;
 const focalPointX = width / 2;
 const focalPointY = height / goldenRatio / goldenRatio;
-const opacityFade = 0; // 0.2;
+const opacityFade = 0.2;
 
 const speciesRadius = 50;
 const speciesColors = [

@@ -1849,6 +1849,9 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".strip-plot-x").transition().attr("opacity", 0);
     svg.select(".strip-plot-y").transition().attr("opacity", 0);
     svg.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
+  }
+
+  if (stepFunctionName !== "timeline") {
     svg.select(".timeline-y-axis").transition().attr("opacity", 0);
   }
 

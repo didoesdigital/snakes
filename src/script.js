@@ -77,11 +77,19 @@ let speciesBandScale = null;
 let temperatureScale = null;
 let temperatureColorScale = null;
 
+let timeOfDayScale = null;
+
+let weatherScale = null;
+
 let timeScale = null;
 let timeDelayScale = null;
 let seasonScale = null;
 const delay = 100;
 
+const metricTimeOfDayProp = "timeOfDay";
+const metricTimeOfDayAccessor = (d) => d[metricTimeOfDayProp];
+const metricWeatherProp = "weather";
+const metricWeatherAccessor = (d) => d[metricWeatherProp];
 const metricTempProp = "temp";
 const metricTempAccessor = (d) => d[metricTempProp];
 const metricDateProp = "date";
@@ -89,6 +97,29 @@ const metricDateAccessor = (d) => d[metricDateProp];
 const metricSpeciesProp = "speciesBestGuess";
 const metricVenomProp = "venom";
 const metricVenomAccessor = (d) => d[metricVenomProp];
+
+const weatherGroup = (d) => {
+  const weather = d[metricWeatherProp];
+  if (
+    [
+      "cloudy",
+      "cloudy",
+      "partly cloudy",
+      "overcast",
+      "cloudy,spitting",
+      "cloudy,sunny",
+      "muggy",
+      "cloudy,humid",
+    ].includes(weather)
+  ) {
+    return "cloudy";
+  }
+  if (["sunny", "clear"].includes(weather)) {
+    return "clear";
+  }
+
+  return "unknown";
+};
 
 const watchingMeGroup = (d) => {
   const watchingMe = d["watchingMe"];
@@ -170,6 +201,8 @@ function handleStepEnter(response) {
     chill,
     defensive,
     temperatureStripPlot,
+    weatherStripPlot,
+    timeOfDayStripPlot,
     venom,
     timeline,
     species,
@@ -305,6 +338,42 @@ function setupScales() {
       dimensions.margin.left,
       dimensions.width - dimensions.margin.right,
     ]);
+
+  const timesOfDay = [
+    "morning",
+    "mid morning",
+    "late morning",
+    "midday",
+    "early afternoon",
+    "afternoon",
+    "mid afternoon",
+    "late afternoon",
+    "dusk",
+    "early evening",
+    "evening",
+  ];
+
+  timeOfDayScale = d3
+    .scalePoint()
+    .domain(timesOfDay)
+    .range([
+      dimensions.margin.left,
+      dimensions.width - dimensions.margin.right,
+    ]);
+
+  weatherScale = d3
+    .scalePoint()
+    .domain(["clear", "cloudy", "unknown"])
+    .range([
+      dimensions.margin.left + circleSpacing,
+      dimensions.width - dimensions.margin.right - circleSpacing,
+    ]);
+
+  weatherColorScale = d3
+    .scaleOrdinal()
+    .domain(["clear", "cloudy"])
+    .range(["#ECB255", "#ADCFF5"])
+    .unknown("#E2E0E5");
 
   temperatureColorScale = d3
     .scaleSequential()
@@ -467,11 +536,64 @@ function setupChart() {
 }
 
 function setupAxes() {
+  let weatherStripPlotXAxis = d3.axisBottom(weatherScale).tickSize(0).ticks(6);
+  // X-Axis labels:
+  svg
+    .append("g")
+    .attr("class", "strip-plot-x-weather")
+    .attr("opacity", 0)
+    .attr(
+      "transform",
+      `translate(0, ${dimensions.height - dimensions.margin.bottom})`
+    )
+    .call(weatherStripPlotXAxis)
+    .call((g) => g.select(".domain").remove())
+    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
+    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
+    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
+    .call(
+      (g) =>
+        g
+          .selectAll("text")
+          .attr("opacity", (d) =>
+            ["clear", "cloudy", "unknown"].includes(d) ? 1 : 0
+          )
+      // .attr("opacity", (d) => (["sunny", "cloudy"].includes(d) ? 1 : 0))
+    )
+    .lower();
+
+  let timeOfDayStripPlotXAxis = d3
+    .axisBottom(timeOfDayScale)
+    .tickSize(0)
+    .ticks(6);
+  // X-Axis labels:
+  svg
+    .append("g")
+    .attr("class", "strip-plot-x-time-of-day")
+    .attr("opacity", 0)
+    .attr(
+      "transform",
+      `translate(0, ${dimensions.height - dimensions.margin.bottom})`
+    )
+    .call(timeOfDayStripPlotXAxis)
+    .call((g) => g.select(".domain").remove())
+    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
+    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
+    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
+    .call((g) =>
+      g
+        .selectAll("text")
+        .attr("opacity", (d) =>
+          ["morning", "afternoon", "evening"].includes(d) ? 1 : 0
+        )
+    )
+    .lower();
+
   let tempStripPlotXAxis = d3.axisBottom(temperatureScale).tickSize(0).ticks(6);
   // X-Axis labels:
   svg
     .append("g")
-    .attr("class", "strip-plot-x")
+    .attr("class", "strip-plot-x-temperature")
     .attr("opacity", 0)
     .attr(
       "transform",
@@ -1222,6 +1344,97 @@ function keelback() {
 
   simulation.alpha(0.9).restart();
 }
+function timeOfDayStripPlot() {
+  hideOtherChartStuff("timeOfDayStripPlot");
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Time of day?")
+    .style("opacity", 1);
+
+  simulation.force("forceX", null).force("forceY", null).force("charge", null);
+  // .force("collide", null);
+
+  const jitter = (i) => {
+    return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
+  };
+
+  simulation
+    .force(
+      "forceX",
+      d3.forceX((d) => timeOfDayScale(d[metricTimeOfDayProp])).strength(0.9)
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY((d, i) => speciesBandScale(d[metricSpeciesProp]) + jitter(i))
+        .strength(0.9)
+    )
+    // .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
+    .force("collide", d3.forceCollide(circleRadius).strength(1));
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
+    .attr("opacity", 1);
+
+  d3.select(".strip-plot-x-time-of-day").transition().attr("opacity", 1);
+  d3.select(".strip-plot-y").transition().attr("opacity", 1);
+  d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
+  simulation.alpha(0.9).restart();
+}
+
+function weatherStripPlot() {
+  hideOtherChartStuff("weatherStripPlot");
+  chartTitle
+    .transition()
+    .duration(250)
+    .style("opacity", 0)
+    .transition()
+    .duration(250)
+    .text("Rail, hail, or shine, there be nope ropes")
+    .style("opacity", 1);
+
+  simulation.force("forceX", null).force("forceY", null).force("charge", null);
+  // .force("collide", null);
+
+  const jitter = (i) => {
+    return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
+  };
+
+  simulation
+    .force(
+      "forceX",
+      d3.forceX((d) => weatherScale(weatherGroup(d))).strength(0.9)
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY((d, i) => speciesBandScale(d[metricSpeciesProp]) + jitter(i))
+        .strength(0.9)
+    )
+    // .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
+    .force("collide", d3.forceCollide(circleRadius).strength(1));
+
+  // circles
+  sneks
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => weatherColorScale(weatherGroup(d)))
+    .attr("opacity", 1);
+
+  d3.select(".strip-plot-x-weather").transition().attr("opacity", 1);
+  d3.select(".strip-plot-y").transition().attr("opacity", 1);
+  d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
+  simulation.alpha(0.9).restart();
+}
 
 function temperatureStripPlot() {
   hideOtherChartStuff("temperatureStripPlot");
@@ -1263,7 +1476,7 @@ function temperatureStripPlot() {
     .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
     .attr("opacity", 1);
 
-  d3.select(".strip-plot-x").transition().attr("opacity", 1);
+  d3.select(".strip-plot-x-temperature").transition().attr("opacity", 1);
   d3.select(".strip-plot-y").transition().attr("opacity", 1);
   d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
   simulation.alpha(0.9).restart();
@@ -2076,10 +2289,27 @@ function fin() {
 }
 
 function hideOtherChartStuff(stepFunctionName) {
-  if (stepFunctionName !== "temperatureStripPlot") {
-    svg.select(".strip-plot-x").transition().attr("opacity", 0);
+  if (
+    ![
+      "temperatureStripPlot",
+      "timeOfDayStripPlot",
+      "weatherStripPlot",
+    ].includes(stepFunctionName)
+  ) {
     svg.select(".strip-plot-y").transition().attr("opacity", 0);
     svg.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
+  }
+
+  if (stepFunctionName !== "temperatureStripPlot") {
+    svg.select(".strip-plot-x-temperature").transition().attr("opacity", 0);
+  }
+
+  if (stepFunctionName !== "weatherStripPlot") {
+    svg.select(".strip-plot-x-weather").transition().attr("opacity", 0);
+  }
+
+  if (stepFunctionName !== "timeOfDayStripPlot") {
+    svg.select(".strip-plot-x-time-of-day").transition().attr("opacity", 0);
   }
 
   if (stepFunctionName !== "timeline") {

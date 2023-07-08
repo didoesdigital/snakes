@@ -1693,7 +1693,7 @@ function mating() {
 }
 
 function courting() {
-  hideOtherChartStuff("Mating");
+  hideOtherChartStuff("courting");
 
   updateTitle("Separated by a roller door!");
   addSpeciesBlobForces(

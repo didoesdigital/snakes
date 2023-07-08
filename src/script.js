@@ -783,15 +783,7 @@ function setupAxes() {
 function species() {
   hideOtherChartStuff("species");
 
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("All species")
-    .style("opacity", 1);
-
+  updateTitle("All species");
   addSpeciesBlobForces();
   addVisibleSpeciesColors(1);
 
@@ -801,15 +793,7 @@ function species() {
 function yellowFacedWhipSnake() {
   hideOtherChartStuff("yellowFacedWhipSnake");
 
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Yellow-faced whip snakes")
-    .style("opacity", 1);
-
+  updateTitle("Yellow-faced whip snakes");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Yellow-faced whip snake" ? 1 : opacityFade
@@ -820,15 +804,8 @@ function yellowFacedWhipSnake() {
 
 function redBelly() {
   hideOtherChartStuff("redBelly");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Red-bellied black snake")
-    .style("opacity", 1);
 
+  updateTitle("Red-bellied black snake");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Red-bellied black" ? 1 : opacityFade
@@ -839,15 +816,8 @@ function redBelly() {
 
 function commonTreeSnake() {
   hideOtherChartStuff("commonTreeSnake");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Common tree snake")
-    .style("opacity", 1);
 
+  updateTitle("Common tree snake");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Common tree snake" ? 1 : opacityFade
@@ -858,15 +828,8 @@ function commonTreeSnake() {
 
 function easternSmallEyedSnake() {
   hideOtherChartStuff("easternSmallEyedSnake");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Eastern small-eyed snakes")
-    .style("opacity", 1);
 
+  updateTitle("Eastern small-eyed snakes");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Eastern small-eyed snake" ? 1 : opacityFade
@@ -877,15 +840,8 @@ function easternSmallEyedSnake() {
 
 function marshSnake() {
   hideOtherChartStuff("marshSnake");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Marsh snake")
-    .style("opacity", 1);
 
+  updateTitle("Marsh snake");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Marsh snake" ? 1 : opacityFade
@@ -896,15 +852,8 @@ function marshSnake() {
 
 function carpetPython() {
   hideOtherChartStuff("carpetPython");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Carpet python")
-    .style("opacity", 1);
 
+  updateTitle("Carpet python");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Carpet python" ? 1 : opacityFade
@@ -915,15 +864,8 @@ function carpetPython() {
 
 function unknownSpecies() {
   hideOtherChartStuff("unknownSpecies");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("unknown")
-    .style("opacity", 1);
 
+  updateTitle("unknown");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "unknown" ? 1 : opacityFade
@@ -934,15 +876,8 @@ function unknownSpecies() {
 
 function keelback() {
   hideOtherChartStuff("keelback");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Keelback")
-    .style("opacity", 1);
 
+  updateTitle("Keelback");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade

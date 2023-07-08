@@ -2267,10 +2267,10 @@ function first() {
 }
 
 function hideOtherChartStuff(stepFunctionName) {
-  if (stepFunctionName === "first") {
-    sneks.transition().duration(200).attr("opacity", 0);
-    chartTitle.transition().duration(200).attr("opacity", 0).text("");
-  }
+  // if (stepFunctionName === "first") {
+  //   sneks.transition().duration(200).attr("opacity", 0);
+  //   chartTitle.transition().duration(200).attr("opacity", 0).text("");
+  // }
 
   if (
     ![

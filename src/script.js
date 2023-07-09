@@ -1635,176 +1635,83 @@ function getQuadraticBezierCurveControlPoint(
 
 function updateAnnotationArrowsPaths() {
   if (activeStepFunctionName === "mating") {
-    const [matingSnakeOneControlPointX, matingSnakeOneControlPointY] =
-      getQuadraticBezierCurveControlPoint(
-        annotations.mating.labels[0].labelX,
-        annotations.mating.labels[0].labelY,
-        matingSnakeOne.x,
-        matingSnakeOne.y,
-        annotations.mating.connectors[0].distance
-      );
+    updatePaths(
+      annotations.mating.labels[0],
+      matingSnakeOne,
+      annotations.mating.connectors[0],
+      ".annotation-connector-smoochy-matingSnakeOne"
+    );
 
-    const [matingSnakeTwoControlPointX, matingSnakeTwoControlPointY] =
-      getQuadraticBezierCurveControlPoint(
-        annotations.mating.labels[0].labelX,
-        annotations.mating.labels[0].labelY,
-        matingSnakeTwo.x,
-        matingSnakeTwo.y,
-        annotations.mating.connectors[1].distance
-      );
-
-    d3.select(".annotation-connector-smoochy-matingSnakeOne")
-      .attr(
-        "d",
-        `M${annotations.mating.labels[0].labelX} ${
-          annotations.mating.labels[0].labelY +
-          annotations.mating.labels[0].paddingY
-        }
-        Q${matingSnakeOneControlPointX},${matingSnakeOneControlPointY} ${
-          matingSnakeOne.x + annotations.mating.connectors[0].snakeXOffset
-        },${matingSnakeOne.y + annotations.mating.connectors[0].snakeYOffset}`
-      )
-      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
-
-    d3.select(".annotation-connector-smoochy-matingSnakeTwo")
-      .attr(
-        "d",
-        `M${annotations.mating.labels[0].labelX} ${
-          annotations.mating.labels[0].labelY +
-          annotations.mating.labels[0].paddingY
-        }
-        Q${matingSnakeTwoControlPointX},${matingSnakeTwoControlPointY} ${
-          matingSnakeTwo.x + annotations.mating.connectors[1].snakeXOffset
-        },${matingSnakeTwo.y + annotations.mating.connectors[1].snakeYOffset}`
-      )
-      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
+    updatePaths(
+      annotations.mating.labels[0],
+      matingSnakeTwo,
+      annotations.mating.connectors[1],
+      ".annotation-connector-smoochy-matingSnakeTwo"
+    );
   }
 
   if (activeStepFunctionName === "courting") {
-    const [courtingSnakeOneControlPointX, courtingSnakeOneControlPointY] =
-      getQuadraticBezierCurveControlPoint(
-        annotations.courting.labels[0].labelX,
-        annotations.courting.labels[0].labelY,
-        courtingSnakeOne.x,
-        courtingSnakeOne.y,
-        annotations.courting.connectors[0].distance
-      );
+    updatePaths(
+      annotations.courting.labels[0],
+      courtingSnakeOne,
+      annotations.courting.connectors[0],
+      ".annotation-connector-snuggle-courtingSnakeOne"
+    );
 
-    const [courtingSnakeTwoControlPointX, courtingSnakeTwoControlPointY] =
-      getQuadraticBezierCurveControlPoint(
-        annotations.courting.labels[0].labelX,
-        annotations.courting.labels[0].labelY,
-        courtingSnakeTwo.x,
-        courtingSnakeTwo.y,
-        annotations.courting.connectors[1].distance
-      );
-
-    d3.select(".annotation-connector-snuggle-courtingSnakeOne")
-      .attr(
-        "d",
-        `M${annotations.courting.labels[0].labelX} ${
-          annotations.courting.labels[0].labelY +
-          annotations.courting.labels[0].paddingY
-        }
-        Q${courtingSnakeOneControlPointX},${courtingSnakeOneControlPointY} ${
-          courtingSnakeOne.x + annotations.courting.connectors[0].snakeXOffset
-        },${
-          courtingSnakeOne.y + annotations.courting.connectors[0].snakeYOffset
-        }`
-      )
-      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
-
-    d3.select(".annotation-connector-snuggle-courtingSnakeTwo")
-      .attr(
-        "d",
-        `M${annotations.courting.labels[0].labelX} ${
-          annotations.courting.labels[0].labelY +
-          annotations.courting.labels[0].paddingY
-        }
-        Q${courtingSnakeTwoControlPointX},${courtingSnakeTwoControlPointY} ${
-          courtingSnakeTwo.x + annotations.courting.connectors[1].snakeXOffset
-        },${
-          courtingSnakeTwo.y + annotations.courting.connectors[1].snakeYOffset
-        }`
-      )
-      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
+    updatePaths(
+      annotations.courting.labels[0],
+      courtingSnakeTwo,
+      annotations.courting.connectors[1],
+      ".annotation-connector-snuggle-courtingSnakeTwo"
+    );
   }
 
   if (activeStepFunctionName === "flying") {
-    const [flyingSnakeControlPointX, flyingSnakeControlPointY] =
-      getQuadraticBezierCurveControlPoint(
-        annotations.flying.labels[0].labelX,
-        annotations.flying.labels[0].labelY,
-        flyingSnake.x,
-        flyingSnake.y,
-        annotations.flying.connectors[0].distance
-      );
-
-    d3.select(".annotation-connector-flying-flyingSnake")
-      .attr(
-        "d",
-        `M${annotations.flying.labels[0].labelX} ${
-          annotations.flying.labels[0].labelY +
-          annotations.flying.labels[0].paddingY
-        }
-        Q${flyingSnakeControlPointX},${flyingSnakeControlPointY} ${
-          flyingSnake.x + annotations.flying.connectors[0].snakeXOffset
-        },${flyingSnake.y + annotations.flying.connectors[0].snakeYOffset}`
-      )
-      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
+    updatePaths(
+      annotations.flying.labels[0],
+      flyingSnake,
+      annotations.flying.connectors[0],
+      ".annotation-connector-flying-flyingSnake"
+    );
   }
 
   if (activeStepFunctionName === "magpies") {
-    const [magpiesSnakeControlPointX, magpiesSnakeControlPointY] =
-      getQuadraticBezierCurveControlPoint(
-        annotations.magpies.labels[0].labelX,
-        annotations.magpies.labels[0].labelY,
-        magpiesSnake.x,
-        magpiesSnake.y,
-        annotations.magpies.connectors[0].distance
-      );
-
-    d3.select(".annotation-connector-gulped-magpiesSnake")
-      .attr(
-        "d",
-        `M${annotations.magpies.labels[0].labelX} ${
-          annotations.magpies.labels[0].labelY +
-          annotations.magpies.labels[0].paddingY
-        }
-        Q${magpiesSnakeControlPointX},${magpiesSnakeControlPointY} ${
-          magpiesSnake.x + annotations.magpies.connectors[0].snakeXOffset
-        },${magpiesSnake.y + annotations.magpies.connectors[0].snakeYOffset}`
-      )
-      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
+    updatePaths(
+      annotations.magpies.labels[0],
+      magpiesSnake,
+      annotations.magpies.connectors[0],
+      ".annotation-connector-gulped-magpiesSnake"
+    );
   }
 
   if (activeStepFunctionName === "butcherBirds") {
-    const [butcherBirdsSnakeControlPointX, butcherBirdsSnakeControlPointY] =
-      getQuadraticBezierCurveControlPoint(
-        annotations.butcherBirds.labels[0].labelX,
-        annotations.butcherBirds.labels[0].labelY,
-        butcherBirdsSnake.x,
-        butcherBirdsSnake.y,
-        annotations.butcherBirds.connectors[0].distance
-      );
-
-    d3.select(".annotation-connector-cowering-butcherBirdsSnake")
-      .attr(
-        "d",
-        `M${annotations.butcherBirds.labels[0].labelX} ${
-          annotations.butcherBirds.labels[0].labelY +
-          annotations.butcherBirds.labels[0].paddingY
-        }
-        Q${butcherBirdsSnakeControlPointX},${butcherBirdsSnakeControlPointY} ${
-          butcherBirdsSnake.x +
-          annotations.butcherBirds.connectors[0].snakeXOffset
-        },${
-          butcherBirdsSnake.y +
-          annotations.butcherBirds.connectors[0].snakeYOffset
-        }`
-      )
-      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
+    updatePaths(
+      annotations.butcherBirds.labels[0],
+      butcherBirdsSnake,
+      annotations.butcherBirds.connectors[0],
+      ".annotation-connector-cowering-butcherBirdsSnake"
+    );
   }
+}
+
+function updatePaths(label, snake, connector, selector) {
+  const [controlPointX, controlPointY] = getQuadraticBezierCurveControlPoint(
+    label.labelX,
+    label.labelY,
+    snake.x,
+    snake.y,
+    connector.distance
+  );
+
+  d3.select(selector)
+    .attr(
+      "d",
+      `M${label.labelX} ${label.labelY + label.paddingY}
+        Q${controlPointX},${controlPointY} ${
+        snake.x + connector.snakeXOffset
+      },${snake.y + connector.snakeYOffset}`
+    )
+    .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
 }
 
 function addSpeciesBlobForces() {

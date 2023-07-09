@@ -1724,14 +1724,16 @@ function addVisibleSpeciesColors(opacityFnOrNumber) {
 }
 
 function updateTitle(title) {
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text(title)
-    .style("opacity", 1);
+  if (chartTitle.text() !== title) {
+    chartTitle
+      .transition()
+      .duration(250)
+      .style("opacity", 0)
+      .transition()
+      .duration(250)
+      .text(title)
+      .style("opacity", 1);
+  }
 }
 
 function reheatSimulation() {

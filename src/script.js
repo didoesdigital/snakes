@@ -86,8 +86,8 @@ const annotations = {
       {
         id: "smoochy",
         text: "Smoochy snakes",
-        labelX: 80,
-        labelY: 80,
+        labelX: 60,
+        labelY: 90,
         paddingY: 3,
       },
     ],
@@ -95,16 +95,16 @@ const annotations = {
       {
         labelId: "smoochy",
         targetSnake: "matingSnakeOne",
-        snakeXOffset: -circleRadius * 0.5,
-        snakeYOffset: -circleRadius * 1.75,
-        distance: -30,
+        snakeXOffset: -circleRadius * 1.5,
+        snakeYOffset: -circleRadius * 1.25,
+        distance: 30,
       },
       {
         labelId: "smoochy",
         targetSnake: "matingSnakeTwo",
-        snakeXOffset: -circleRadius * 0.5,
-        snakeYOffset: -circleRadius * 1.75,
-        distance: -30,
+        snakeXOffset: -circleRadius * 1.5,
+        snakeYOffset: -circleRadius * 0.75,
+        distance: 30,
       },
     ],
   },
@@ -525,6 +525,7 @@ function setupChart() {
       "d",
       "M22.8819 19.0069C22.6277 18.8795 21.9072 19.8292 21.7507 19.9716C21.2779 20.4027 20.7026 20.798 20.0531 20.8372C18.5508 20.9275 17.9932 19.2473 17.5753 18.0835C16.5942 15.3714 14.4843 12.6244 11.3384 14.1877C10.0127 14.8466 9.17201 16.1462 8.43054 17.4037C7.96011 18.2001 7.23317 19.9633 6.16329 20.0374C4.80457 20.1315 3.98801 18.7591 4.11631 17.4891C4.26154 16.05 5.35722 15.0128 6.34479 14.1064C8.41842 12.2037 10.5743 10.6833 11.2294 7.74472C11.8991 4.73821 10.5025 1.53632 7.56559 0.563717C6.47872 0.204233 4.66742 -0.792936 2.91572 1.23473C-0.079291 4.70029 2.46145 4.35871 3.36272 4.32707C6.39242 4.22043 7.67932 4.80899 7.25329 6.46016C7.11536 6.99331 6.80792 7.5394 6.50537 7.91928C6.3117 8.1792 5.47017 8.99721 5.09744 9.33171C4.24783 10.0944 3.38697 10.8483 2.6051 11.686C1.1504 13.2434 0.0732516 15.1294 0.00306388 17.3424C-0.132499 21.5919 4.2551 25.6969 8.27319 23.2818C10.1701 22.1417 10.8478 19.9462 11.9007 18.1006C12.3397 17.3304 13.1521 16.3286 14.0703 17.1062C14.832 17.7552 15.221 18.8586 15.684 19.7295C16.5716 21.3982 18.0925 22.9273 20.1128 22.5112C21.0826 22.3112 21.8967 21.639 22.414 20.7842C22.5447 20.5677 23.2829 19.2006 22.8819 19.0069Z"
     )
+    .attr("data-id", (d) => d.id)
     .attr("fill", (d) => speciesColorScale(d.speciesBestGuess))
     // .attr("opacity", 0)
     // .attr("opacity", 0.8)
@@ -815,9 +816,7 @@ function setupAxes() {
 
 function setupAnnotations() {
   for (const snakeFn in annotations) {
-    // console.log(`${snakeFn}: ${annotations[snakeFn]}`);
     for (const label of annotations[snakeFn]["labels"]) {
-      console.log(label);
       svg
         .append("text")
         .attr("class", `annotation-label-${label["id"]}`)
@@ -1215,10 +1214,10 @@ function mating() {
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "mating" ? 1 : 0.2));
 
-  d3.select(".annotation-connector-smoochy-matingSnakeOne")
-    .transition()
-    .attr("opacity", 1);
-  d3.select(".annotation-connector-smoochy-matingSnakeTwo")
+  d3.selectAll(
+    ".annotation-connector-smoochy-matingSnakeOne,.annotation-connector-smoochy-matingSnakeTwo"
+  )
+    .raise()
     .transition()
     .attr("opacity", 1);
 
@@ -1233,6 +1232,10 @@ function mating() {
     .attr("opacity", 1)
     .transition();
 
+  d3.selectAll(
+    `path[data-id="${matingSnakeOne.id}"],path[data-id="${matingSnakeTwo.id}"]`
+  ).raise();
+
   reheatSimulation();
 }
 
@@ -1243,10 +1246,10 @@ function courting() {
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "probably" ? 1 : 0.2));
 
-  d3.select(".annotation-connector-snuggle-courtingSnakeOne")
-    .transition()
-    .attr("opacity", 1);
-  d3.select(".annotation-connector-snuggle-courtingSnakeTwo")
+  d3.selectAll(
+    ".annotation-connector-snuggle-courtingSnakeOne, .annotation-connector-snuggle-courtingSnakeTwo"
+  )
+    .raise()
     .transition()
     .attr("opacity", 1);
 
@@ -1261,6 +1264,10 @@ function courting() {
     .attr("opacity", 1)
     .transition();
 
+  d3.selectAll(
+    `path[data-id="${courtingSnakeOne.id}"],path[data-id="${matingSnakeTwo.id}"]`
+  ).raise();
+
   reheatSimulation();
 }
 
@@ -1272,6 +1279,7 @@ function flying() {
   addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
 
   d3.select(".annotation-connector-flying-flyingSnake")
+    .raise()
     .transition()
     .attr("opacity", 1);
 
@@ -1286,6 +1294,8 @@ function flying() {
     .attr("opacity", 1)
     .transition();
 
+  d3.select(`path[data-id="${flyingSnake.id}"]`).raise();
+
   reheatSimulation();
 }
 
@@ -1297,6 +1307,7 @@ function magpies() {
   addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
 
   d3.select(".annotation-connector-gulped-magpiesSnake")
+    .raise()
     .transition()
     .attr("opacity", 1);
 
@@ -1311,6 +1322,8 @@ function magpies() {
     .attr("opacity", 1)
     .transition();
 
+  d3.select(`path[data-id="${magpiesSnake.id}"]`).raise();
+
   reheatSimulation();
 }
 
@@ -1322,6 +1335,7 @@ function butcherBirds() {
   addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
 
   d3.select(".annotation-connector-cowering-butcherBirdsSnake")
+    .raise()
     .transition()
     .attr("opacity", 1);
 
@@ -1335,6 +1349,8 @@ function butcherBirds() {
     .style("font-weight", chartTextWeight)
     .attr("opacity", 1)
     .transition();
+
+  d3.select(`path[data-id="${butcherBirdsSnake.id}"]`).raise();
 
   reheatSimulation();
 }

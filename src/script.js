@@ -921,15 +921,8 @@ function keelback() {
 }
 function timeOfDayStripPlot() {
   hideOtherChartStuff("timeOfDayStripPlot");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("I see Keelbacks only at dusk")
-    .style("opacity", 1);
 
+  updateTitle("I see Keelbacks only at dusk");
   simulation.force("forceX", null).force("forceY", null).force("charge", null);
   // .force("collide", null);
 
@@ -966,17 +959,10 @@ function timeOfDayStripPlot() {
 
 function weatherStripPlot() {
   hideOtherChartStuff("weatherStripPlot");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Nope ropes in all weather")
-    // .text("Nope ropes, rain, hail, or shine")
-    // .text("Rain, hail, or shine, there be nope ropes")
-    .style("opacity", 1);
 
+  // updateTitle("Nope ropes, rain, hail, or shine");
+  // updateTitle("Rain, hail, or shine, there be nope ropes");
+  updateTitle("Nope ropes in all weather");
   simulation.force("forceX", null).force("forceY", null).force("charge", null);
   // .force("collide", null);
 
@@ -1013,15 +999,8 @@ function weatherStripPlot() {
 
 function temperatureStripPlot() {
   hideOtherChartStuff("temperatureStripPlot");
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Whip snakes like it hot")
-    .style("opacity", 1);
 
+  updateTitle("Whip snakes like it hot");
   simulation.force("forceX", null).force("forceY", null).force("charge", null);
   // .force("collide", null);
 
@@ -1059,15 +1038,7 @@ function temperatureStripPlot() {
 function timeline() {
   hideOtherChartStuff("timeline");
 
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("On average, I've seen a snake every two and a half weeks")
-    .style("opacity", 1);
-
+  updateTitle("On average, I've seen a snake every two and a half weeks");
   simulation
     // .force("forceX", d3.forceX(focalPointX).strength(1.55))
     .force("forceX", d3.forceX(xWiggle).strength(1))
@@ -1095,15 +1066,7 @@ function timeline() {
 function seasons() {
   hideOtherChartStuff("seasons");
 
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Fewer snek in Winter")
-    .style("opacity", 1);
-
+  updateTitle("Fewer snek in Winter");
   simulation
     .force(
       "forceX",
@@ -1126,15 +1089,7 @@ function seasons() {
 function staringContest() {
   hideOtherChartStuff("staringContest");
 
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("I won a staring contest with a noodle boi")
-    .style("opacity", 1);
-
+  updateTitle("I won a staring contest with a noodle boi");
   simulation
     .force(
       "forceX",
@@ -1155,14 +1110,7 @@ function staringContest() {
 function venom() {
   hideOtherChartStuff("venom");
 
-  chartTitle
-    .transition()
-    .duration(250)
-    .style("opacity", 0)
-    .transition()
-    .duration(250)
-    .text("Are they venomous?")
-    .style("opacity", 1);
+  updateTitle("Are they venomous?");
 
   const jitter = (d) => {
     return d[metricSpeciesProp] === "Keelback"

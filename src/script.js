@@ -1635,21 +1635,12 @@ function getQuadraticBezierCurveControlPoint(
 
 function updateAnnotationArrowsPaths() {
   if (activeStepFunctionName === "mating") {
-    const matingSnakeOneTarget = {
-      x: matingSnakeOne.x,
-      y: matingSnakeOne.y,
-    };
-    const matingSnakeTwoTarget = {
-      x: matingSnakeTwo.x,
-      y: matingSnakeTwo.y,
-    };
-
     const [matingSnakeOneControlPointX, matingSnakeOneControlPointY] =
       getQuadraticBezierCurveControlPoint(
         annotations.mating.labels[0].labelX,
         annotations.mating.labels[0].labelY,
-        matingSnakeOneTarget.x,
-        matingSnakeOneTarget.y,
+        matingSnakeOne.x,
+        matingSnakeOne.y,
         annotations.mating.connectors[0].distance
       );
 
@@ -1670,10 +1661,8 @@ function updateAnnotationArrowsPaths() {
           annotations.mating.labels[0].paddingY
         }
         Q${matingSnakeOneControlPointX},${matingSnakeOneControlPointY} ${
-          matingSnakeOneTarget.x + annotations.mating.connectors[0].snakeXOffset
-        },${
-          matingSnakeOneTarget.y + annotations.mating.connectors[0].snakeYOffset
-        }`
+          matingSnakeOne.x + annotations.mating.connectors[0].snakeXOffset
+        },${matingSnakeOne.y + annotations.mating.connectors[0].snakeYOffset}`
       )
       .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
 
@@ -1685,30 +1674,19 @@ function updateAnnotationArrowsPaths() {
           annotations.mating.labels[0].paddingY
         }
         Q${matingSnakeTwoControlPointX},${matingSnakeTwoControlPointY} ${
-          matingSnakeTwoTarget.x + annotations.mating.connectors[1].snakeXOffset
-        },${
-          matingSnakeTwoTarget.y + annotations.mating.connectors[1].snakeYOffset
-        }`
+          matingSnakeTwo.x + annotations.mating.connectors[1].snakeXOffset
+        },${matingSnakeTwo.y + annotations.mating.connectors[1].snakeYOffset}`
       )
       .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
   }
 
   if (activeStepFunctionName === "courting") {
-    const courtingSnakeOneTarget = {
-      x: courtingSnakeOne.x,
-      y: courtingSnakeOne.y,
-    };
-    const courtingSnakeTwoTarget = {
-      x: courtingSnakeTwo.x,
-      y: courtingSnakeTwo.y,
-    };
-
     const [courtingSnakeOneControlPointX, courtingSnakeOneControlPointY] =
       getQuadraticBezierCurveControlPoint(
         annotations.courting.labels[0].labelX,
         annotations.courting.labels[0].labelY,
-        courtingSnakeOneTarget.x,
-        courtingSnakeOneTarget.y,
+        courtingSnakeOne.x,
+        courtingSnakeOne.y,
         annotations.courting.connectors[0].distance
       );
 
@@ -1729,11 +1707,9 @@ function updateAnnotationArrowsPaths() {
           annotations.courting.labels[0].paddingY
         }
         Q${courtingSnakeOneControlPointX},${courtingSnakeOneControlPointY} ${
-          courtingSnakeOneTarget.x +
-          annotations.courting.connectors[0].snakeXOffset
+          courtingSnakeOne.x + annotations.courting.connectors[0].snakeXOffset
         },${
-          courtingSnakeOneTarget.y +
-          annotations.courting.connectors[0].snakeYOffset
+          courtingSnakeOne.y + annotations.courting.connectors[0].snakeYOffset
         }`
       )
       .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
@@ -1746,28 +1722,21 @@ function updateAnnotationArrowsPaths() {
           annotations.courting.labels[0].paddingY
         }
         Q${courtingSnakeTwoControlPointX},${courtingSnakeTwoControlPointY} ${
-          courtingSnakeTwoTarget.x +
-          annotations.courting.connectors[1].snakeXOffset
+          courtingSnakeTwo.x + annotations.courting.connectors[1].snakeXOffset
         },${
-          courtingSnakeTwoTarget.y +
-          annotations.courting.connectors[1].snakeYOffset
+          courtingSnakeTwo.y + annotations.courting.connectors[1].snakeYOffset
         }`
       )
       .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
   }
 
   if (activeStepFunctionName === "flying") {
-    const flyingSnakeTarget = {
-      x: flyingSnake.x,
-      y: flyingSnake.y,
-    };
-
     const [flyingSnakeControlPointX, flyingSnakeControlPointY] =
       getQuadraticBezierCurveControlPoint(
         annotations.flying.labels[0].labelX,
         annotations.flying.labels[0].labelY,
-        flyingSnakeTarget.x,
-        flyingSnakeTarget.y,
+        flyingSnake.x,
+        flyingSnake.y,
         annotations.flying.connectors[0].distance
       );
 
@@ -1779,26 +1748,19 @@ function updateAnnotationArrowsPaths() {
           annotations.flying.labels[0].paddingY
         }
         Q${flyingSnakeControlPointX},${flyingSnakeControlPointY} ${
-          flyingSnakeTarget.x + annotations.flying.connectors[0].snakeXOffset
-        },${
-          flyingSnakeTarget.y + annotations.flying.connectors[0].snakeYOffset
-        }`
+          flyingSnake.x + annotations.flying.connectors[0].snakeXOffset
+        },${flyingSnake.y + annotations.flying.connectors[0].snakeYOffset}`
       )
       .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
   }
 
   if (activeStepFunctionName === "magpies") {
-    const magpiesSnakeTarget = {
-      x: magpiesSnake.x,
-      y: magpiesSnake.y,
-    };
-
     const [magpiesSnakeControlPointX, magpiesSnakeControlPointY] =
       getQuadraticBezierCurveControlPoint(
         annotations.magpies.labels[0].labelX,
         annotations.magpies.labels[0].labelY,
-        magpiesSnakeTarget.x,
-        magpiesSnakeTarget.y,
+        magpiesSnake.x,
+        magpiesSnake.y,
         annotations.magpies.connectors[0].distance
       );
 
@@ -1810,26 +1772,19 @@ function updateAnnotationArrowsPaths() {
           annotations.magpies.labels[0].paddingY
         }
         Q${magpiesSnakeControlPointX},${magpiesSnakeControlPointY} ${
-          magpiesSnakeTarget.x + annotations.magpies.connectors[0].snakeXOffset
-        },${
-          magpiesSnakeTarget.y + annotations.magpies.connectors[0].snakeYOffset
-        }`
+          magpiesSnake.x + annotations.magpies.connectors[0].snakeXOffset
+        },${magpiesSnake.y + annotations.magpies.connectors[0].snakeYOffset}`
       )
       .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
   }
 
   if (activeStepFunctionName === "butcherBirds") {
-    const butcherBirdsSnakeTarget = {
-      x: butcherBirdsSnake.x,
-      y: butcherBirdsSnake.y,
-    };
-
     const [butcherBirdsSnakeControlPointX, butcherBirdsSnakeControlPointY] =
       getQuadraticBezierCurveControlPoint(
         annotations.butcherBirds.labels[0].labelX,
         annotations.butcherBirds.labels[0].labelY,
-        butcherBirdsSnakeTarget.x,
-        butcherBirdsSnakeTarget.y,
+        butcherBirdsSnake.x,
+        butcherBirdsSnake.y,
         annotations.butcherBirds.connectors[0].distance
       );
 
@@ -1841,10 +1796,10 @@ function updateAnnotationArrowsPaths() {
           annotations.butcherBirds.labels[0].paddingY
         }
         Q${butcherBirdsSnakeControlPointX},${butcherBirdsSnakeControlPointY} ${
-          butcherBirdsSnakeTarget.x +
+          butcherBirdsSnake.x +
           annotations.butcherBirds.connectors[0].snakeXOffset
         },${
-          butcherBirdsSnakeTarget.y +
+          butcherBirdsSnake.y +
           annotations.butcherBirds.connectors[0].snakeYOffset
         }`
       )

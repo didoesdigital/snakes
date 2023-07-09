@@ -548,7 +548,7 @@ function setupChart() {
       (d) => `translate(${d.x - circleRadius}, ${d.y - circleRadius})`
     );
 
-    updateAnnotationArrowsPaths();
+    updateAnnotationConnectors();
   });
 
   simulation.stop();
@@ -1633,16 +1633,16 @@ function getQuadraticBezierCurveControlPoint(
   return [controlPointX, controlPointY];
 }
 
-function updateAnnotationArrowsPaths() {
+function updateAnnotationConnectors() {
   if (activeStepFunctionName === "mating") {
-    updatePaths(
+    updateConnectorPaths(
       annotations.mating.labels[0],
       matingSnakeOne,
       annotations.mating.connectors[0],
       ".annotation-connector-smoochy-matingSnakeOne"
     );
 
-    updatePaths(
+    updateConnectorPaths(
       annotations.mating.labels[0],
       matingSnakeTwo,
       annotations.mating.connectors[1],
@@ -1651,14 +1651,14 @@ function updateAnnotationArrowsPaths() {
   }
 
   if (activeStepFunctionName === "courting") {
-    updatePaths(
+    updateConnectorPaths(
       annotations.courting.labels[0],
       courtingSnakeOne,
       annotations.courting.connectors[0],
       ".annotation-connector-snuggle-courtingSnakeOne"
     );
 
-    updatePaths(
+    updateConnectorPaths(
       annotations.courting.labels[0],
       courtingSnakeTwo,
       annotations.courting.connectors[1],
@@ -1667,7 +1667,7 @@ function updateAnnotationArrowsPaths() {
   }
 
   if (activeStepFunctionName === "flying") {
-    updatePaths(
+    updateConnectorPaths(
       annotations.flying.labels[0],
       flyingSnake,
       annotations.flying.connectors[0],
@@ -1676,7 +1676,7 @@ function updateAnnotationArrowsPaths() {
   }
 
   if (activeStepFunctionName === "magpies") {
-    updatePaths(
+    updateConnectorPaths(
       annotations.magpies.labels[0],
       magpiesSnake,
       annotations.magpies.connectors[0],
@@ -1685,7 +1685,7 @@ function updateAnnotationArrowsPaths() {
   }
 
   if (activeStepFunctionName === "butcherBirds") {
-    updatePaths(
+    updateConnectorPaths(
       annotations.butcherBirds.labels[0],
       butcherBirdsSnake,
       annotations.butcherBirds.connectors[0],
@@ -1694,7 +1694,7 @@ function updateAnnotationArrowsPaths() {
   }
 }
 
-function updatePaths(label, snake, connector, selector) {
+function updateConnectorPaths(label, snake, connector, selector) {
   const [controlPointX, controlPointY] = getQuadraticBezierCurveControlPoint(
     label.labelX,
     label.labelY,

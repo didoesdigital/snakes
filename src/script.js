@@ -845,7 +845,7 @@ function setupAnnotations() {
     .selectAll("marker")
     .data([0])
     .join("marker")
-    .attr("id", "arrow-one")
+    .attr("id", "arrow-head")
     .attr("viewBox", "0 -5 10 10")
     .attr("refX", 5)
     .attr("refY", 0)
@@ -1658,7 +1658,7 @@ function updateAnnotationArrowsPaths() {
           matingSnakeOneTarget.y + annotations.mating.connectors[0].snakeYOffset
         }`
       )
-      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
 
     d3.select(".annotation-connector-smoochy-matingSnakeTwo")
       .attr(
@@ -1673,7 +1673,7 @@ function updateAnnotationArrowsPaths() {
           matingSnakeTwoTarget.y + annotations.mating.connectors[1].snakeYOffset
         }`
       )
-      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
   }
 
   if (activeStepFunctionName === "courting") {
@@ -1719,7 +1719,7 @@ function updateAnnotationArrowsPaths() {
           annotations.courting.connectors[0].snakeYOffset
         }`
       )
-      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
 
     d3.select(".annotation-connector-snuggle-courtingSnakeTwo")
       .attr(
@@ -1736,7 +1736,7 @@ function updateAnnotationArrowsPaths() {
           annotations.courting.connectors[1].snakeYOffset
         }`
       )
-      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
   }
 
   if (activeStepFunctionName === "flying") {
@@ -1767,7 +1767,7 @@ function updateAnnotationArrowsPaths() {
           flyingSnakeTarget.y + annotations.flying.connectors[0].snakeYOffset
         }`
       )
-      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
   }
 
   if (activeStepFunctionName === "magpies") {
@@ -1798,7 +1798,7 @@ function updateAnnotationArrowsPaths() {
           magpiesSnakeTarget.y + annotations.magpies.connectors[0].snakeYOffset
         }`
       )
-      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
   }
 
   if (activeStepFunctionName === "butcherBirds") {
@@ -1831,7 +1831,7 @@ function updateAnnotationArrowsPaths() {
           annotations.butcherBirds.connectors[0].snakeYOffset
         }`
       )
-      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+      .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
   }
 }
 

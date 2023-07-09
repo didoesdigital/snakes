@@ -66,10 +66,6 @@ h1 strong {
   margin-bottom: 320px;
 }
 
-#outro {
-  height: 640px;
-}
-
 #scrolly {
   position: relative;
   background-color: #fff;
@@ -153,4 +149,9 @@ figure p {
 
 tspan {
   letter-spacing: -0.05rem;
+}
+
+li {
+  margin-top: 8px;
+  margin-bottom: 8px;
 }

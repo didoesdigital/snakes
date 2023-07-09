@@ -65,23 +65,6 @@ const boundingMaxX = dimensions.width - circleRadius;
 const boundingMinY = circleRadius;
 const boundingMaxY = dimensions.height - circleRadius;
 
-const annotationLabelLeftOne = {
-  x: 80,
-  y: 80,
-  distance: -30,
-};
-const annotationLabelLeftTwo = {
-  x: 60,
-  y: 320,
-  distance: -30,
-};
-const annotationLabelRight = {
-  x: 270,
-  y: 100,
-  distance: -30,
-};
-const annotationPadding = 3;
-
 let sneks = null;
 let nodes = null;
 let sightingsData = null;
@@ -94,8 +77,113 @@ let matingSnakeTwo = null;
 let courtingSnakeOne = null;
 let courtingSnakeTwo = null;
 let butcherBirdsSnake = null;
-let magpies = null;
+let magpiesSnake = null;
 let flyingSnake = null;
+
+const annotations = {
+  mating: {
+    labels: [
+      {
+        id: "smoochy",
+        text: "Smoochy snakes",
+        labelX: 80,
+        labelY: 80,
+        paddingY: 3,
+      },
+    ],
+    connectors: [
+      {
+        labelId: "smoochy",
+        targetSnake: "matingSnakeOne",
+        snakeXOffset: -circleRadius * 0.5,
+        snakeYOffset: -circleRadius * 1.75,
+        distance: -30,
+      },
+      {
+        labelId: "smoochy",
+        targetSnake: "matingSnakeTwo",
+        snakeXOffset: -circleRadius * 0.5,
+        snakeYOffset: -circleRadius * 1.75,
+        distance: -30,
+      },
+    ],
+  },
+  courting: {
+    labels: [
+      {
+        id: "snuggle",
+        text: "Looking to snuggle",
+        labelX: 270,
+        labelY: 100,
+        paddingY: 3,
+      },
+    ],
+    connectors: [
+      {
+        labelId: "snuggle",
+        targetSnake: "courtingSnakeOne",
+        snakeXOffset: circleRadius,
+        snakeYOffset: -circleRadius,
+        distance: -30,
+      },
+      {
+        labelId: "snuggle",
+        targetSnake: "courtingSnakeTwo",
+        snakeXOffset: circleRadius,
+        snakeYOffset: -circleRadius,
+        distance: -30,
+      },
+    ],
+  },
+  butcherBirds: {
+    labels: [
+      {
+        id: "cowering",
+        text: "Cowering",
+        labelX: 60,
+        labelY: 340,
+        paddingY: -12,
+      },
+    ],
+    connectors: [
+      {
+        labelId: "cowering",
+        targetSnake: "butcherBirdsSnake",
+        snakeXOffset: -circleRadius * 1.75,
+        snakeYOffset: 0,
+        distance: -30,
+      },
+    ],
+  },
+  magpies: {
+    labels: [
+      { id: "gulped", text: "Gulped", labelX: 270, labelY: 100, paddingY: 3 },
+    ],
+    connectors: [
+      {
+        labelId: "gulped",
+        targetSnake: "magpiesSnake",
+        snakeXOffset: circleRadius,
+        snakeYOffset: -circleRadius,
+        distance: -30,
+      },
+    ],
+  },
+  flying: {
+    labels: [
+      { id: "flying", text: "Flying", labelX: 270, labelY: 100, paddingY: 3 },
+    ],
+    connectors: [
+      {
+        labelId: "flying",
+        targetSnake: "flyingSnake",
+        snakeXOffset: circleRadius * 1.75,
+        snakeYOffset: -circleRadius * 0.5,
+        distance: -30,
+      },
+    ],
+  },
+};
 
 let speciesAngleScale = null;
 let speciesColorScale = null;
@@ -225,6 +313,8 @@ function handleStepEnter(response) {
     mating,
     courting,
     butcherBirds,
+    magpies,
+    flying,
     yard,
     climbing,
     onCamera,
@@ -724,58 +814,31 @@ function setupAxes() {
 }
 
 function setupAnnotations() {
-  svg
-    .append("path")
-    .attr("class", "annotation-connector-one")
-    .attr("opacity", 0)
-    .attr("fill", "none")
-    .attr("stroke", "#3C3941")
-    .attr("stroke-width", 2);
+  for (const snakeFn in annotations) {
+    // console.log(`${snakeFn}: ${annotations[snakeFn]}`);
+    for (const label of annotations[snakeFn]["labels"]) {
+      console.log(label);
+      svg
+        .append("text")
+        .attr("class", `annotation-label-${label["id"]}`)
+        .attr("opacity", 0)
+        .attr("stroke", "none")
+        .attr("fill", "#3C3941");
+    }
 
-  svg
-    .append("path")
-    .attr("class", "annotation-connector-two")
-    .attr("opacity", 0)
-    .attr("fill", "none")
-    .attr("stroke", "#3C3941")
-    .attr("stroke-width", 2);
-
-  svg
-    .append("path")
-    .attr("class", "annotation-connector-three")
-    .attr("opacity", 0)
-    .attr("fill", "none")
-    .attr("stroke", "#3C3941")
-    .attr("stroke-width", 2);
-
-  svg
-    .append("path")
-    .attr("class", "annotation-connector-four")
-    .attr("opacity", 0)
-    .attr("fill", "none")
-    .attr("stroke", "#3C3941")
-    .attr("stroke-width", 2);
-
-  svg
-    .append("text")
-    .attr("class", "annotation-label-left-one")
-    .attr("opacity", 0)
-    .attr("stroke", "none")
-    .attr("fill", "#3C3941");
-
-  svg
-    .append("text")
-    .attr("class", "annotation-label-left-two")
-    .attr("opacity", 0)
-    .attr("stroke", "none")
-    .attr("fill", "#3C3941");
-
-  svg
-    .append("text")
-    .attr("class", "annotation-label-right")
-    .attr("opacity", 0)
-    .attr("stroke", "none")
-    .attr("fill", "#3C3941");
+    for (const connector of annotations[snakeFn]["connectors"]) {
+      svg
+        .append("path")
+        .attr(
+          "class",
+          `annotation-connector-${connector["labelId"]}-${connector["targetSnake"]}`
+        )
+        .attr("opacity", 0)
+        .attr("fill", "none")
+        .attr("stroke", "#3C3941")
+        .attr("stroke-width", 2);
+    }
+  }
 
   svg
     .append("defs")
@@ -810,7 +873,9 @@ function setupPointsOfInterestDataPoints() {
   butcherBirdsSnake = sightingsData.filter(
     (d) => d[metricBirdsProp] === "Butcher birds"
   )[0];
-  magpies = sightingsData.filter((d) => d[metricBirdsProp] === "magpies")[0];
+  magpiesSnake = sightingsData.filter(
+    (d) => d[metricBirdsProp] === "magpies"
+  )[0];
   flyingSnake = sightingsData.filter((d) => d["departure"] === "flying")[0];
 }
 
@@ -1150,13 +1215,17 @@ function mating() {
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "mating" ? 1 : 0.2));
 
-  d3.select(".annotation-connector-one").transition().attr("opacity", 1);
-  d3.select(".annotation-connector-two").transition().attr("opacity", 1);
+  d3.select(".annotation-connector-smoochy-matingSnakeOne")
+    .transition()
+    .attr("opacity", 1);
+  d3.select(".annotation-connector-smoochy-matingSnakeTwo")
+    .transition()
+    .attr("opacity", 1);
 
-  d3.select(".annotation-label-left-one")
-    .text("Smoochy snakes")
-    .attr("x", annotationLabelLeftOne.x)
-    .attr("y", annotationLabelLeftOne.y)
+  d3.select(".annotation-label-smoochy")
+    .text(annotations.mating.labels[0].text)
+    .attr("x", annotations.mating.labels[0].labelX)
+    .attr("y", annotations.mating.labels[0].labelY)
     .attr("text-anchor", "middle")
     .style("font-family", chartTextFamily)
     .style("font-size", chartTextSize)
@@ -1174,13 +1243,67 @@ function courting() {
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "probably" ? 1 : 0.2));
 
-  d3.select(".annotation-connector-three").transition().attr("opacity", 1);
-  d3.select(".annotation-connector-four").transition().attr("opacity", 1);
+  d3.select(".annotation-connector-snuggle-courtingSnakeOne")
+    .transition()
+    .attr("opacity", 1);
+  d3.select(".annotation-connector-snuggle-courtingSnakeTwo")
+    .transition()
+    .attr("opacity", 1);
 
-  d3.select(".annotation-label-right")
-    .text("Looking to snuggle")
-    .attr("x", annotationLabelRight.x)
-    .attr("y", annotationLabelRight.y)
+  d3.select(".annotation-label-snuggle")
+    .text(annotations.courting.labels[0].text)
+    .attr("x", annotations.courting.labels[0].labelX)
+    .attr("y", annotations.courting.labels[0].labelY)
+    .attr("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .attr("opacity", 1)
+    .transition();
+
+  reheatSimulation();
+}
+
+function flying() {
+  hideOtherChartStuff("flying");
+
+  updateTitle("Hungry birbs");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
+
+  d3.select(".annotation-connector-flying-flyingSnake")
+    .transition()
+    .attr("opacity", 1);
+
+  d3.select(".annotation-label-flying")
+    .text(annotations.flying.labels[0].text)
+    .attr("x", annotations.flying.labels[0].labelX)
+    .attr("y", annotations.flying.labels[0].labelY)
+    .attr("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .attr("opacity", 1)
+    .transition();
+
+  reheatSimulation();
+}
+
+function magpies() {
+  hideOtherChartStuff("magpies");
+
+  updateTitle("Hungry birbs");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
+
+  d3.select(".annotation-connector-gulped-magpiesSnake")
+    .transition()
+    .attr("opacity", 1);
+
+  d3.select(".annotation-label-gulped")
+    .text(annotations.magpies.labels[0].text)
+    .attr("x", annotations.magpies.labels[0].labelX)
+    .attr("y", annotations.magpies.labels[0].labelY)
     .attr("text-anchor", "middle")
     .style("font-family", chartTextFamily)
     .style("font-size", chartTextSize)
@@ -1198,36 +1321,14 @@ function butcherBirds() {
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
 
-  d3.select(".annotation-connector-one").transition().attr("opacity", 1);
-  d3.select(".annotation-connector-two").transition().attr("opacity", 1);
-  d3.select(".annotation-connector-three").transition().attr("opacity", 1);
+  d3.select(".annotation-connector-cowering-butcherBirdsSnake")
+    .transition()
+    .attr("opacity", 1);
 
-  d3.select(".annotation-label-left-one")
-    .text("Attacked by Butcher Birds")
-    .attr("x", annotationLabelLeftOne.x + 20)
-    .attr("y", annotationLabelLeftOne.y)
-    .attr("text-anchor", "middle")
-    .style("font-family", chartTextFamily)
-    .style("font-size", chartTextSize)
-    .style("font-weight", chartTextWeight)
-    .attr("opacity", 1)
-    .transition();
-
-  d3.select(".annotation-label-left-two")
-    .text("Carried in the sky")
-    .attr("x", annotationLabelLeftTwo.x + 20)
-    .attr("y", annotationLabelLeftTwo.y)
-    .attr("text-anchor", "middle")
-    .style("font-family", chartTextFamily)
-    .style("font-size", chartTextSize)
-    .style("font-weight", chartTextWeight)
-    .attr("opacity", 1)
-    .transition();
-
-  d3.select(".annotation-label-right")
-    .text("Eaten by Magpie")
-    .attr("x", annotationLabelRight.x)
-    .attr("y", annotationLabelRight.y)
+  d3.select(".annotation-label-cowering")
+    .text(annotations.butcherBirds.labels[0].text)
+    .attr("x", annotations.butcherBirds.labels[0].labelX)
+    .attr("y", annotations.butcherBirds.labels[0].labelY)
     .attr("text-anchor", "middle")
     .style("font-family", chartTextFamily)
     .style("font-size", chartTextSize)
@@ -1377,22 +1478,52 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".venom-axis").transition().attr("opacity", 0);
   }
 
-  if (!["mating", "butcherBirds"].includes(stepFunctionName)) {
-    svg.select(".annotation-connector-one").transition().attr("opacity", 0);
-    svg.select(".annotation-connector-two").transition().attr("opacity", 0);
-    svg.select(".annotation-label-left-one").transition().attr("opacity", 0);
+  if (stepFunctionName !== "mating") {
+    svg
+      .select(".annotation-connector-smoochy-matingSnakeOne")
+      .transition()
+      .attr("opacity", 0);
+    svg
+      .select(".annotation-connector-smoochy-matingSnakeTwo")
+      .transition()
+      .attr("opacity", 0);
+    svg.select(".annotation-label-smoochy").transition().attr("opacity", 0);
   }
+
+  if (stepFunctionName !== "courting") {
+    svg
+      .select(".annotation-connector-snuggle-courtingSnakeOne")
+      .transition()
+      .attr("opacity", 0);
+    svg
+      .select(".annotation-connector-snuggle-courtingSnakeTwo")
+      .transition()
+      .attr("opacity", 0);
+    svg.select(".annotation-label-snuggle").transition().attr("opacity", 0);
+  }
+
   if (stepFunctionName !== "butcherBirds") {
-    svg.select(".annotation-label-left-two").transition().attr("opacity", 0);
+    svg
+      .select(".annotation-connector-cowering-butcherBirdsSnake")
+      .transition()
+      .attr("opacity", 0);
+    svg.select(".annotation-label-cowering").transition().attr("opacity", 0);
   }
 
-  if (!["courting"].includes(stepFunctionName)) {
-    svg.select(".annotation-connector-four").transition().attr("opacity", 0);
+  if (stepFunctionName !== "magpies") {
+    svg
+      .select(".annotation-connector-gulped-magpiesSnake")
+      .transition()
+      .attr("opacity", 0);
+    svg.select(".annotation-label-gulped").transition().attr("opacity", 0);
   }
 
-  if (!["courting", "butcherBirds"].includes(stepFunctionName)) {
-    svg.select(".annotation-connector-three").transition().attr("opacity", 0);
-    svg.select(".annotation-label-right").transition().attr("opacity", 0);
+  if (stepFunctionName !== "flying") {
+    svg
+      .select(".annotation-connector-flying-flyingSnake")
+      .transition()
+      .attr("opacity", 0);
+    svg.select(".annotation-label-flying").transition().attr("opacity", 0);
   }
 }
 
@@ -1488,184 +1619,217 @@ function getQuadraticBezierCurveControlPoint(
 function updateAnnotationArrowsPaths() {
   if (activeStepFunctionName === "mating") {
     const matingSnakeOneTarget = {
-      x: matingSnakeOne.x - circleRadius,
-      y: matingSnakeOne.y - circleRadius * 1.75,
+      x: matingSnakeOne.x,
+      y: matingSnakeOne.y,
     };
     const matingSnakeTwoTarget = {
-      x: matingSnakeTwo.x - circleRadius,
-      y: matingSnakeTwo.y - circleRadius * 1.75,
+      x: matingSnakeTwo.x,
+      y: matingSnakeTwo.y,
     };
 
     const [matingSnakeOneControlPointX, matingSnakeOneControlPointY] =
       getQuadraticBezierCurveControlPoint(
-        annotationLabelLeftOne.x,
-        annotationLabelLeftOne.y,
+        annotations.mating.labels[0].labelX,
+        annotations.mating.labels[0].labelY,
         matingSnakeOneTarget.x,
         matingSnakeOneTarget.y,
-        annotationLabelLeftOne.distance
+        annotations.mating.connectors[0].distance
       );
 
     const [matingSnakeTwoControlPointX, matingSnakeTwoControlPointY] =
       getQuadraticBezierCurveControlPoint(
-        annotationLabelLeftOne.x,
-        annotationLabelLeftOne.y,
-        matingSnakeTwoTarget.x,
-        matingSnakeTwoTarget.y,
-        annotationLabelLeftOne.distance
+        annotations.mating.labels[0].labelX,
+        annotations.mating.labels[0].labelY,
+        matingSnakeTwo.x,
+        matingSnakeTwo.y,
+        annotations.mating.connectors[1].distance
       );
 
-    d3.select(".annotation-connector-one")
+    d3.select(".annotation-connector-smoochy-matingSnakeOne")
       .attr(
         "d",
-        `M${annotationLabelLeftOne.x + annotationPadding} ${
-          annotationLabelLeftOne.y + annotationPadding
+        `M${annotations.mating.labels[0].labelX} ${
+          annotations.mating.labels[0].labelY +
+          annotations.mating.labels[0].paddingY
         }
         Q${matingSnakeOneControlPointX},${matingSnakeOneControlPointY} ${
-          matingSnakeOneTarget.x
-        },${matingSnakeOneTarget.y}`
+          matingSnakeOneTarget.x + annotations.mating.connectors[0].snakeXOffset
+        },${
+          matingSnakeOneTarget.y + annotations.mating.connectors[0].snakeYOffset
+        }`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
 
-    d3.select(".annotation-connector-two")
+    d3.select(".annotation-connector-smoochy-matingSnakeTwo")
       .attr(
         "d",
-        `M${annotationLabelLeftOne.x + annotationPadding} ${
-          annotationLabelLeftOne.y + annotationPadding
+        `M${annotations.mating.labels[0].labelX} ${
+          annotations.mating.labels[0].labelY +
+          annotations.mating.labels[0].paddingY
         }
         Q${matingSnakeTwoControlPointX},${matingSnakeTwoControlPointY} ${
-          matingSnakeTwoTarget.x
-        },${matingSnakeTwoTarget.y}`
+          matingSnakeTwoTarget.x + annotations.mating.connectors[1].snakeXOffset
+        },${
+          matingSnakeTwoTarget.y + annotations.mating.connectors[1].snakeYOffset
+        }`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
   }
 
   if (activeStepFunctionName === "courting") {
     const courtingSnakeOneTarget = {
-      x: courtingSnakeOne.x + circleRadius * 1.25,
-      y: courtingSnakeOne.y - circleRadius * 1.25,
+      x: courtingSnakeOne.x,
+      y: courtingSnakeOne.y,
     };
     const courtingSnakeTwoTarget = {
-      x: courtingSnakeTwo.x + circleRadius * 1.25,
-      y: courtingSnakeTwo.y - circleRadius * 1.25,
+      x: courtingSnakeTwo.x,
+      y: courtingSnakeTwo.y,
     };
 
     const [courtingSnakeOneControlPointX, courtingSnakeOneControlPointY] =
       getQuadraticBezierCurveControlPoint(
-        annotationLabelRight.x,
-        annotationLabelRight.y,
+        annotations.courting.labels[0].labelX,
+        annotations.courting.labels[0].labelY,
         courtingSnakeOneTarget.x,
         courtingSnakeOneTarget.y,
-        annotationLabelRight.distance
+        annotations.courting.connectors[0].distance
       );
 
     const [courtingSnakeTwoControlPointX, courtingSnakeTwoControlPointY] =
       getQuadraticBezierCurveControlPoint(
-        annotationLabelRight.x,
-        annotationLabelRight.y,
-        courtingSnakeTwoTarget.x,
-        courtingSnakeTwoTarget.y,
-        annotationLabelRight.distance
+        annotations.courting.labels[0].labelX,
+        annotations.courting.labels[0].labelY,
+        courtingSnakeTwo.x,
+        courtingSnakeTwo.y,
+        annotations.courting.connectors[1].distance
       );
 
-    d3.select(".annotation-connector-three")
+    d3.select(".annotation-connector-snuggle-courtingSnakeOne")
       .attr(
         "d",
-        `M${annotationLabelRight.x + annotationPadding} ${
-          annotationLabelRight.y + annotationPadding
+        `M${annotations.courting.labels[0].labelX} ${
+          annotations.courting.labels[0].labelY +
+          annotations.courting.labels[0].paddingY
         }
         Q${courtingSnakeOneControlPointX},${courtingSnakeOneControlPointY} ${
-          courtingSnakeOneTarget.x
-        },${courtingSnakeOneTarget.y}`
+          courtingSnakeOneTarget.x +
+          annotations.courting.connectors[0].snakeXOffset
+        },${
+          courtingSnakeOneTarget.y +
+          annotations.courting.connectors[0].snakeYOffset
+        }`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
 
-    d3.select(".annotation-connector-four")
+    d3.select(".annotation-connector-snuggle-courtingSnakeTwo")
       .attr(
         "d",
-        `M${annotationLabelRight.x + annotationPadding} ${
-          annotationLabelRight.y + annotationPadding
+        `M${annotations.courting.labels[0].labelX} ${
+          annotations.courting.labels[0].labelY +
+          annotations.courting.labels[0].paddingY
         }
         Q${courtingSnakeTwoControlPointX},${courtingSnakeTwoControlPointY} ${
-          courtingSnakeTwoTarget.x
-        },${courtingSnakeTwoTarget.y}`
+          courtingSnakeTwoTarget.x +
+          annotations.courting.connectors[1].snakeXOffset
+        },${
+          courtingSnakeTwoTarget.y +
+          annotations.courting.connectors[1].snakeYOffset
+        }`
+      )
+      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+  }
+
+  if (activeStepFunctionName === "flying") {
+    const flyingSnakeTarget = {
+      x: flyingSnake.x,
+      y: flyingSnake.y,
+    };
+
+    const [flyingSnakeControlPointX, flyingSnakeControlPointY] =
+      getQuadraticBezierCurveControlPoint(
+        annotations.flying.labels[0].labelX,
+        annotations.flying.labels[0].labelY,
+        flyingSnakeTarget.x,
+        flyingSnakeTarget.y,
+        annotations.flying.connectors[0].distance
+      );
+
+    d3.select(".annotation-connector-flying-flyingSnake")
+      .attr(
+        "d",
+        `M${annotations.flying.labels[0].labelX} ${
+          annotations.flying.labels[0].labelY +
+          annotations.flying.labels[0].paddingY
+        }
+        Q${flyingSnakeControlPointX},${flyingSnakeControlPointY} ${
+          flyingSnakeTarget.x + annotations.flying.connectors[0].snakeXOffset
+        },${
+          flyingSnakeTarget.y + annotations.flying.connectors[0].snakeYOffset
+        }`
+      )
+      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
+  }
+
+  if (activeStepFunctionName === "magpies") {
+    const magpiesSnakeTarget = {
+      x: magpiesSnake.x,
+      y: magpiesSnake.y,
+    };
+
+    const [magpiesSnakeControlPointX, magpiesSnakeControlPointY] =
+      getQuadraticBezierCurveControlPoint(
+        annotations.magpies.labels[0].labelX,
+        annotations.magpies.labels[0].labelY,
+        magpiesSnakeTarget.x,
+        magpiesSnakeTarget.y,
+        annotations.magpies.connectors[0].distance
+      );
+
+    d3.select(".annotation-connector-gulped-magpiesSnake")
+      .attr(
+        "d",
+        `M${annotations.magpies.labels[0].labelX} ${
+          annotations.magpies.labels[0].labelY +
+          annotations.magpies.labels[0].paddingY
+        }
+        Q${magpiesSnakeControlPointX},${magpiesSnakeControlPointY} ${
+          magpiesSnakeTarget.x + annotations.magpies.connectors[0].snakeXOffset
+        },${
+          magpiesSnakeTarget.y + annotations.magpies.connectors[0].snakeYOffset
+        }`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
   }
 
   if (activeStepFunctionName === "butcherBirds") {
     const butcherBirdsSnakeTarget = {
-      x: butcherBirdsSnake.x + circleRadius * 1.25,
-      y: butcherBirdsSnake.y - circleRadius * 1.25,
-    };
-    const magpiesTarget = {
-      x: magpies.x + circleRadius * 1.25,
-      y: magpies.y - circleRadius * 1.25,
-    };
-    const flyingSnakeTarget = {
-      x: flyingSnake.x + circleRadius * 1.25,
-      y: flyingSnake.y - circleRadius * 1.25,
+      x: butcherBirdsSnake.x,
+      y: butcherBirdsSnake.y,
     };
 
     const [butcherBirdsSnakeControlPointX, butcherBirdsSnakeControlPointY] =
       getQuadraticBezierCurveControlPoint(
-        annotationLabelLeftOne.x,
-        annotationLabelLeftOne.y,
+        annotations.butcherBirds.labels[0].labelX,
+        annotations.butcherBirds.labels[0].labelY,
         butcherBirdsSnakeTarget.x,
         butcherBirdsSnakeTarget.y,
-        annotationLabelLeftOne.distance
+        annotations.butcherBirds.connectors[0].distance
       );
 
-    const [magpiesControlPointX, magpiesControlPointY] =
-      getQuadraticBezierCurveControlPoint(
-        annotationLabelRight.x,
-        annotationLabelRight.y,
-        magpiesTarget.x,
-        magpiesTarget.y,
-        annotationLabelRight.distance
-      );
-
-    const [flyingSnakeControlPointX, flyingSnakeControlPointY] =
-      getQuadraticBezierCurveControlPoint(
-        annotationLabelLeftTwo.x,
-        annotationLabelLeftTwo.y,
-        flyingSnakeTarget.x,
-        flyingSnakeTarget.y,
-        annotationLabelLeftTwo.distance
-      );
-
-    d3.select(".annotation-connector-one")
+    d3.select(".annotation-connector-cowering-butcherBirdsSnake")
       .attr(
         "d",
-        `M${annotationLabelLeftOne.x + annotationPadding} ${
-          annotationLabelLeftOne.y + annotationPadding
+        `M${annotations.butcherBirds.labels[0].labelX} ${
+          annotations.butcherBirds.labels[0].labelY +
+          annotations.butcherBirds.labels[0].paddingY
         }
         Q${butcherBirdsSnakeControlPointX},${butcherBirdsSnakeControlPointY} ${
-          butcherBirdsSnakeTarget.x
-        },${butcherBirdsSnakeTarget.y}`
-      )
-      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
-
-    d3.select(".annotation-connector-two")
-      .attr(
-        "d",
-        `M${annotationLabelRight.x + annotationPadding} ${
-          annotationLabelRight.y + annotationPadding
-        }
-        Q${magpiesControlPointX},${magpiesControlPointY} ${magpiesTarget.x},${
-          magpiesTarget.y
+          butcherBirdsSnakeTarget.x +
+          annotations.butcherBirds.connectors[0].snakeXOffset
+        },${
+          butcherBirdsSnakeTarget.y +
+          annotations.butcherBirds.connectors[0].snakeYOffset
         }`
-      )
-      .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
-
-    d3.select(".annotation-connector-three")
-      .attr(
-        "d",
-        `M${annotationLabelLeftTwo.x + annotationPadding} ${
-          annotationLabelLeftTwo.y + annotationPadding
-        }
-        Q${flyingSnakeControlPointX},${flyingSnakeControlPointY} ${
-          flyingSnakeTarget.x
-        },${flyingSnakeTarget.y}`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
   }

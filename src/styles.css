@@ -155,3 +155,7 @@ li {
   margin-top: 12px;
   margin-bottom: 12px;
 }
+
+summary {
+  cursor: pointer;
+}

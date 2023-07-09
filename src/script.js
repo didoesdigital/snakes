@@ -93,7 +93,7 @@ let matingSnakeOne = null;
 let matingSnakeTwo = null;
 let courtingSnakeOne = null;
 let courtingSnakeTwo = null;
-let butcherBirds = null;
+let butcherBirdsSnake = null;
 let magpies = null;
 let flyingSnake = null;
 
@@ -224,7 +224,7 @@ function handleStepEnter(response) {
     staringContest,
     mating,
     courting,
-    birds,
+    butcherBirds,
     yard,
     climbing,
     onCamera,
@@ -807,7 +807,7 @@ function setupPointsOfInterestDataPoints() {
   courtingSnakeOne = courtingSnakes[0];
   courtingSnakeTwo = courtingSnakes[1];
 
-  butcherBirds = sightingsData.filter(
+  butcherBirdsSnake = sightingsData.filter(
     (d) => d[metricBirdsProp] === "Butcher birds"
   )[0];
   magpies = sightingsData.filter((d) => d[metricBirdsProp] === "magpies")[0];
@@ -1191,8 +1191,8 @@ function courting() {
   reheatSimulation();
 }
 
-function birds() {
-  hideOtherChartStuff("birds");
+function butcherBirds() {
+  hideOtherChartStuff("butcherBirds");
 
   updateTitle("Hungry birbs");
   addPointsOfInterestBlobForces();
@@ -1377,12 +1377,12 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".venom-axis").transition().attr("opacity", 0);
   }
 
-  if (!["mating", "birds"].includes(stepFunctionName)) {
+  if (!["mating", "butcherBirds"].includes(stepFunctionName)) {
     svg.select(".annotation-connector-one").transition().attr("opacity", 0);
     svg.select(".annotation-connector-two").transition().attr("opacity", 0);
     svg.select(".annotation-label-left-one").transition().attr("opacity", 0);
   }
-  if (stepFunctionName !== "birds") {
+  if (stepFunctionName !== "butcherBirds") {
     svg.select(".annotation-label-left-two").transition().attr("opacity", 0);
   }
 
@@ -1390,7 +1390,7 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".annotation-connector-four").transition().attr("opacity", 0);
   }
 
-  if (!["courting", "birds"].includes(stepFunctionName)) {
+  if (!["courting", "butcherBirds"].includes(stepFunctionName)) {
     svg.select(".annotation-connector-three").transition().attr("opacity", 0);
     svg.select(".annotation-label-right").transition().attr("opacity", 0);
   }
@@ -1592,10 +1592,10 @@ function updateAnnotationArrowsPaths() {
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
   }
 
-  if (activeStepFunctionName === "birds") {
-    const butcherBirdsTarget = {
-      x: butcherBirds.x + circleRadius * 1.25,
-      y: butcherBirds.y - circleRadius * 1.25,
+  if (activeStepFunctionName === "butcherBirds") {
+    const butcherBirdsSnakeTarget = {
+      x: butcherBirdsSnake.x + circleRadius * 1.25,
+      y: butcherBirdsSnake.y - circleRadius * 1.25,
     };
     const magpiesTarget = {
       x: magpies.x + circleRadius * 1.25,
@@ -1606,12 +1606,12 @@ function updateAnnotationArrowsPaths() {
       y: flyingSnake.y - circleRadius * 1.25,
     };
 
-    const [butcherBirdsControlPointX, butcherBirdsControlPointY] =
+    const [butcherBirdsSnakeControlPointX, butcherBirdsSnakeControlPointY] =
       getQuadraticBezierCurveControlPoint(
         annotationLabelLeftOne.x,
         annotationLabelLeftOne.y,
-        butcherBirdsTarget.x,
-        butcherBirdsTarget.y,
+        butcherBirdsSnakeTarget.x,
+        butcherBirdsSnakeTarget.y,
         annotationLabelLeftOne.distance
       );
 
@@ -1639,9 +1639,9 @@ function updateAnnotationArrowsPaths() {
         `M${annotationLabelLeftOne.x + annotationPadding} ${
           annotationLabelLeftOne.y + annotationPadding
         }
-        Q${butcherBirdsControlPointX},${butcherBirdsControlPointY} ${
-          butcherBirdsTarget.x
-        },${butcherBirdsTarget.y}`
+        Q${butcherBirdsSnakeControlPointX},${butcherBirdsSnakeControlPointY} ${
+          butcherBirdsSnakeTarget.x
+        },${butcherBirdsSnakeTarget.y}`
       )
       .attr("marker-end", `url(${new URL("#arrow-one", window.location)})`);
 

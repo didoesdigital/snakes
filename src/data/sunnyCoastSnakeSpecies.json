@@ -1,0 +1,60 @@
+{
+  "blindSnakes": [
+    "Robust Blind Snake",
+    "Blackish Blind Snake",
+    "Woodland Blind Snake",
+    "Cooloola Blind Snake",
+    "Brown-snouted Blind Snake"
+  ],
+  "pythons": ["Spotted Python", "Carpet Python"],
+  "solidToothedAndRearFanged": [
+    "Brown Tree Snake",
+    "Common Tree Snake",
+    "Keelback"
+  ],
+  "frontFangedVenomousTerrestrial": [
+    "Common Death Adder",
+    "White-crowned Snake",
+    "Southern Dwarf Crowned Snake",
+    "Golden-crowned Snake",
+    "Carpentaria Snake",
+    "Eastern Small-eyed Snake",
+    "Yellow-faced Whipsnake",
+    "Lesser Black Whipsnake",
+    "Red-naped Snake",
+    "Marsh Snake",
+    "Stephens' Banded Snake",
+    "Tiger Snake",
+    "Coastal Taipan",
+    "Red-bellied Black Snake",
+    "Eastern Brown Snake",
+    "Rough-scaled Snake",
+    "Bandy Bandy"
+  ],
+  "frontFangedVenomousSeaSnakes": [
+    "Dubois' Sea Snake",
+    "Mosaic Sea Snake",
+    "Turtle-headed Sea Snake",
+    "Spine-bellied Sea Snake",
+    "Elegant Sea Snake",
+    "Spectacled Sea Snake",
+    "Small-headed Sea Snake",
+    "Olive-headed Sea Snake",
+    "Ocellated Sea Snake",
+    "Horned Sea Snake",
+    "Yellow-bellied Sea Snake",
+    "Stokes' Sea Snake",
+    "Beaked Sea Snake"
+  ],
+  "leglessAndSnakeLikeLizards": [
+    "Leaden Legless Lizard",
+    "Excitable Legless Lizard",
+    "Burton's Snake-lizard",
+    "Common Scaly-foot",
+    "Verreaux's Skink",
+    "Three-toed Snake-tooth Skink",
+    "Yolk-bellied Snake-skink",
+    "Short-limbed Snake-skink",
+    "Three-toed Skink"
+  ]
+}

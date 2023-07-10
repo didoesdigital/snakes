@@ -1,3 +1,61 @@
+const sunnyCoastSnakeSpecies = {
+  blindSnakes: [
+    // 5
+    "Robust Blind Snake",
+    "Blackish Blind Snake",
+    "Woodland Blind Snake",
+    "Cooloola Blind Snake",
+    "Brown-snouted Blind Snake",
+  ],
+  pythons: [
+    // 2
+    "Spotted Python",
+    "Carpet Python",
+  ],
+  solidToothedAndRearFanged: [
+    // 3
+    "Brown Tree Snake",
+    "Common Tree Snake",
+    "Keelback",
+  ],
+  frontFangedVenomousTerrestrial: [
+    // 17
+    "Common Death Adder",
+    "White-crowned Snake",
+    "Southern Dwarf Crowned Snake",
+    "Golden-crowned Snake",
+    "Carpentaria Snake",
+    "Eastern Small-eyed Snake",
+    "Yellow-faced Whipsnake",
+    "Lesser Black Whipsnake",
+    "Red-naped Snake",
+    "Marsh Snake",
+    "Stephens' Banded Snake",
+    "Tiger Snake",
+    "Coastal Taipan",
+    "Red-bellied Black Snake",
+    "Eastern Brown Snake",
+    "Rough-scaled Snake",
+    "Bandy Bandy",
+  ],
+  // "frontFangedVenomousSeaSnakes": [ // 13
+  //   "Dubois' Sea Snake",
+  //   "Mosaic Sea Snake",
+  //   "Turtle-headed Sea Snake",
+  //   "Spine-bellied Sea Snake",
+  //   "Elegant Sea Snake",
+  //   "Spectacled Sea Snake",
+  //   "Small-headed Sea Snake",
+  //   "Olive-headed Sea Snake",
+  //   "Ocellated Sea Snake",
+  //   "Horned Sea Snake",
+  //   "Yellow-bellied Sea Snake",
+  //   "Stokes' Sea Snake",
+  //   "Beaked Sea Snake"
+  // ],
+};
+// I've seen 7 species out of 27 species;
+
 // Selections
 const main = d3.select("main");
 const scrolly = main.select("#scrolly");

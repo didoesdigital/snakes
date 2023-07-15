@@ -598,9 +598,9 @@ function setupChart() {
 
   sneks.on("mouseenter", onMouseEnter);
 
-  simulation = d3.forceSimulation(sightingsData);
+  snekSimulation = d3.forceSimulation(sightingsData);
 
-  simulation.on("tick", () => {
+  snekSimulation.on("tick", () => {
     sneks.attr(
       "transform",
       (d) => `translate(${d.x - circleRadius}, ${d.y - circleRadius})`
@@ -609,9 +609,9 @@ function setupChart() {
     updateAnnotationConnectors();
   });
 
-  simulation.stop();
+  snekSimulation.stop();
 
-  simulation
+  snekSimulation
     .force("bounding-rect", () => {
       sightingsData.forEach((node) => {
         node.x = Math.max(node.x, boundingMinX + boundingPadding);
@@ -658,7 +658,7 @@ function setupChart() {
     .velocityDecay(0.6)
     .stop();
 
-  simulation.restart();
+  snekSimulation.restart();
 }
 
 function setupAxes() {
@@ -1046,14 +1046,17 @@ function timeOfDayStripPlot() {
   hideOtherChartStuff("timeOfDayStripPlot");
 
   updateTitle("I see Keelbacks only at dusk");
-  simulation.force("forceX", null).force("forceY", null).force("charge", null);
+  snekSimulation
+    .force("forceX", null)
+    .force("forceY", null)
+    .force("charge", null);
   // .force("collide", null);
 
   const jitter = (i) => {
     return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
   };
 
-  simulation
+  snekSimulation
     .force(
       "forceX",
       d3.forceX((d) => timeOfDayScale(d[metricTimeOfDayProp])).strength(0.9)
@@ -1086,14 +1089,17 @@ function weatherStripPlot() {
   // updateTitle("Nope ropes, rain, hail, or shine");
   // updateTitle("Rain, hail, or shine, there be nope ropes");
   updateTitle("Nope ropes in all weather");
-  simulation.force("forceX", null).force("forceY", null).force("charge", null);
+  snekSimulation
+    .force("forceX", null)
+    .force("forceY", null)
+    .force("charge", null);
   // .force("collide", null);
 
   const jitter = (i) => {
     return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
   };
 
-  simulation
+  snekSimulation
     .force(
       "forceX",
       d3.forceX((d) => weatherScale(weatherGroup(d))).strength(0.9)
@@ -1124,14 +1130,17 @@ function temperatureStripPlot() {
   hideOtherChartStuff("temperatureStripPlot");
 
   updateTitle("Whip snakes like it hot");
-  simulation.force("forceX", null).force("forceY", null).force("charge", null);
+  snekSimulation
+    .force("forceX", null)
+    .force("forceY", null)
+    .force("charge", null);
   // .force("collide", null);
 
   const jitter = (i) => {
     return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
   };
 
-  simulation
+  snekSimulation
     .force(
       "forceX",
       d3.forceX((d) => temperatureScale(d[metricTempProp])).strength(0.9)
@@ -1162,7 +1171,7 @@ function timeline() {
   hideOtherChartStuff("timeline");
 
   updateTitle("On average, I've seen a snake every two and a half weeks");
-  simulation
+  snekSimulation
     // .force("forceX", d3.forceX(focalPointX).strength(1.55))
     .force("forceX", d3.forceX(xWiggle).strength(1))
     .force("forceY", d3.forceY((d) => timeScale(d[metricDateProp])).strength(1))
@@ -1190,7 +1199,7 @@ function seasons() {
   hideOtherChartStuff("seasons");
 
   updateTitle("Fewer snek in Winter");
-  simulation
+  snekSimulation
     .force(
       "forceX",
       d3
@@ -1213,7 +1222,7 @@ function staringContest() {
   hideOtherChartStuff("staringContest");
 
   updateTitle("I won a staring contest with a noodle boi");
-  simulation
+  snekSimulation
     .force(
       "forceX",
       d3.forceX((d) => watchingMeScale(watchingMeGroup(d))).strength(1)
@@ -1245,7 +1254,7 @@ function venom() {
       : 0;
   };
 
-  simulation
+  snekSimulation
     .force(
       "forceX",
       d3
@@ -1781,7 +1790,7 @@ function addPointsOfInterestBlobForces() {
 }
 
 function addBlobForces(radius) {
-  simulation
+  snekSimulation
     .force(
       "forceX",
       d3
@@ -1838,7 +1847,7 @@ function updateTitle(title) {
 }
 
 function reheatSimulation() {
-  simulation.alpha(0.9).restart();
+  snekSimulation.alpha(0.9).restart();
 }
 
 loadData();

@@ -206,17 +206,18 @@ const venomStrokeWidth = 2;
 const noVenomStroke = "#ECB255";
 const noVenomStrokeWidth = 2;
 const noVenomStrokeDash = null; //"4 2";
-const speciesNodeRadius = 8;
+const scSpeciesNodeRadius = 12;
+const scSpeciesGroupChargeStrength = -180;
+const scSpeciesGroupRadius = 16;
 const snekChargeStrength = -180;
 const snekChargeStrengthTimeline = -20;
-const speciesGroupChargeStrength = -180;
 const hideOffscreen = 80;
 const goldenRatio = 1.618;
 const focalPointX = width / 2;
 const focalPointY = height / goldenRatio / goldenRatio;
 const opacityFade = 0.2;
 
-const speciesRadius = 50;
+const snekSpeciesRadius = 50;
 const speciesColors = [
   "#F1EEF6",
   "#E4DDEE",
@@ -805,7 +806,7 @@ function snakeSimulation() {
       d3
         .forceX(
           (d) =>
-            speciesRadius *
+            snekSpeciesRadius *
               Math.sin(
                 speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
               ) +
@@ -818,7 +819,7 @@ function snakeSimulation() {
       d3
         .forceY(
           (d) =>
-            speciesRadius *
+            snekSpeciesRadius *
               Math.cos(
                 speciesAngleScale(d.speciesBestGuess) * (Math.PI / 180)
               ) +
@@ -847,13 +848,13 @@ function speciesSimulation() {
     .data(sunnyCoastSnakeSpeciesData)
     .join("circle")
     .attr("class", "species")
-    .attr("opacity", 0.2)
+    .attr("opacity", 0)
     .attr("fill", (d) => speciesGroupColorScale(d[metricSpeciesGroupProp]))
     .attr(
       "transform",
       (_d, i) => `translate(${leftPad + i * circleSpacing}, ${height - 10})`
     )
-    .attr("r", speciesNodeRadius)
+    .attr("r", scSpeciesNodeRadius)
     .attr("stroke-width", 1)
     .attr("stroke", circleStroke);
 
@@ -884,32 +885,32 @@ function speciesSimulation() {
       d3
         .forceX(
           (d) =>
-            speciesRadius *
+            scSpeciesGroupRadius *
               Math.sin(
                 speciesGroupAngleScale(d[metricSpeciesGroupProp]) *
                   (Math.PI / 180)
               ) +
             focalPointX
         )
-        .strength(1)
+        .strength(0.9)
     )
     .force(
       "forceY",
       d3
         .forceY(
           (d) =>
-            speciesRadius *
+            scSpeciesGroupRadius *
               Math.cos(
                 speciesGroupAngleScale(d[metricSpeciesGroupProp]) *
                   (Math.PI / 180)
               ) +
             focalPointY
         )
-        .strength(1)
+        .strength(0.9)
     )
-    .force("charge", d3.forceManyBody().strength(speciesGroupChargeStrength))
-    .force("collide", null)
-    // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
+    .force("charge", d3.forceManyBody().strength(scSpeciesGroupChargeStrength))
+    // .force("collide", null)
+    .force("collide", d3.forceCollide((_d) => scSpeciesNodeRadius + 2).strength(1))
     // .alpha(1)
     // .alphaDecay(0.0228)
     // .alphaMin(0.001)
@@ -2190,7 +2191,7 @@ function updateConnectorPaths(label, snake, connector, selector) {
 }
 
 function addSpeciesBlobForces() {
-  addBlobForces(speciesRadius);
+  addBlobForces(snekSpeciesRadius);
 }
 
 function addPointsOfInterestBlobForces() {

@@ -1,60 +1,176 @@
-const sunnyCoastSnakeSpecies = {
-  blindSnakes: [
-    // 5
-    "Robust Blind Snake",
-    "Blackish Blind Snake",
-    "Woodland Blind Snake",
-    "Cooloola Blind Snake",
-    "Brown-snouted Blind Snake",
-  ],
-  pythons: [
-    // 2
-    "Spotted Python",
-    "Carpet Python",
-  ],
-  solidToothedAndRearFanged: [
-    // 3
-    "Brown Tree Snake",
-    "Common Tree Snake",
-    "Keelback",
-  ],
-  frontFangedVenomousTerrestrial: [
-    // 17
-    "Common Death Adder",
-    "White-crowned Snake",
-    "Southern Dwarf Crowned Snake",
-    "Golden-crowned Snake",
-    "Carpentaria Snake",
-    "Eastern Small-eyed Snake",
-    "Yellow-faced Whipsnake",
-    "Lesser Black Whipsnake",
-    "Red-naped Snake",
-    "Marsh Snake",
-    "Stephens' Banded Snake",
-    "Tiger Snake",
-    "Coastal Taipan",
-    "Red-bellied Black Snake",
-    "Eastern Brown Snake",
-    "Rough-scaled Snake",
-    "Bandy Bandy",
-  ],
-  // "frontFangedVenomousSeaSnakes": [ // 13
-  //   "Dubois' Sea Snake",
-  //   "Mosaic Sea Snake",
-  //   "Turtle-headed Sea Snake",
-  //   "Spine-bellied Sea Snake",
-  //   "Elegant Sea Snake",
-  //   "Spectacled Sea Snake",
-  //   "Small-headed Sea Snake",
-  //   "Olive-headed Sea Snake",
-  //   "Ocellated Sea Snake",
-  //   "Horned Sea Snake",
-  //   "Yellow-bellied Sea Snake",
-  //   "Stokes' Sea Snake",
-  //   "Beaked Sea Snake"
-  // ],
-};
-// I've seen 7 species out of 27 species;
+// blindSnakes: // 5
+// pythons: // 2
+// solidToothedAndRearFanged: // 3
+// frontFangedVenomousTerrestrial: // 17
+// frontFangedVenomousSeaSnakes: // 13
+// I've seen 7 species out of 27 species
+
+const sunnyCoastSnakeSpeciesData = [
+  { sp: "Robust Blind Snake", g: "Blind Snakes", v: "non venomous" },
+  { sp: "Blackish Blind Snake", g: "Blind Snakes", v: "non venomous" },
+  { sp: "Woodland Blind Snake", g: "Blind Snakes", v: "non venomous" },
+  { sp: "Cooloola Blind Snake", g: "Blind Snakes", v: "non venomous" },
+  { sp: "Brown-snouted Blind Snake", g: "Blind Snakes", v: "non venomous" },
+  { sp: "Spotted Python", g: "Pythons", v: "non venomous" },
+  { sp: "Carpet Python", g: "Pythons", v: "non venomous" },
+  { sp: "Brown Tree Snake", g: "Solid Toothed and Rear Fanged", v: "venomous" },
+  {
+    sp: "Common Tree Snake",
+    g: "Solid Toothed and Rear Fanged",
+    v: "non venomous",
+  },
+  { sp: "Keelback", g: "Solid Toothed and Rear Fanged", v: "non venomous" },
+  {
+    sp: "Common Death Adder",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "White-crowned Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Southern Dwarf Crowned Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Golden-crowned Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Carpentaria Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Eastern Small-eyed Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Yellow-faced Whipsnake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Lesser Black Whipsnake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Red-naped Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Marsh Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Stephens' Banded Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Tiger Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Coastal Taipan",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Red-bellied Black Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Eastern Brown Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Rough-scaled Snake",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Bandy Bandy",
+    g: "Front Fanged, Venomous, Terrestrial",
+    v: "venomous",
+  },
+  {
+    sp: "Dubois' Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Mosaic Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Turtle-headed Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Spine-bellied Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Elegant Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Spectacled Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Small-headed Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Olive-headed Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Ocellated Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Horned Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Yellow-bellied Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Stokes' Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+  {
+    sp: "Beaked Sea Snake",
+    g: "Front Fanged, Venomous, Sea Snakes",
+    v: "venomous",
+  },
+];
 
 // Selections
 const main = d3.select("main");
@@ -85,8 +201,15 @@ const circleRadius = circleDiameter / 2;
 const circleSpacing = circleDiameter + 2;
 const circleStroke = "#3C3941";
 // const circleStroke = "#525252";
+const venomStroke = "#452D6C";
+const venomStrokeWidth = 2;
+const noVenomStroke = "#ECB255";
+const noVenomStrokeWidth = 2;
+const noVenomStrokeDash = null; //"4 2";
+const speciesNodeRadius = 8;
 const snekChargeStrength = -180;
-const snekChargeStrength2 = -20;
+const snekChargeStrengthTimeline = -20;
+const speciesGroupChargeStrength = -180;
 const hideOffscreen = 80;
 const goldenRatio = 1.618;
 const focalPointX = width / 2;
@@ -125,7 +248,10 @@ const boundingMaxY = dimensions.height - circleRadius;
 
 let sneks = null;
 let nodes = null;
+let speciesNodes = null;
 let sightingsData = null;
+let speciesGroupSimulation = null;
+let snekSimulation = null;
 
 let activeStepFunctionName = null;
 
@@ -247,6 +373,9 @@ let speciesAngleScale = null;
 let speciesColorScale = null;
 let speciesBandScale = null;
 
+let speciesGroupAngleScale = null;
+let speciesGroupColorScale = null;
+
 let temperatureScale = null;
 let temperatureColorScale = null;
 
@@ -274,6 +403,11 @@ const metricMatingProp = "mating";
 const metricMatingAccessor = (d) => d[metricMatingProp];
 const metricBirdsProp = "attackedByBirds";
 const metricBirdsAccessor = (d) => d[metricBirdsProp];
+
+const metricSpeciesGroupProp = "g";
+const metricSpeciesGroupAccessor = (d) => d[metricSpeciesGroupProp];
+const metricSpeciesVenomProp = "v";
+const metricSpeciesGroupSpProp = "sp";
 
 const weatherGroup = (d) => {
   const weather = d[metricWeatherProp];
@@ -345,6 +479,53 @@ function handleResize() {
   scroller.resize();
 }
 
+const sightingsFunctions = {
+  yellowFacedWhipSnake,
+  redBelly,
+  keelback,
+  commonTreeSnake,
+  easternSmallEyedSnake,
+  marshSnake,
+  carpetPython,
+  unknownSpecies,
+  all,
+  staringContest,
+  mating,
+  courting,
+  butcherBirds,
+  magpies,
+  flying,
+  yard,
+  climbing,
+  onCamera,
+  attacked,
+  fled,
+  chill,
+  defensive,
+  temperatureStripPlot,
+  weatherStripPlot,
+  timeOfDayStripPlot,
+  venom,
+  timeline,
+  species,
+  seasons,
+  fin,
+  first,
+};
+const sunnyCoastSpeciesFunctions = {
+  sunnyCoastSpecies,
+  sunnyCoastSeenSpecies,
+  scVenom,
+  scSeaSnakes,
+  scBlindSnakes,
+};
+const stepFunctions = {
+  ...sightingsFunctions,
+  ...sunnyCoastSpeciesFunctions,
+};
+const sunnyCoastSpeciesStepNames = Object.keys(sunnyCoastSpeciesFunctions);
+const sightingsStepNames = Object.keys(sightingsFunctions);
+
 function handleStepEnter(response) {
   // console.log(response);
   // response = { element, direction, index }
@@ -357,39 +538,6 @@ function handleStepEnter(response) {
   // update graphic based on step
   const stepFunctionName = response.element.getAttribute("data-step-function");
   activeStepFunctionName = stepFunctionName;
-  const stepFunctions = {
-    yellowFacedWhipSnake,
-    redBelly,
-    keelback,
-    commonTreeSnake,
-    easternSmallEyedSnake,
-    marshSnake,
-    carpetPython,
-    unknownSpecies,
-    all,
-    staringContest,
-    mating,
-    courting,
-    butcherBirds,
-    magpies,
-    flying,
-    yard,
-    climbing,
-    onCamera,
-    attacked,
-    fled,
-    chill,
-    defensive,
-    temperatureStripPlot,
-    weatherStripPlot,
-    timeOfDayStripPlot,
-    venom,
-    timeline,
-    species,
-    seasons,
-    fin,
-    first,
-  };
   const stepFn = stepFunctions[stepFunctionName];
   if (stepFn) {
     stepFn();
@@ -451,6 +599,15 @@ function setupScales() {
     .map((d) => d[0]);
   // console.log(orderedSnakeSpecies);
 
+  speciesGroupAngleScale = d3
+    .scaleBand()
+    .domain(
+      Array.from(
+        new Set(sunnyCoastSnakeSpeciesData.map(metricSpeciesGroupAccessor))
+      )
+    )
+    .range([0, 360]);
+
   speciesAngleScale = d3
     .scaleBand()
     .domain(orderedSnakeSpecies)
@@ -486,6 +643,23 @@ function setupScales() {
         return "#045D40";
       default:
         return speciesColors[Math.floor(Math.random() * speciesColors.length)];
+    }
+  };
+
+  speciesGroupColorScale = (species) => {
+    switch (species) {
+      case "Blind Snakes":
+        return "#7C6603";
+      case "Pythons":
+        return "#045D40";
+      case "Solid Toothed and Rear Fanged":
+        return "#E17547";
+      case "Front Fanged, Venomous, Terrestrial":
+        return "#09A573";
+      case "Front Fanged, Venomous, Sea Snakes":
+        return "#5598E2";
+      default:
+        return "#D5CBE6";
     }
   };
 
@@ -574,7 +748,11 @@ function setupScales() {
 
 function setupChart() {
   svg.attr("width", width).attr("height", height);
+  snakeSimulation();
+  speciesSimulation();
+}
 
+function snakeSimulation() {
   nodes = svg.selectAll("path.snek").data(sightingsData);
 
   sneks = nodes
@@ -586,6 +764,7 @@ function setupChart() {
     )
     .attr("data-id", (d) => d.id)
     .attr("fill", (d) => speciesColorScale(d.speciesBestGuess))
+    .attr("opacity", 0)
     // .attr("opacity", 0)
     // .attr("opacity", 0.8)
     // .attr("style", "mix-blend-mode: color-dodge")
@@ -593,6 +772,7 @@ function setupChart() {
       "transform",
       (_d, i) => `translate(${leftPad + i * circleSpacing}, ${height - 10})`
     )
+    .attr("pointer-events", "none") // TODO: remove this for interactivity
     .attr("stroke-width", 1)
     .attr("stroke", circleStroke);
 
@@ -659,6 +839,87 @@ function setupChart() {
     .stop();
 
   snekSimulation.restart();
+}
+
+function speciesSimulation() {
+  speciesNodes = svg
+    .selectAll("circle.species")
+    .data(sunnyCoastSnakeSpeciesData)
+    .join("circle")
+    .attr("class", "species")
+    .attr("opacity", 0.2)
+    .attr("fill", (d) => speciesGroupColorScale(d[metricSpeciesGroupProp]))
+    .attr(
+      "transform",
+      (_d, i) => `translate(${leftPad + i * circleSpacing}, ${height - 10})`
+    )
+    .attr("r", speciesNodeRadius)
+    .attr("stroke-width", 1)
+    .attr("stroke", circleStroke);
+
+  speciesNodes.on("mouseenter", onMouseEnterSpecies);
+
+  speciesGroupSimulation = d3.forceSimulation(sunnyCoastSnakeSpeciesData);
+
+  speciesGroupSimulation.on("tick", () => {
+    speciesNodes.attr(
+      "transform",
+      (d) => `translate(${d.x - circleRadius}, ${d.y - circleRadius})`
+    );
+  });
+
+  speciesGroupSimulation.stop();
+
+  speciesGroupSimulation
+    .force("bounding-rect", () => {
+      sightingsData.forEach((node) => {
+        node.x = Math.max(node.x, boundingMinX + boundingPadding);
+        node.x = Math.min(node.x, boundingMaxX - boundingPadding);
+        node.y = Math.max(node.y, boundingMinY + boundingPadding);
+        node.y = Math.min(node.y, boundingMaxY - boundingPadding);
+      });
+    })
+    .force(
+      "forceX",
+      d3
+        .forceX(
+          (d) =>
+            speciesRadius *
+              Math.sin(
+                speciesGroupAngleScale(d[metricSpeciesGroupProp]) *
+                  (Math.PI / 180)
+              ) +
+            focalPointX
+        )
+        .strength(1)
+    )
+    .force(
+      "forceY",
+      d3
+        .forceY(
+          (d) =>
+            speciesRadius *
+              Math.cos(
+                speciesGroupAngleScale(d[metricSpeciesGroupProp]) *
+                  (Math.PI / 180)
+              ) +
+            focalPointY
+        )
+        .strength(1)
+    )
+    .force("charge", d3.forceManyBody().strength(speciesGroupChargeStrength))
+    .force("collide", null)
+    // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
+    // .alpha(1)
+    // .alphaDecay(0.0228)
+    // .alphaMin(0.001)
+    // .alphaTarget(0)
+    // .velocityDecay(0.4);
+    .alpha(0.9)
+    .velocityDecay(0.6)
+    .stop();
+
+  speciesGroupSimulation.restart();
 }
 
 function setupAxes() {
@@ -1042,6 +1303,7 @@ function keelback() {
 
   reheatSimulation();
 }
+
 function timeOfDayStripPlot() {
   hideOtherChartStuff("timeOfDayStripPlot");
 
@@ -1175,7 +1437,7 @@ function timeline() {
     // .force("forceX", d3.forceX(focalPointX).strength(1.55))
     .force("forceX", d3.forceX(xWiggle).strength(1))
     .force("forceY", d3.forceY((d) => timeScale(d[metricDateProp])).strength(1))
-    .force("charge", d3.forceManyBody().strength(snekChargeStrength2))
+    .force("charge", d3.forceManyBody().strength(snekChargeStrengthTimeline))
     .force("collide", null);
   // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
 
@@ -1510,6 +1772,139 @@ function fin() {
   sneks.transition().duration(200).attr("opacity", 0);
 }
 
+function sunnyCoastSpecies() {
+  hideOtherChartStuff("sunnyCoastSpecies");
+
+  updateTitle("Many hazard spaghetti");
+
+  speciesNodes
+    .transition()
+    .duration(200)
+    .attr("opacity", 1)
+    .attr("stroke", circleStroke)
+    .attr("stroke-width", 1)
+    .attr("stroke-dasharray", null);
+
+  reheatSimulation();
+}
+
+function sunnyCoastSeenSpecies() {
+  hideOtherChartStuff("sunnyCoastSeenSpecies");
+
+  updateTitle("Gotta catch 'em all!");
+
+  const seenSnakeSpeciesWithMatchingNamingConvention = [
+    "Red-bellied Black Snake", // "Snake" included here
+    "Keelback",
+    "Yellow-faced Whipsnake", // "Whipsnake" 1 word instead of 2 here
+    "Eastern Small-eyed Snake", // title cased
+    "Common Tree Snake", // title cased
+    "Marsh Snake", // title cased
+    "Carpet Python", // title cased
+  ];
+
+  speciesNodes
+    .transition()
+    .duration(200)
+    .attr("opacity", (d) =>
+      seenSnakeSpeciesWithMatchingNamingConvention.includes(
+        d[metricSpeciesGroupSpProp]
+      )
+        ? 1
+        : opacityFade
+    )
+    .attr("stroke", circleStroke)
+    .attr("stroke-width", 1)
+    // .attr("stroke-width", (d) =>
+    //   d[metricSpeciesVenomProp] === "venomous"
+    //     ? venomStrokeWidth
+    //     : noVenomStrokeWidth
+    // )
+    .attr("stroke-dasharray", null);
+
+  reheatSimulation();
+}
+
+function scVenom() {
+  hideOtherChartStuff("scVenom");
+
+  updateTitle("So much hurt juice");
+
+  speciesNodes
+    .transition()
+    .duration(200)
+    .attr("opacity", (d) =>
+      d[metricSpeciesVenomProp] === "venomous" ? 1 : opacityFade
+    )
+    .attr("stroke", (d) =>
+      d[metricSpeciesVenomProp] === "venomous" ? venomStroke : noVenomStroke
+    )
+    .attr("stroke-width", (d) =>
+      d[metricSpeciesVenomProp] === "venomous"
+        ? venomStrokeWidth
+        : noVenomStrokeWidth
+    )
+    .attr("stroke-dasharray", (d) =>
+      d[metricSpeciesVenomProp] === "venomous" ? null : noVenomStrokeDash
+    );
+
+  reheatSimulation();
+}
+
+function scSeaSnakes() {
+  hideOtherChartStuff("scSeaSnakes");
+
+  updateTitle("Sea snakes");
+
+  speciesNodes
+    .transition()
+    .duration(200)
+    .attr("opacity", (d) =>
+      d[metricSpeciesGroupProp].includes("Sea Snakes") ? 1 : opacityFade
+    )
+    .attr("stroke", (d) =>
+      d[metricSpeciesVenomProp] === "venomous" ? venomStroke : noVenomStroke
+    )
+    // .attr("stroke-width", 1);
+    .attr("stroke-width", (d) =>
+      d[metricSpeciesVenomProp] === "venomous"
+        ? venomStrokeWidth
+        : noVenomStrokeWidth
+    )
+    .attr("stroke-dasharray", (d) =>
+      d[metricSpeciesVenomProp] === "venomous" ? null : noVenomStrokeDash
+    );
+
+  reheatSimulation();
+}
+
+function scBlindSnakes() {
+  hideOtherChartStuff("scBlindSnakes");
+
+  updateTitle("Blind snakes");
+
+  speciesNodes
+    .transition()
+    .duration(200)
+    .attr("opacity", (d) =>
+      d[metricSpeciesGroupProp].includes("Blind Snakes") ? 1 : opacityFade
+    )
+    // .attr("stroke-width", 1);
+    .attr("stroke", (d) =>
+      d[metricSpeciesVenomProp] === "venomous" ? venomStroke : noVenomStroke
+    )
+    .attr("stroke-width", (d) =>
+      d[metricSpeciesVenomProp] === "venomous"
+        ? venomStrokeWidth
+        : noVenomStrokeWidth
+    )
+    .attr("stroke-dasharray", (d) =>
+      d[metricSpeciesVenomProp] === "venomous" ? null : noVenomStrokeDash
+    );
+
+  reheatSimulation();
+}
+
 function first() {
   hideOtherChartStuff("first");
   // chartTitle.text("");
@@ -1609,10 +2004,23 @@ function hideOtherChartStuff(stepFunctionName) {
       .attr("opacity", 0);
     svg.select(".annotation-label-flying").transition().attr("opacity", 0);
   }
+
+  if (sunnyCoastSpeciesStepNames.includes(stepFunctionName)) {
+    sneks.transition().attr("opacity", 0);
+  }
+  if (sightingsStepNames.includes(stepFunctionName)) {
+    speciesNodes.transition().attr("opacity", 0);
+  }
 }
 
 function onMouseEnter(_event, d) {
   console.log(d);
+  // console.log([d.temp, d.speciesBestGuess]);
+  // console.log([d3.timeFormat("%d %b %Y")(d.date), d.speciesBestGuess]);
+}
+
+function onMouseEnterSpecies(_event, d) {
+  console.log(d.sp);
   // console.log([d.temp, d.speciesBestGuess]);
   // console.log([d3.timeFormat("%d %b %Y")(d.date), d.speciesBestGuess]);
 }

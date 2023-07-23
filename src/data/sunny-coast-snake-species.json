@@ -1,0 +1,282 @@
+[
+  {
+    "group": "Blind Snakes",
+    "species": "Robust Blind Snake",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Blind Snakes",
+    "species": "Blackish Blind Snake",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Blind Snakes",
+    "species": "Woodland Blind Snake",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Blind Snakes",
+    "species": "Cooloola Blind Snake",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Blind Snakes",
+    "species": "Brown-snouted Blind Snake",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Pythons",
+    "species": "Spotted Python",
+    "venom": "non venomous",
+    "venomURL": "https://wildlifeqld.com.au/spotted-python/"
+  },
+  {
+    "group": "Pythons",
+    "species": "Carpet Python",
+    "venom": "non venomous",
+    "venomURL": "https://wildlifeqld.com.au/coastal-carpet-python/"
+  },
+  {
+    "group": "Solid Toothed and Rear Fanged",
+    "species": "Brown Tree Snake",
+    "venom": "weakly venomous",
+    "venomURL": "https://wildlifeqld.com.au/brown-tree-snake/"
+  },
+  {
+    "group": "Solid Toothed and Rear Fanged",
+    "species": "Common Tree Snake",
+    "venom": "non venomous",
+    "venomURL": "https://wildlifeqld.com.au/common-tree-snake/"
+  },
+  {
+    "group": "Solid Toothed and Rear Fanged",
+    "species": "Keelback",
+    "venom": "non venomous",
+    "venomURL": "https://wildlifeqld.com.au/keelback-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Common Death Adder",
+    "venom": "highly venomous",
+    "venomURL": "https://wildlifeqld.com.au/common-death-adder/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "White-crowned Snake",
+    "venom": "weakly venomous",
+    "venomURL": "https://wildlifeqld.com.au/white-crowned-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Southern Dwarf Crowned Snake",
+    "venom": "weakly venomous",
+    "venomURL": "https://wildlifeqld.com.au/dwarf-crowned-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Golden-crowned Snake",
+    "venom": "weakly venomous",
+    "venomURL": "https://wildlifeqld.com.au/golden-crowned-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Carpentaria Snake",
+    "venom": "mildly venomous",
+    "venomURL": "https://wildlifeqld.com.au/carpentaria-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Eastern Small-eyed Snake",
+    "venom": "highly venomous",
+    "venomURL": "https://wildlifeqld.com.au/small-eyed-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Yellow-faced Whipsnake",
+    "venom": "mildly venomous",
+    "venomURL": "https://wildlifeqld.com.au/yellow-faced-whip-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Lesser Black Whipsnake",
+    "venom": "potentially dangerous",
+    "venomURL": "https://wildlifeqld.com.au/lesser-black-whip-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Red-naped Snake",
+    "venom": "weakly venomous",
+    "venomURL": "https://wildlifeqld.com.au/red-naped-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Marsh Snake",
+    "venom": "mildly venomous",
+    "venomURL": "https://wildlifeqld.com.au/marsh-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Stephens' Banded Snake",
+    "venom": "moderately venomous",
+    "venomURL": "https://wildlifeqld.com.au/stephens-banded-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Tiger Snake",
+    "venom": "highly venomous",
+    "venomURL": "https://wildlifeqld.com.au/tiger-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Coastal Taipan",
+    "venom": "highly venomous",
+    "venomURL": "https://wildlifeqld.com.au/coastal-taipan/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Red-bellied Black Snake",
+    "venom": "highly venomous",
+    "venomURL": "https://wildlifeqld.com.au/red-bellied-black-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Eastern Brown Snake",
+    "venom": "highly venomous",
+    "venomURL": "https://wildlifeqld.com.au/eastern-brown-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Rough-scaled Snake",
+    "venom": "highly venomous",
+    "venomURL": "https://wildlifeqld.com.au/rough-scaled-snake/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Terrestrial",
+    "species": "Bandy Bandy",
+    "venom": "moderately venomous",
+    "venomURL": "https://wildlifeqld.com.au/bandy-bandy/"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Dubois' Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Aipysurus/duboisii"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Mosaic Sea Snake",
+    "venom": "weakly venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Aipysurus/mosaicus"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Turtle-headed Sea Snake",
+    "venom": "harmless",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Emydocephalus/annulatus"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Spine-bellied Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Lapemis/curtus"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Elegant Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Hydrophis/elegans"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Spectacled Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Disteira/kingii"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Small-headed Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Hydrophis/macdowelli"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Olive-headed Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Disteira/major"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Ocellated Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Hydrophis/ocellatus"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Horned Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Acalyptophis/peronii"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Yellow-bellied Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Pelamis/platurus"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Stokes' Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Astrotia/stokesii"
+  },
+  {
+    "group": "Front Fanged, Venomous, Sea Snakes",
+    "species": "Beaked Sea Snake",
+    "venom": "dangerously venomous",
+    "venomURL": "https://arod.com.au/arod/reptilia/Squamata/Hydrophiidae/Enhydrina/zweifeli"
+  },
+  {
+    "group": "Legless and Snake-like Lizards",
+    "species": "Leaden Legless Lizard",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Legless and Snake-like Lizards",
+    "species": "Excitable Legless Lizard",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Legless and Snake-like Lizards",
+    "species": "Burton's Snake-lizard",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Legless and Snake-like Lizards",
+    "species": "Common Scaly-foot",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Legless and Snake-like Lizards",
+    "species": "Verreaux's Skink",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Legless and Snake-like Lizards",
+    "species": "Three-toed Snake-tooth Skink",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Legless and Snake-like Lizards",
+    "species": "Yolk-bellied Snake-skink",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Legless and Snake-like Lizards",
+    "species": "Short-limbed Snake-skink",
+    "venom": "non venomous"
+  },
+  {
+    "group": "Legless and Snake-like Lizards",
+    "species": "Three-toed Skink",
+    "venom": "non venomous"
+  }
+]

@@ -1699,15 +1699,15 @@ function scSeenSpecies() {
 
   updateTitle("Gotta catch 'em all!");
 
-  const seenSnakeSpeciesWithMatchingNamingConvention = [
-    "Red-bellied Black Snake", // "Snake" included here
-    "Keelback",
-    "Yellow-faced Whipsnake", // "Whipsnake" 1 word instead of 2 here
-    "Eastern Small-eyed Snake", // title cased
-    "Common Tree Snake", // title cased
-    "Marsh Snake", // title cased
-    "Carpet Python", // title cased
-  ];
+  // const seenSnakeSpeciesWithMatchingNamingConvention = [
+  //   "Red-bellied Black Snake", // "Snake" included here
+  //   "Keelback",
+  //   "Yellow-faced Whipsnake", // "Whipsnake" 1 word instead of 2 here
+  //   "Eastern Small-eyed Snake", // title cased
+  //   "Common Tree Snake", // title cased
+  //   "Marsh Snake", // title cased
+  //   "Carpet Python", // title cased
+  // ];
 
   scSpeciesNodes
     .transition()

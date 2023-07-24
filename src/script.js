@@ -742,42 +742,7 @@ function speciesSimulation() {
       g.append("circle")
         .attr("class", "species--pattern")
         .attr("opacity", 0)
-        .attr("fill", (d) => {
-          // console.log(d);
-          if (d.group.includes("Blind")) {
-            return "transparent";
-          }
-          if (d.group.includes("ython")) {
-            return "transparent";
-          }
-          if (d.species.includes("Brown Tree")) {
-            return textureWeaklyVenomous.url();
-          }
-          if (d.species.includes("Yellow-faced")) {
-            return textureMildlyVenomous.url();
-          }
-          if (d.group.includes("Sea")) {
-            return textureHighlyVenomous.url();
-          }
-          if (d.species.includes("Taipan")) {
-            return textureHighlyVenomous.url();
-          }
-          if (d.species.includes("Tiger")) {
-            return textureHighlyVenomous.url();
-          }
-          if (d.species.includes("Death")) {
-            return textureHighlyVenomous.url();
-          }
-          if (d.species.includes("Eastern Brown")) {
-            return textureHighlyVenomous.url();
-          }
-          if (d.group.includes("Terrestrial")) {
-            return textureVenomous.url();
-          }
-
-          return "transparent";
-          // return texture.url()
-        })
+        .attr("fill", (d) => getVenomPatternFill(d))
         .attr("r", scSpeciesNodeRadius)
         .attr("stroke-width", 1)
         .attr("stroke", circleStroke);
@@ -2416,6 +2381,26 @@ function updateTitle(title) {
 
 function reheatSimulation() {
   snekSimulation.alpha(0.9).restart();
+}
+
+function getVenomPatternFill(d) {
+  if (["dangerously venomous", "highly venomous"].includes(d.venom)) {
+    return textureHighlyVenomous.url();
+  }
+  if (["moderately venomous", "potentially dangerous"].includes(d.venom)) {
+    return textureVenomous.url();
+  }
+  if (["mildly venomous"].includes(d.venom)) {
+    return textureMildlyVenomous.url();
+  }
+  if (["weakly venomous"].includes(d.venom)) {
+    return textureWeaklyVenomous.url();
+  }
+  if (["harmless", "non venomous"].includes(d.venom)) {
+    return "transparent"
+  }
+
+  return "transparent";
 }
 
 loadData();

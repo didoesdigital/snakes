@@ -2383,24 +2383,18 @@ function reheatSimulation() {
   snekSimulation.alpha(0.9).restart();
 }
 
+const venomTextures = {
+  "dangerously venomous": textureHighlyVenomous.url(),
+  "highly venomous": textureHighlyVenomous.url(),
+  "moderately venomous": textureVenomous.url(),
+  "potentially dangerous": textureHighlyVenomous.url(),
+  "mildly venomous": textureMildlyVenomous.url(),
+  "weakly venomous": textureWeaklyVenomous.url(),
+  "non venomous": "transparent",
+  harmless: "transparent",
+};
 function getVenomPatternFill(d) {
-  if (["dangerously venomous", "highly venomous"].includes(d.venom)) {
-    return textureHighlyVenomous.url();
-  }
-  if (["moderately venomous", "potentially dangerous"].includes(d.venom)) {
-    return textureVenomous.url();
-  }
-  if (["mildly venomous"].includes(d.venom)) {
-    return textureMildlyVenomous.url();
-  }
-  if (["weakly venomous"].includes(d.venom)) {
-    return textureWeaklyVenomous.url();
-  }
-  if (["harmless", "non venomous"].includes(d.venom)) {
-    return "transparent"
-  }
-
-  return "transparent";
+  return venomTextures[d[metricSpeciesVenomProp]] || "transparent";
 }
 
 loadData();

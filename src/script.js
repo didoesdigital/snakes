@@ -517,15 +517,15 @@ function setupScales() {
   speciesGroupColorScale = (species) => {
     switch (species) {
       case "Blind Snakes":
-        return "#7C6603";
+        return "#9880C2";
       case "Pythons":
-        return "#045D40";
+        return "#ECB255";
       case "Solid Toothed and Rear Fanged":
-        return "#E17547";
+        return "#ED9873";
       case "Front Fanged, Venomous, Terrestrial":
-        return "#09A573";
+        return "#84DCC0";
       case "Front Fanged, Venomous, Sea Snakes":
-        return "#5598E2";
+        return "#7BB2EF";
       default:
         return "#D5CBE6";
     }

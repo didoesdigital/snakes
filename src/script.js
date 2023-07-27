@@ -639,7 +639,7 @@ function setupChart() {
   svg.call(textureHighlyVenomous);
 
   snakeSimulation();
-  speciesSimulation();
+  scSpeciesSimulation();
 }
 
 function snakeSimulation() {
@@ -728,7 +728,7 @@ function snakeSimulation() {
   snekSimulation.restart();
 }
 
-function speciesSimulation() {
+function scSpeciesSimulation() {
   scSpeciesNodes = svg
     .selectAll("g.species")
     .data(scSpeciesData)
@@ -765,7 +765,8 @@ function speciesSimulation() {
   speciesGroupSimulation.on("tick", () => {
     scSpeciesNodes.attr(
       "transform",
-      (d) => `translate(${d.x - circleRadius}, ${d.y - circleRadius})`
+      (d) =>
+        `translate(${d.x - scSpeciesNodeRadius}, ${d.y - scSpeciesNodeRadius})`
     );
   });
 
@@ -1871,7 +1872,7 @@ function scNonVenomous() {
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", "#fff")
-        .attr("r", scSpeciesNodeRadius)
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -1890,6 +1891,7 @@ function scNonVenomous() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -1922,7 +1924,7 @@ function scWeaklyVenomous() {
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", "#fff")
-        .attr("r", scSpeciesNodeRadius)
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -1943,6 +1945,7 @@ function scWeaklyVenomous() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -1975,7 +1978,7 @@ function scMildlyVenomous() {
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", "#fff")
-        .attr("r", scSpeciesNodeRadius)
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -1996,6 +1999,7 @@ function scMildlyVenomous() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2032,7 +2036,7 @@ function scModeratelyVenomous() {
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", "#fff")
-        .attr("r", scSpeciesNodeRadius)
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2053,6 +2057,7 @@ function scModeratelyVenomous() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2091,7 +2096,7 @@ function scVenom() {
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", "#fff")
-        .attr("r", scSpeciesNodeRadius)
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2116,6 +2121,7 @@ function scVenom() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2161,6 +2167,7 @@ function scSeaSnakes() {
     )
     .call((g) => {
       g.selectAll("path.species--fill")
+        .attr("d", circlePath)
         .attr("fill", (d) =>
           d[metricSpeciesGroupProp].includes("Sea Snakes")
             ? speciesGroupColorScale(d[metricSpeciesGroupProp])
@@ -2170,6 +2177,7 @@ function scSeaSnakes() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2201,6 +2209,7 @@ function scBlindSnakes() {
     )
     .call((g) => {
       g.selectAll("path.species--fill")
+        .attr("d", circlePath)
         .attr("fill", (d) =>
           d[metricSpeciesGroupProp].includes("Sea Snakes") ||
           d[metricSpeciesGroupProp].includes("Blind Snakes")
@@ -2211,6 +2220,7 @@ function scBlindSnakes() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2242,6 +2252,7 @@ function scPythons() {
     )
     .call((g) => {
       g.selectAll("path.species--fill")
+        .attr("d", circlePath)
         .attr("fill", (d) =>
           d[metricSpeciesGroupProp].includes("Sea Snakes") ||
           d[metricSpeciesGroupProp].includes("Blind Snakes") ||
@@ -2253,6 +2264,7 @@ function scPythons() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2284,6 +2296,7 @@ function scRearFangedSnakes() {
     )
     .call((g) => {
       g.selectAll("path.species--fill")
+        .attr("d", circlePath)
         .attr("fill", (d) =>
           d[metricSpeciesGroupProp].includes("Sea Snakes") ||
           d[metricSpeciesGroupProp].includes("Blind Snakes") ||
@@ -2296,6 +2309,7 @@ function scRearFangedSnakes() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2327,11 +2341,13 @@ function scLandSnakes() {
     )
     .call((g) => {
       g.selectAll("path.species--fill")
+        .attr("d", circlePath)
         .attr("fill", (d) => speciesGroupColorScale(d[metricSpeciesGroupProp]))
         .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2361,14 +2377,14 @@ function scSpecies() {
     .attr("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
+        .attr("d", circlePath)
         .attr("fill", (d) => speciesGroupColorScale(d[metricSpeciesGroupProp]))
         .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
+        .attr("d", circlePath)
         .attr("opacity", 1)
-        .attr("r", scSpeciesNodeRadius)
-        .attr("stroke-width", 1)
         // .attr("stroke", circleStroke);
         .attr("stroke", circleStroke)
         .attr("stroke-width", (d) =>

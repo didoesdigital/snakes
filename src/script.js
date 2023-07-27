@@ -366,6 +366,10 @@ const sightingsFunctions = {
 const sunnyCoastSpeciesFunctions = {
   scCount,
   scSeenSpecies,
+  scNonVenomous,
+  scWeaklyVenomous,
+  scMildlyVenomous,
+  scModeratelyVenomous,
   scVenom,
   scSeaSnakes,
   scBlindSnakes,
@@ -1681,7 +1685,8 @@ function scCount() {
         .attr("fill", "#fff")
         .attr("r", scSpeciesNodeRadius)
         .attr("stroke-width", 1)
-        .attr("stroke", circleStroke);
+        .attr("stroke", circleStroke)
+        .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("circle.species--pattern")
@@ -1731,7 +1736,8 @@ function scSeenSpecies() {
             ? 3
             : 1
         )
-        .attr("stroke", circleStroke);
+        .attr("stroke", circleStroke)
+        .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("circle.species--pattern")
@@ -1749,6 +1755,226 @@ function scSeenSpecies() {
             : 1
         )
         .attr("stroke", circleStroke);
+    });
+
+  reheatSimulation();
+}
+
+function scNonVenomous() {
+  hideOtherChartStuff("scNonVenomous");
+
+  updateTitle("Shabby fangs");
+
+  scSpeciesNodes
+    .transition()
+    .duration(200)
+    .attr("opacity", 1)
+    .call((g) => {
+      g.selectAll("circle.species--fill")
+        .attr("fill", "#fff")
+        .attr("r", scSpeciesNodeRadius)
+        .attr("stroke-width", (d) =>
+          d.species.includes("Yellow-faced") ||
+          d.species.includes("Red-bellied") ||
+          d.species.includes("Marsh") ||
+          d.species.includes("Carpet") ||
+          d.species.includes("Small-eyed") ||
+          d.species.includes("Common Tree") ||
+          d.species.includes("Keelback")
+            ? 3
+            : 1
+        )
+        .attr("stroke", circleStroke)
+        .attr("opacity", (d) =>
+          ["non venomous"].includes(d[metricSpeciesVenomProp]) ? 1 : opacityFade
+        );
+    })
+    .call((g) => {
+      g.selectAll("circle.species--pattern")
+        .attr("stroke-width", (d) =>
+          d.species.includes("Yellow-faced") ||
+          d.species.includes("Red-bellied") ||
+          d.species.includes("Marsh") ||
+          d.species.includes("Carpet") ||
+          d.species.includes("Small-eyed") ||
+          d.species.includes("Common Tree") ||
+          d.species.includes("Keelback")
+            ? 3
+            : 1
+        )
+        .attr("stroke", circleStroke)
+        .attr("opacity", (d) =>
+          ["non venomous"].includes(d[metricSpeciesVenomProp]) ? 1 : 0
+        );
+    });
+
+  reheatSimulation();
+}
+
+function scWeaklyVenomous() {
+  hideOtherChartStuff("scWeaklyVenomous");
+
+  updateTitle("Weak sauce");
+
+  scSpeciesNodes
+    .transition()
+    .duration(200)
+    .attr("opacity", 1)
+    .call((g) => {
+      g.selectAll("circle.species--fill")
+        .attr("fill", "#fff")
+        .attr("r", scSpeciesNodeRadius)
+        .attr("stroke-width", (d) =>
+          d.species.includes("Yellow-faced") ||
+          d.species.includes("Red-bellied") ||
+          d.species.includes("Marsh") ||
+          d.species.includes("Carpet") ||
+          d.species.includes("Small-eyed") ||
+          d.species.includes("Common Tree") ||
+          d.species.includes("Keelback")
+            ? 3
+            : 1
+        )
+        .attr("stroke", circleStroke)
+        .attr("opacity", (d) =>
+          ["weakly venomous"].includes(d[metricSpeciesVenomProp])
+            ? 1
+            : opacityFade
+        );
+    })
+    .call((g) => {
+      g.selectAll("circle.species--pattern")
+        .attr("stroke-width", (d) =>
+          d.species.includes("Yellow-faced") ||
+          d.species.includes("Red-bellied") ||
+          d.species.includes("Marsh") ||
+          d.species.includes("Carpet") ||
+          d.species.includes("Small-eyed") ||
+          d.species.includes("Common Tree") ||
+          d.species.includes("Keelback")
+            ? 3
+            : 1
+        )
+        .attr("stroke", circleStroke)
+        .attr("opacity", (d) =>
+          ["weakly venomous"].includes(d[metricSpeciesVenomProp]) ? 1 : 0
+        );
+    });
+
+  reheatSimulation();
+}
+
+function scMildlyVenomous() {
+  hideOtherChartStuff("scMildlyVenomous");
+
+  updateTitle("A bit nippy");
+
+  scSpeciesNodes
+    .transition()
+    .duration(200)
+    .attr("opacity", 1)
+    .call((g) => {
+      g.selectAll("circle.species--fill")
+        .attr("fill", "#fff")
+        .attr("r", scSpeciesNodeRadius)
+        .attr("stroke-width", (d) =>
+          d.species.includes("Yellow-faced") ||
+          d.species.includes("Red-bellied") ||
+          d.species.includes("Marsh") ||
+          d.species.includes("Carpet") ||
+          d.species.includes("Small-eyed") ||
+          d.species.includes("Common Tree") ||
+          d.species.includes("Keelback")
+            ? 3
+            : 1
+        )
+        .attr("stroke", circleStroke)
+        .attr("opacity", (d) =>
+          ["mildly venomous"].includes(d[metricSpeciesVenomProp])
+            ? 1
+            : opacityFade
+        );
+    })
+    .call((g) => {
+      g.selectAll("circle.species--pattern")
+        .attr("stroke-width", (d) =>
+          d.species.includes("Yellow-faced") ||
+          d.species.includes("Red-bellied") ||
+          d.species.includes("Marsh") ||
+          d.species.includes("Carpet") ||
+          d.species.includes("Small-eyed") ||
+          d.species.includes("Common Tree") ||
+          d.species.includes("Keelback")
+            ? 3
+            : 1
+        )
+        .attr("stroke", circleStroke)
+        .attr("opacity", (d) =>
+          ["mildly venomous"].includes(d[metricSpeciesVenomProp])
+            ? 1
+            : ["weakly venomous"].includes(d[metricSpeciesVenomProp])
+            ? opacityFade
+            : 0
+        );
+    });
+
+  reheatSimulation();
+}
+
+function scModeratelyVenomous() {
+  hideOtherChartStuff("scModeratelyVenomous");
+
+  updateTitle("A bit nippy");
+
+  scSpeciesNodes
+    .transition()
+    .duration(200)
+    .attr("opacity", 1)
+    .call((g) => {
+      g.selectAll("circle.species--fill")
+        .attr("fill", "#fff")
+        .attr("r", scSpeciesNodeRadius)
+        .attr("stroke-width", (d) =>
+          d.species.includes("Yellow-faced") ||
+          d.species.includes("Red-bellied") ||
+          d.species.includes("Marsh") ||
+          d.species.includes("Carpet") ||
+          d.species.includes("Small-eyed") ||
+          d.species.includes("Common Tree") ||
+          d.species.includes("Keelback")
+            ? 3
+            : 1
+        )
+        .attr("stroke", circleStroke)
+        .attr("opacity", (d) =>
+          ["moderately venomous"].includes(d[metricSpeciesVenomProp])
+            ? 1
+            : opacityFade
+        );
+    })
+    .call((g) => {
+      g.selectAll("circle.species--pattern")
+        .attr("stroke-width", (d) =>
+          d.species.includes("Yellow-faced") ||
+          d.species.includes("Red-bellied") ||
+          d.species.includes("Marsh") ||
+          d.species.includes("Carpet") ||
+          d.species.includes("Small-eyed") ||
+          d.species.includes("Common Tree") ||
+          d.species.includes("Keelback")
+            ? 3
+            : 1
+        )
+        .attr("stroke", circleStroke)
+        .attr("opacity", (d) =>
+          ["moderately venomous"].includes(d[metricSpeciesVenomProp])
+            ? 1
+            : ["mildly venomous", "weakly venomous"].includes(
+                d[metricSpeciesVenomProp]
+              )
+            ? opacityFade
+            : 0
+        );
     });
 
   reheatSimulation();
@@ -1778,7 +2004,16 @@ function scVenom() {
             ? 3
             : 1
         )
-        .attr("stroke", circleStroke);
+        .attr("stroke", circleStroke)
+        .attr("opacity", (d) =>
+          [
+            "potentially dangerous",
+            "dangerously venomous",
+            "highly venomous",
+          ].includes(d[metricSpeciesVenomProp])
+            ? 1
+            : opacityFade
+        );
     })
     .call((g) => {
       g.selectAll("circle.species--pattern")
@@ -1794,7 +2029,21 @@ function scVenom() {
             : 1
         )
         .attr("stroke", circleStroke)
-        .attr("opacity", 1);
+        .attr("opacity", (d) =>
+          [
+            "potentially dangerous",
+            "dangerously venomous",
+            "highly venomous",
+          ].includes(d[metricSpeciesVenomProp])
+            ? 1
+            : [
+                "moderately venomous",
+                "mildly venomous",
+                "weakly venomous",
+              ].includes(d[metricSpeciesVenomProp])
+            ? opacityFade
+            : 0
+        );
     });
 
   reheatSimulation();
@@ -1812,11 +2061,13 @@ function scSeaSnakes() {
       d[metricSpeciesGroupProp].includes("Sea Snakes") ? 1 : opacityFade
     )
     .call((g) => {
-      g.selectAll("circle.species--fill").attr("fill", (d) =>
-        d[metricSpeciesGroupProp].includes("Sea Snakes")
-          ? speciesGroupColorScale(d[metricSpeciesGroupProp])
-          : "#fff"
-      );
+      g.selectAll("circle.species--fill")
+        .attr("fill", (d) =>
+          d[metricSpeciesGroupProp].includes("Sea Snakes")
+            ? speciesGroupColorScale(d[metricSpeciesGroupProp])
+            : "#fff"
+        )
+        .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("circle.species--pattern")
@@ -1850,12 +2101,14 @@ function scBlindSnakes() {
       d[metricSpeciesGroupProp].includes("Blind Snakes") ? 1 : opacityFade
     )
     .call((g) => {
-      g.selectAll("circle.species--fill").attr("fill", (d) =>
-        d[metricSpeciesGroupProp].includes("Sea Snakes") ||
-        d[metricSpeciesGroupProp].includes("Blind Snakes")
-          ? speciesGroupColorScale(d[metricSpeciesGroupProp])
-          : "#fff"
-      );
+      g.selectAll("circle.species--fill")
+        .attr("fill", (d) =>
+          d[metricSpeciesGroupProp].includes("Sea Snakes") ||
+          d[metricSpeciesGroupProp].includes("Blind Snakes")
+            ? speciesGroupColorScale(d[metricSpeciesGroupProp])
+            : "#fff"
+        )
+        .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("circle.species--pattern")
@@ -1889,13 +2142,15 @@ function scPythons() {
       d[metricSpeciesGroupProp].includes("Pythons") ? 1 : opacityFade
     )
     .call((g) => {
-      g.selectAll("circle.species--fill").attr("fill", (d) =>
-        d[metricSpeciesGroupProp].includes("Sea Snakes") ||
-        d[metricSpeciesGroupProp].includes("Blind Snakes") ||
-        d[metricSpeciesGroupProp].includes("Pythons")
-          ? speciesGroupColorScale(d[metricSpeciesGroupProp])
-          : "#fff"
-      );
+      g.selectAll("circle.species--fill")
+        .attr("fill", (d) =>
+          d[metricSpeciesGroupProp].includes("Sea Snakes") ||
+          d[metricSpeciesGroupProp].includes("Blind Snakes") ||
+          d[metricSpeciesGroupProp].includes("Pythons")
+            ? speciesGroupColorScale(d[metricSpeciesGroupProp])
+            : "#fff"
+        )
+        .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("circle.species--pattern")
@@ -1929,14 +2184,16 @@ function scRearFangedSnakes() {
       d[metricSpeciesGroupProp].includes("Rear") ? 1 : opacityFade
     )
     .call((g) => {
-      g.selectAll("circle.species--fill").attr("fill", (d) =>
-        d[metricSpeciesGroupProp].includes("Sea Snakes") ||
-        d[metricSpeciesGroupProp].includes("Blind Snakes") ||
-        d[metricSpeciesGroupProp].includes("Pythons") ||
-        d[metricSpeciesGroupProp].includes("Rear")
-          ? speciesGroupColorScale(d[metricSpeciesGroupProp])
-          : "#fff"
-      );
+      g.selectAll("circle.species--fill")
+        .attr("fill", (d) =>
+          d[metricSpeciesGroupProp].includes("Sea Snakes") ||
+          d[metricSpeciesGroupProp].includes("Blind Snakes") ||
+          d[metricSpeciesGroupProp].includes("Pythons") ||
+          d[metricSpeciesGroupProp].includes("Rear")
+            ? speciesGroupColorScale(d[metricSpeciesGroupProp])
+            : "#fff"
+        )
+        .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("circle.species--pattern")
@@ -1970,9 +2227,9 @@ function scLandSnakes() {
       d[metricSpeciesGroupProp].includes("Terrestrial") ? 1 : opacityFade
     )
     .call((g) => {
-      g.selectAll("circle.species--fill").attr("fill", (d) =>
-        speciesGroupColorScale(d[metricSpeciesGroupProp])
-      );
+      g.selectAll("circle.species--fill")
+        .attr("fill", (d) => speciesGroupColorScale(d[metricSpeciesGroupProp]))
+        .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("circle.species--pattern")
@@ -2004,9 +2261,9 @@ function scSpecies() {
     .duration(200)
     .attr("opacity", 1)
     .call((g) => {
-      g.selectAll("circle.species--fill").attr("fill", (d) =>
-        speciesGroupColorScale(d[metricSpeciesGroupProp])
-      );
+      g.selectAll("circle.species--fill")
+        .attr("fill", (d) => speciesGroupColorScale(d[metricSpeciesGroupProp]))
+        .attr("opacity", 1);
     })
     .call((g) => {
       g.selectAll("circle.species--pattern")
@@ -2384,10 +2641,10 @@ function reheatSimulation() {
 }
 
 const venomTextures = {
-  "dangerously venomous": textureHighlyVenomous.url(),
   "highly venomous": textureHighlyVenomous.url(),
-  "moderately venomous": textureVenomous.url(),
+  "dangerously venomous": textureHighlyVenomous.url(),
   "potentially dangerous": textureHighlyVenomous.url(),
+  "moderately venomous": textureVenomous.url(),
   "mildly venomous": textureMildlyVenomous.url(),
   "weakly venomous": textureWeaklyVenomous.url(),
   "non venomous": "transparent",

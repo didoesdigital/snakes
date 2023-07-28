@@ -38,7 +38,10 @@ const scroller = scrollama();
 
 const width = 343; // 375 - 16 - 16
 const height = 555; //400;
-const rScale = d3.scaleSqrt().domain([100, 250]).range([20, 50]);
+
+const gapFromTopOfScreenBeforeParagraph = 24;
+const heightOfThreeLineStepParagraph = 90;
+const gapBetweenBottomOfParagraphAndTopOfChartTitle = 24;
 
 const chartTextFamily =
   '"Overpass Mono", "Varela", "Varela Round", "Helvetica", arial, sans-serif';
@@ -59,9 +62,8 @@ const scSpeciesGroupRadius = 16;
 const snekChargeStrength = -180;
 const snekChargeStrengthTimeline = -20;
 const hideOffscreen = 80;
-const goldenRatio = 1.618;
 const focalPointX = width / 2;
-const focalPointY = height / goldenRatio / goldenRatio;
+const focalPointY = 160; // enough for tallest blob layout to fit under chartTitle
 const opacityFade = 0.2;
 const circlePath =
   "M26,13.5L26,13.5C26,12.4659 25.8744,11.4611 25.6377,10.5C25.4226,9.62696 25.1158,8.79003 24.7281,8C24.381,7.29275 23.9691,6.62309 23.5,5.99878C22.9167,5.22238 22.245,4.51612 21.5,3.89491C20.5986,3.14334 19.5898,2.51627 18.5,2.04011C16.9688,1.37112 15.2778,1 13.5,1C12.6438,1 11.8078,1.08608 11,1.25005C10.1305,1.42655 9.29376,1.6933 8.5,2.04011C7.12946,2.63893 5.88705,3.4764 4.82531,4.5C4.34493,4.96312 3.90154,5.46433 3.5,5.99878C2.81499,6.91052 2.25177,7.91897 1.83449,9C1.29551,10.3963 1,11.9136 1,13.5C1,15.0864 1.29551,16.6037 1.83449,18C2.25177,19.081 2.815,20.0895 3.5,21.0012C4.05068,21.7342 4.68006,22.4046 5.3756,23C6.02885,23.5592 6.74044,24.0522 7.5,24.4685C8.43393,24.9805 9.44037,25.3767 10.5,25.6377C11.4611,25.8744 12.4659,26 13.5,26C14.5341,26 15.5389,25.8744 16.5,25.6377C17.9493,25.2807 19.2991,24.6708 20.5,23.8577C21.0971,23.4534 21.6573,22.9988 22.1747,22.5C22.6551,22.0369 23.0985,21.5357 23.5,21.0012C24.3898,19.8169 25.0741,18.4694 25.5,17.0116C25.8255,15.8976 26,14.7192 26,13.5";
@@ -320,18 +322,20 @@ const didChill = (d) => {
   return departure.includes("chill") || departure.includes("slowly");
 };
 
+let figureHeight = window.innerHeight / 2;
+let figureMarginTop = (window.innerHeight - figureHeight) / 2;
 // generic window resize listener event
 function handleResize() {
-  // Update height of step elements
-  var stepH = Math.floor(window.innerHeight * (goldenRatio - 1));
-  step.style("height", stepH + "px");
-
-  var figureHeight = window.innerHeight / 2;
-  var figureMarginTop = (window.innerHeight - figureHeight) / 2;
-
+  // Update height of figure
+  figureHeight = window.innerHeight / 2;
+  figureMarginTop = (window.innerHeight - figureHeight) / 2;
   figure
     .style("height", figureHeight + "px")
     .style("top", figureMarginTop + "px");
+
+  // Update height of step elements
+  const stepH = Math.floor(dimensions.height + figureMarginTop);
+  step.style("height", stepH + "px");
 
   // Tell scrollama to update new element dimensions
   scroller.resize();
@@ -368,7 +372,7 @@ const sightingsFunctions = {
   species,
   seasons,
   fin,
-  first,
+  recordingSightings,
 };
 const sunnyCoastSpeciesFunctions = {
   scCount,
@@ -417,7 +421,7 @@ function handleStepExit(response) {
 
   if (response.index === 0 && response.direction === "up") {
     step.classed("is-active", false);
-    first("first");
+    restoreIntroIllo();
   }
 }
 
@@ -636,6 +640,31 @@ function setupChart() {
   svg.call(textureVenomous);
   svg.call(textureHighlyVenomous);
 
+  const snekIllo = svg.append("g").classed("introductory-snek", true);
+  snekIllo
+    .append("path")
+    .attr(
+      "d",
+      "M306.643 257.013C303.38 255.377 294.128 267.577 292.119 269.406C286.048 274.944 278.661 280.022 270.322 280.526C251.032 281.686 243.873 260.101 238.507 245.151C225.909 210.311 198.818 175.023 158.425 195.105C141.403 203.569 130.608 220.264 121.088 236.418C115.048 246.649 105.714 269.299 91.9765 270.251C74.5305 271.46 64.0459 253.83 65.6933 237.515C67.558 219.028 81.6265 205.704 94.3069 194.061C120.932 169.618 148.614 150.087 157.025 112.338C165.624 73.7154 147.692 32.5835 109.982 20.0893C96.0266 15.4713 72.7695 2.66148 50.2777 28.7092C11.8217 73.2283 44.4449 68.8403 56.0172 68.4339C94.9185 67.064 111.442 74.6247 105.972 95.8359C104.201 102.685 100.254 109.7 96.3688 114.58C93.8821 117.919 83.0768 128.427 78.291 132.724C67.382 142.522 56.3285 152.207 46.2893 162.968C27.611 182.974 13.7804 207.202 12.8792 235.631C11.1386 290.221 67.4753 342.954 119.068 311.929C143.424 297.283 152.126 269.08 165.645 245.371C171.282 235.477 181.713 222.607 193.502 232.597C203.283 240.934 208.277 255.108 214.222 266.296C225.619 287.732 245.148 307.375 271.088 302.03C283.54 299.461 293.993 290.826 300.636 279.845C302.314 277.064 311.792 259.502 306.643 257.013Z"
+    )
+    .attr("fill", "white")
+    .attr("stroke", "#FF1493");
+
+  const placeholderRecordingSightingsContent = svg
+    .append("g")
+    .classed("placeholderRecordingSightingsContent", true)
+    .attr("opacity", 0);
+
+  placeholderRecordingSightingsContent
+    .append("path")
+    .attr(
+      "d",
+      "M9.97352 178.522C12.241 177.385 18.6679 185.859 20.0638 187.13C24.2812 190.977 29.4129 194.504 35.2064 194.854C48.6069 195.66 53.5807 180.667 57.3084 170.282C66.0598 146.082 84.8801 121.57 112.942 135.52C124.767 141.399 132.266 152.996 138.88 164.216C143.076 171.323 149.56 187.056 159.104 187.717C171.223 188.557 178.507 176.311 177.363 164.978C176.067 152.137 166.294 142.882 157.485 134.794C138.988 117.816 119.757 104.25 113.914 78.0286C107.94 51.2013 120.398 22.6306 146.595 13.952C156.29 10.7443 172.447 1.84644 188.072 19.9395C214.787 50.8629 192.124 47.815 184.085 47.5327C157.06 46.5811 145.581 51.8329 149.381 66.5664C150.611 71.3237 153.353 76.1965 156.052 79.5862C157.78 81.9055 165.286 89.2047 168.611 92.1894C176.189 98.995 183.868 105.722 190.843 113.197C203.819 127.094 213.427 143.923 214.053 163.669C215.262 201.588 176.125 238.217 140.283 216.667C123.363 206.494 117.318 186.903 107.926 170.435C104.01 163.562 96.7633 154.623 88.573 161.562C81.7786 167.353 78.3088 177.199 74.1788 184.97C66.2614 199.86 52.695 213.504 34.6739 209.791C26.0233 208.006 18.7615 202.008 14.1472 194.381C12.9814 192.449 6.3966 180.25 9.97352 178.522Z"
+    )
+    .attr("fill", "#3C3941")
+    .attr("stroke", "#3C3941")
+    .attr("transform", "translate(50, 80)");
+
   snakeSimulation();
   scSpeciesSimulation();
 }
@@ -657,11 +686,12 @@ function snakeSimulation() {
       "transform",
       (_d, i) => `translate(${leftPad + i * circleSpacing}, ${height - 10})`
     )
-    .attr("pointer-events", "none") // TODO: remove this for interactivity
+    // .attr("pointer-events", "none") // TODO: remove this for interactivity
     .attr("stroke-width", 1)
     .attr("stroke", circleStroke);
 
   sneks.on("mouseenter", onMouseEnter);
+  sneks.on("click", onMouseClick);
 
   snekSimulation = d3.forceSimulation(sightingsData);
 
@@ -757,6 +787,7 @@ function scSpeciesSimulation() {
     });
 
   scSpeciesNodes.on("mouseenter", onMouseEnterSpecies);
+  scSpeciesNodes.on("click", onMouseClick);
 
   speciesGroupSimulation = d3.forceSimulation(scSpeciesData);
 
@@ -832,6 +863,7 @@ function setupAxes() {
   svg
     .append("g")
     .attr("class", "strip-plot-x-weather")
+    .attr("pointer-events", "none")
     .attr("opacity", 0)
     .attr(
       "transform",
@@ -861,6 +893,7 @@ function setupAxes() {
   svg
     .append("g")
     .attr("class", "strip-plot-x-time-of-day")
+    .attr("pointer-events", "none")
     .attr("opacity", 0)
     .attr(
       "transform",
@@ -885,6 +918,7 @@ function setupAxes() {
   svg
     .append("g")
     .attr("class", "strip-plot-x-temperature")
+    .attr("pointer-events", "none")
     .attr("opacity", 0)
     .attr(
       "transform",
@@ -903,6 +937,7 @@ function setupAxes() {
   svg
     .append("g")
     .attr("class", "strip-plot-y")
+    .attr("pointer-events", "none")
     .attr("opacity", 0)
     .attr("transform", `translate(${dimensions.margin.left}, 0)`)
     .call(tempStripPlotYAxis)
@@ -929,6 +964,7 @@ function setupAxes() {
   svg
     .append("g")
     .attr("class", "strip-plot-y-grid-lines")
+    .attr("pointer-events", "none")
     .attr("opacity", 0)
     .attr(
       "transform",
@@ -956,6 +992,7 @@ function setupAxes() {
   svg
     .append("g")
     .attr("class", "timeline-y-axis")
+    .attr("pointer-events", "none")
     .attr("opacity", 0)
     .attr("transform", `translate(${dimensions.margin.left}, 0)`)
     .call(timeAxis)
@@ -979,6 +1016,7 @@ function setupAxes() {
   svg
     .append("g")
     .attr("class", "watching-me-axis")
+    .attr("pointer-events", "none")
     .attr("opacity", 0)
     .attr(
       "transform",
@@ -997,6 +1035,7 @@ function setupAxes() {
   svg
     .append("g")
     .attr("class", "seasons-axis")
+    .attr("pointer-events", "none")
     .attr("opacity", 0)
     .attr(
       "transform",
@@ -1024,6 +1063,7 @@ function setupAxes() {
   svg
     .append("g")
     .attr("class", "venom-axis")
+    .attr("pointer-events", "none")
     .attr("opacity", 0)
     .attr(
       "transform",
@@ -2426,18 +2466,42 @@ function scSpecies() {
   reheatSimulation();
 }
 
-function first() {
-  hideOtherChartStuff("first");
+function restoreIntroIllo() {
+  hideOtherChartStuff("restoreIntroIllo");
+
+  d3.select(".introductory-snek").attr("opacity", 1);
+}
+
+function recordingSightings() {
+  hideOtherChartStuff("recordingSightings");
+
+  updateTitle("Imagine some relevant thing here about recording snake data");
+
+  d3.select(".placeholderRecordingSightingsContent")
+    .transition()
+    .duration(200)
+    .attr("opacity", 1);
+
   // chartTitle.text("");
   // chartTitle.attr("opacity", 0);
-  // sneks.transition().duration(200).attr("opacity", 0);
 }
 
 function hideOtherChartStuff(stepFunctionName) {
-  // if (stepFunctionName === "first") {
-  //   sneks.transition().duration(200).attr("opacity", 0);
-  //   chartTitle.transition().duration(200).attr("opacity", 0).text("");
-  // }
+  // NOTE: not actually a step function name, it's pre-steppage:
+  if (stepFunctionName === "restoreIntroIllo") {
+    chartTitle.transition().duration(200).style("opacity", 0);
+  }
+  if (stepFunctionName !== "restoreIntroIllo") {
+    svg.select(".introductory-snek").transition().attr("opacity", 0);
+  }
+  // NOTE: end pre-steppage
+
+  if (stepFunctionName !== "recordingSightings") {
+    d3.select(".placeholderRecordingSightingsContent")
+      .transition()
+      .duration(200)
+      .attr("opacity", 0);
+  }
 
   if (
     ![
@@ -2526,10 +2590,17 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".annotation-label-flying").transition().attr("opacity", 0);
   }
 
-  if (sunnyCoastSpeciesStepNames.includes(stepFunctionName)) {
+  if (
+    stepFunctionName === "restoreIntroIllo" ||
+    sunnyCoastSpeciesStepNames.includes(stepFunctionName)
+  ) {
     sneks.transition().attr("opacity", 0);
   }
-  if (sightingsStepNames.includes(stepFunctionName)) {
+
+  if (
+    stepFunctionName === "restoreIntroIllo" ||
+    sightingsStepNames.includes(stepFunctionName)
+  ) {
     scSpeciesNodes.transition().attr("opacity", 0);
   }
 }
@@ -2545,6 +2616,20 @@ function onMouseEnterSpecies(_event, d) {
   // console.log([d.temp, d.speciesBestGuess]);
   // console.log([d3.timeFormat("%d %b %Y")(d.date), d.speciesBestGuess]);
 }
+
+function onMouseClick(event, d) {
+  // const currentLightbox = d3.select(
+  //   `[data-step-function=${activeStepFunctionName}] .lightbox`
+  // );
+  const currentLightbox = d3.selectAll(".lightbox");
+  currentLightbox.style("display", "block");
+}
+
+const backdrop = d3.selectAll(".lightbox__content");
+backdrop.on("click", () => {
+  const allLightboxes = d3.selectAll(`.lightbox`);
+  allLightboxes.style("display", "none");
+});
 
 function splitSpeciesLabels(species) {
   const speciesLabelParts = {
@@ -2570,13 +2655,24 @@ function init() {
   // 1. force a resize on load to ensure proper dimensions are sent to scrollama
   handleResize();
 
+  const offsetForLargerScreens =
+    (figureMarginTop - heightOfThreeLineStepParagraph) / 2;
+
+  const offsetNumber =
+    figureMarginTop <
+    gapFromTopOfScreenBeforeParagraph +
+      heightOfThreeLineStepParagraph +
+      gapBetweenBottomOfParagraphAndTopOfChartTitle
+      ? gapFromTopOfScreenBeforeParagraph
+      : offsetForLargerScreens;
+
   // 2. setup the scroller passing options
   // 		this will also initialize trigger observations
   // 3. bind scrollama event handlers (this can be chained like below)
   scroller
     .setup({
       step: "#scrolly article .step",
-      offset: "220px", // 0.33,
+      offset: `${offsetNumber}px`, // 0.33,
       debug: false,
     })
     .onStepEnter(handleStepEnter)

@@ -49,12 +49,11 @@ const chartTextSize = "0.75rem";
 const chartTextWeight = 300;
 const timeParser = d3.timeParse("%d %b %Y %H"); // "02 Jan 2023 06"
 const leftPad = 5;
-// const circleDiameter = 40; // big enough to tap
-const circleDiameter = 24; // small enough to fit within plot area
-// const circleDiameter = 10; // small enough to fit within plot area
-const circleRadius = circleDiameter / 2;
-const circleSpacing = circleDiameter + 2;
-const circleStroke = "#3C3941";
+// const nodeDiameter = 40; // big enough to tap
+const nodeDiameter = 24; // small enough to fit within plot area
+const nodeRadius = nodeDiameter / 2;
+const nodeSpacing = nodeDiameter + 2;
+const nodeStroke = "#3C3941";
 const scSpeciesFill = "#A6A1AF";
 const scSpeciesNodeRadius = 12;
 const scSpeciesGroupChargeStrength = -180;
@@ -93,17 +92,17 @@ const dimensions = {
   height: 455, // 400,
   margin: {
     top: 48,
-    right: 24, // at least circleRadius wide
+    right: 24, // at least nodeRadius wide
     bottom: 24,
     left: 112,
   },
 };
 
 const boundingPadding = 0;
-const boundingMinX = circleRadius;
-const boundingMaxX = dimensions.width - circleRadius;
-const boundingMinY = circleRadius;
-const boundingMaxY = dimensions.height - circleRadius;
+const boundingMinX = nodeRadius;
+const boundingMaxX = dimensions.width - nodeRadius;
+const boundingMinY = nodeRadius;
+const boundingMaxY = dimensions.height - nodeRadius;
 
 let sneks = null;
 let nodes = null;
@@ -139,15 +138,15 @@ const annotations = {
       {
         labelId: "smoochy",
         targetSnake: "matingSnakeOne",
-        snakeXOffset: -circleRadius * 1.5,
-        snakeYOffset: -circleRadius * 1.25,
+        snakeXOffset: -nodeRadius * 1.5,
+        snakeYOffset: -nodeRadius * 1.25,
         distance: 30,
       },
       {
         labelId: "smoochy",
         targetSnake: "matingSnakeTwo",
-        snakeXOffset: -circleRadius * 1.5,
-        snakeYOffset: -circleRadius * 0.75,
+        snakeXOffset: -nodeRadius * 1.5,
+        snakeYOffset: -nodeRadius * 0.75,
         distance: 30,
       },
     ],
@@ -166,15 +165,15 @@ const annotations = {
       {
         labelId: "snuggle",
         targetSnake: "courtingSnakeOne",
-        snakeXOffset: circleRadius,
-        snakeYOffset: -circleRadius,
+        snakeXOffset: nodeRadius,
+        snakeYOffset: -nodeRadius,
         distance: -30,
       },
       {
         labelId: "snuggle",
         targetSnake: "courtingSnakeTwo",
-        snakeXOffset: circleRadius,
-        snakeYOffset: -circleRadius,
+        snakeXOffset: nodeRadius,
+        snakeYOffset: -nodeRadius,
         distance: -30,
       },
     ],
@@ -193,7 +192,7 @@ const annotations = {
       {
         labelId: "cowering",
         targetSnake: "butcherBirdsSnake",
-        snakeXOffset: -circleRadius * 1.75,
+        snakeXOffset: -nodeRadius * 1.75,
         snakeYOffset: 0,
         distance: -30,
       },
@@ -207,8 +206,8 @@ const annotations = {
       {
         labelId: "gulped",
         targetSnake: "magpiesSnake",
-        snakeXOffset: circleRadius,
-        snakeYOffset: -circleRadius,
+        snakeXOffset: nodeRadius,
+        snakeYOffset: -nodeRadius,
         distance: -30,
       },
     ],
@@ -221,8 +220,8 @@ const annotations = {
       {
         labelId: "flying",
         targetSnake: "flyingSnake",
-        snakeXOffset: circleRadius * 1.75,
-        snakeYOffset: -circleRadius * 0.5,
+        snakeXOffset: nodeRadius * 1.75,
+        snakeYOffset: -nodeRadius * 0.5,
         distance: -30,
       },
     ],
@@ -550,27 +549,27 @@ function setupScales() {
   watchingMeScale = d3
     .scalePoint()
     .domain(["staring", "yeah", "nah", "not sure"])
-    .range([circleSpacing, dimensions.width - circleSpacing])
+    .range([nodeSpacing, dimensions.width - nodeSpacing])
     .padding(0.25);
 
   seasonScale = d3
     .scalePoint()
     .domain(["Summer", "Autumn", "Winter", "Spring"])
-    .range([circleSpacing, dimensions.width - circleSpacing])
+    .range([nodeSpacing, dimensions.width - nodeSpacing])
     .padding(0.25);
 
   venomScale = d3
     .scalePoint()
     .domain(["non venomous", "mildly venomous", "highly venomous", "unknown"])
-    .range([circleSpacing, dimensions.width - circleSpacing])
+    .range([nodeSpacing, dimensions.width - nodeSpacing])
     .padding(0.25);
 
   timeScale = d3
     .scaleTime()
     .domain(d3.extent(sightingsData, metricDateAccessor))
     .range([
-      dimensions.margin.top + circleSpacing,
-      dimensions.height - circleSpacing,
+      dimensions.margin.top + nodeSpacing,
+      dimensions.height - nodeSpacing,
     ])
     .nice();
 
@@ -606,16 +605,16 @@ function setupScales() {
     .scalePoint()
     .domain(timesOfDay)
     .range([
-      dimensions.margin.left + circleSpacing,
-      dimensions.width - dimensions.margin.right - circleSpacing,
+      dimensions.margin.left + nodeSpacing,
+      dimensions.width - dimensions.margin.right - nodeSpacing,
     ]);
 
   weatherScale = d3
     .scalePoint()
     .domain(["clear", "cloudy", "unknown"])
     .range([
-      dimensions.margin.left + circleSpacing,
-      dimensions.width - dimensions.margin.right - circleSpacing,
+      dimensions.margin.left + nodeSpacing,
+      dimensions.width - dimensions.margin.right - nodeSpacing,
     ]);
 
   weatherColorScale = d3
@@ -684,11 +683,11 @@ function snakeSimulation() {
     // .attr("style", "mix-blend-mode: color-dodge")
     .attr(
       "transform",
-      (_d, i) => `translate(${leftPad + i * circleSpacing}, ${height - 10})`
+      (_d, i) => `translate(${leftPad + i * nodeSpacing}, ${height - 10})`
     )
     // .attr("pointer-events", "none") // TODO: remove this for interactivity
     .attr("stroke-width", 1)
-    .attr("stroke", circleStroke);
+    .attr("stroke", nodeStroke);
 
   sneks.on("mouseenter", onMouseEnter);
   sneks.on("click", onMouseClick);
@@ -698,7 +697,7 @@ function snakeSimulation() {
   snekSimulation.on("tick", () => {
     sneks.attr(
       "transform",
-      (d) => `translate(${d.x - circleRadius}, ${d.y - circleRadius})`
+      (d) => `translate(${d.x - nodeRadius}, ${d.y - nodeRadius})`
     );
 
     updateAnnotationConnectors();
@@ -743,7 +742,7 @@ function snakeSimulation() {
     )
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     .force("collide", null)
-    // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1))
+    // .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1))
     // .alpha(1)
     // .alphaDecay(0.0228)
     // .alphaMin(0.001)
@@ -765,7 +764,7 @@ function scSpeciesSimulation() {
     .attr("opacity", 0)
     .attr(
       "transform",
-      (_d, i) => `translate(${leftPad + i * circleSpacing}, ${height - 10})`
+      (_d, i) => `translate(${leftPad + i * nodeSpacing}, ${height - 10})`
     )
     .call((g) => {
       g.append("path")
@@ -774,7 +773,7 @@ function scSpeciesSimulation() {
         .attr("fill", "#fff")
         .attr("opacity", 1)
         .attr("stroke-width", 1)
-        .attr("stroke", circleStroke);
+        .attr("stroke", nodeStroke);
     })
     .call((g) => {
       g.append("path")
@@ -783,7 +782,7 @@ function scSpeciesSimulation() {
         .attr("opacity", 0)
         .attr("fill", (d) => getVenomPatternFill(d))
         .attr("stroke-width", 1)
-        .attr("stroke", circleStroke);
+        .attr("stroke", nodeStroke);
     });
 
   scSpeciesNodes.on("mouseenter", onMouseEnterSpecies);
@@ -949,7 +948,7 @@ function setupAxes() {
         .data((species) => splitSpeciesLabels(species))
         .join("tspan")
         .attr("x", 0)
-        .attr("dx", -(circleRadius + 8))
+        .attr("dx", -(nodeRadius + 8))
         .attr("dy", getLabelPartYShift)
         .style("font-family", chartTextFamily)
         .style("font-size", chartTextSize)
@@ -1020,7 +1019,7 @@ function setupAxes() {
     .attr("opacity", 0)
     .attr(
       "transform",
-      `translate(0, ${focalPointY + watchingMeSneksTallCount * circleSpacing})`
+      `translate(0, ${focalPointY + watchingMeSneksTallCount * nodeSpacing})`
     )
     .call(watchingMeAxis)
     .call((g) => g.select(".domain").remove())
@@ -1039,7 +1038,7 @@ function setupAxes() {
     .attr("opacity", 0)
     .attr(
       "transform",
-      `translate(0, ${focalPointY + seasonSneksTallCount * circleSpacing})`
+      `translate(0, ${focalPointY + seasonSneksTallCount * nodeSpacing})`
     )
     .call(seasonAxis)
     .call((g) => g.select(".domain").remove())
@@ -1067,7 +1066,7 @@ function setupAxes() {
     .attr("opacity", 0)
     .attr(
       "transform",
-      `translate(0, ${focalPointY + venomSneksTallCount * circleSpacing})`
+      `translate(0, ${focalPointY + venomSneksTallCount * nodeSpacing})`
     )
     .call(venomAxis)
     .call((g) => g.select(".domain").remove())
@@ -1275,7 +1274,7 @@ function timeOfDayStripPlot() {
     )
     // .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
-    .force("collide", d3.forceCollide(circleRadius).strength(1));
+    .force("collide", d3.forceCollide(nodeRadius).strength(1));
 
   sneks
     .transition()
@@ -1318,7 +1317,7 @@ function weatherStripPlot() {
     )
     // .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
-    .force("collide", d3.forceCollide(circleRadius).strength(1));
+    .force("collide", d3.forceCollide(nodeRadius).strength(1));
 
   sneks
     .transition()
@@ -1359,7 +1358,7 @@ function temperatureStripPlot() {
     )
     // .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
-    .force("collide", d3.forceCollide(circleRadius).strength(1));
+    .force("collide", d3.forceCollide(nodeRadius).strength(1));
 
   sneks
     .transition()
@@ -1383,7 +1382,7 @@ function timeline() {
     .force("forceY", d3.forceY((d) => timeScale(d[metricDateProp])).strength(1))
     .force("charge", d3.forceManyBody().strength(snekChargeStrengthTimeline))
     .force("collide", null);
-  // .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+  // .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
 
   sneks
     .attr("opacity", 0)
@@ -1416,7 +1415,7 @@ function seasons() {
     .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     // .force("collide", null);
-    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
 
   addVisibleSpeciesColors(1);
 
@@ -1437,7 +1436,7 @@ function staringContest() {
     .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     // .force("collide", null);
-    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
 
   addVisibleSpeciesColors(1);
 
@@ -1471,7 +1470,7 @@ function venom() {
     .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     // .force("collide", null);
-    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
 
   addVisibleSpeciesColors((d) =>
     metricVenomAccessor(d) === "unknown" ? 0.2 : 1
@@ -1730,7 +1729,7 @@ function scCount() {
       g.selectAll("path.species--fill")
         .attr("fill", scSpeciesFill)
         .attr("opacity", 1)
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
         .attr("d", circlePath)
@@ -1739,7 +1738,7 @@ function scCount() {
     .call((g) => {
       g.selectAll("path.species--pattern")
         .attr("opacity", 0)
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
         .attr("d", circlePath)
@@ -1767,7 +1766,7 @@ function scSeenSpecies() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("stroke", circleStroke)
+    .attr("stroke", nodeStroke)
     .attr("stroke-width", 1)
     .attr("stroke-dasharray", null)
     .attr("opacity", 1)
@@ -1775,7 +1774,7 @@ function scSeenSpecies() {
       g.selectAll("path.species--fill")
         .attr("fill", scSpeciesFill)
         .attr("opacity", 1)
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
         .attr("d", (d) =>
@@ -1804,7 +1803,7 @@ function scSeenSpecies() {
     .call((g) => {
       g.selectAll("path.species--pattern")
         .attr("opacity", 0)
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
         .attr("d", (d) =>
@@ -1852,7 +1851,7 @@ function scVenomQuestion() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("stroke", circleStroke)
+    .attr("stroke", nodeStroke)
     .attr("stroke-width", 1)
     .attr("stroke-dasharray", null)
     .attr("opacity", 1)
@@ -1860,7 +1859,7 @@ function scVenomQuestion() {
       g.selectAll("path.species--fill")
         .attr("fill", scSpeciesFill)
         .attr("opacity", 1)
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
         .attr("d", circlePath)
@@ -1879,7 +1878,7 @@ function scVenomQuestion() {
     .call((g) => {
       g.selectAll("path.species--pattern")
         .attr("opacity", 0)
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
         .attr("d", circlePath)
@@ -1927,7 +1926,7 @@ function scNonVenomous() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           ["non venomous"].includes(d[metricSpeciesVenomProp]) ? 1 : opacityFade
         );
@@ -1946,7 +1945,7 @@ function scNonVenomous() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           ["non venomous"].includes(d[metricSpeciesVenomProp]) ? 1 : 0
         );
@@ -1985,7 +1984,7 @@ function scWeaklyVenomous() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           ["weakly venomous"].includes(d[metricSpeciesVenomProp])
             ? 1
@@ -2006,7 +2005,7 @@ function scWeaklyVenomous() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           ["weakly venomous"].includes(d[metricSpeciesVenomProp]) ? 1 : 0
         );
@@ -2045,7 +2044,7 @@ function scMildlyVenomous() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           ["mildly venomous"].includes(d[metricSpeciesVenomProp])
             ? 1
@@ -2066,7 +2065,7 @@ function scMildlyVenomous() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           ["mildly venomous"].includes(d[metricSpeciesVenomProp])
             ? 1
@@ -2112,7 +2111,7 @@ function scModeratelyVenomous() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           ["moderately venomous"].includes(d[metricSpeciesVenomProp])
             ? 1
@@ -2133,7 +2132,7 @@ function scModeratelyVenomous() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           ["moderately venomous"].includes(d[metricSpeciesVenomProp])
             ? 1
@@ -2172,7 +2171,7 @@ function scVenom() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           [
             "potentially dangerous",
@@ -2197,7 +2196,7 @@ function scVenom() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
           [
             "potentially dangerous",
@@ -2253,7 +2252,7 @@ function scSeaSnakes() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", 1);
     });
 
@@ -2296,7 +2295,7 @@ function scBlindSnakes() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", 1);
     });
 
@@ -2340,7 +2339,7 @@ function scPythons() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", 1);
     });
 
@@ -2385,7 +2384,7 @@ function scRearFangedSnakes() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", 1);
     });
 
@@ -2423,7 +2422,7 @@ function scLandSnakes() {
             ? seenStrokeWidth
             : 1
         )
-        .attr("stroke", circleStroke)
+        .attr("stroke", nodeStroke)
         .attr("opacity", 1);
     });
 
@@ -2449,8 +2448,8 @@ function scSpecies() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("opacity", 1)
-        // .attr("stroke", circleStroke);
-        .attr("stroke", circleStroke)
+        // .attr("stroke", nodeStroke);
+        .attr("stroke", nodeStroke)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
           d.species.includes("Red-bellied") ||
@@ -2811,7 +2810,7 @@ function addSpeciesBlobForces() {
 }
 
 function addPointsOfInterestBlobForces() {
-  addBlobForces(circleRadius * 1.25);
+  addBlobForces(nodeRadius * 1.25);
 }
 
 function addBlobForces(radius) {
@@ -2845,7 +2844,7 @@ function addBlobForces(radius) {
     // .force("charge", null)
     .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     // .force("collide", null);
-    .force("collide", d3.forceCollide((_d) => circleRadius).strength(1));
+    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
 }
 
 function addVisibleSpeciesColors(opacityFnOrNumber) {

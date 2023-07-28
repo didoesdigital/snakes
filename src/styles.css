@@ -17,6 +17,7 @@
   --coolgrey-900: #3c3941;
   --coolgrey-1000: #232027;
   --coolgrey-1100: #0f0e11;
+  --green-200: #ecf9f5;
 }
 
 html {
@@ -34,7 +35,6 @@ body {
   font-size: 1rem;
   font-weight: 400;
   margin: 0px auto;
-  max-width: 75rem;
   line-height: 1.5;
   color: var(--coolgrey-900);
 }
@@ -47,8 +47,13 @@ h3 {
 }
 
 .page {
-  background-color: #ecf9f5;
+  background-color: var(--green-200);
   min-height: 667px;
+}
+
+.content-area {
+  max-width: 75rem;
+  margin: 0 auto;
 }
 
 h1 {
@@ -60,10 +65,14 @@ h1 strong {
   font-weight: 700;
 }
 
-#intro {
+#intro,
+#outro {
   max-width: 40rem;
-  margin: 1rem auto;
-  margin-bottom: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#intro {
+  margin-bottom: 20rem;
 }
 
 #scrolly {

@@ -36,8 +36,11 @@ const step = article.selectAll(".step");
 // Initialize the scrollama
 const scroller = scrollama();
 
-const width = 343; // 375 - 16 - 16
+const pagePaddingX = 16 * 2;
+const maxSupportedPageWidth = 1200;
+const width = Math.min(window.innerWidth, maxSupportedPageWidth) - pagePaddingX; // 375 - 16 - 16
 const height = 555; //400;
+const slightBufferForScrollTrack = 8;
 
 const gapFromTopOfScreenBeforeParagraph = 24;
 const heightOfThreeLineStepParagraph = 90;
@@ -61,7 +64,17 @@ const scSpeciesGroupRadius = 16;
 const snekChargeStrength = -180;
 const snekChargeStrengthTimeline = -20;
 const hideOffscreen = 80;
-const focalPointX = width / 2;
+const dimensions = {
+  width: Math.min(width - slightBufferForScrollTrack, 600),
+  height: 455, // 400,
+  margin: {
+    top: 48,
+    right: 24, // at least nodeRadius wide
+    bottom: 24,
+    left: 112,
+  },
+};
+const focalPointX = dimensions.width / 2;
 const focalPointY = 160; // enough for tallest blob layout to fit under chartTitle
 const opacityFade = 0.2;
 const circlePath =
@@ -86,17 +99,6 @@ const speciesColors = [
   "#331A5B",
   "#1C0A39",
 ];
-
-const dimensions = {
-  width: 343,
-  height: 455, // 400,
-  margin: {
-    top: 48,
-    right: 24, // at least nodeRadius wide
-    bottom: 24,
-    left: 112,
-  },
-};
 
 const boundingPadding = 0;
 const boundingMinX = nodeRadius;
@@ -129,7 +131,7 @@ const annotations = {
       {
         id: "smoochy",
         text: "Smoochy snakes",
-        labelX: 60,
+        labelX: focalPointX - 144,
         labelY: 90,
         paddingY: 3,
       },
@@ -156,7 +158,7 @@ const annotations = {
       {
         id: "snuggle",
         text: "Looking to snuggle",
-        labelX: 270,
+        labelX: focalPointX + 144,
         labelY: 100,
         paddingY: 3,
       },
@@ -183,7 +185,7 @@ const annotations = {
       {
         id: "cowering",
         text: "Cowering",
-        labelX: 60,
+        labelX: focalPointX - 144,
         labelY: 340,
         paddingY: -12,
       },
@@ -200,7 +202,13 @@ const annotations = {
   },
   magpies: {
     labels: [
-      { id: "gulped", text: "Gulped", labelX: 270, labelY: 100, paddingY: 3 },
+      {
+        id: "gulped",
+        text: "Gulped",
+        labelX: focalPointX + 144,
+        labelY: 100,
+        paddingY: 3,
+      },
     ],
     connectors: [
       {
@@ -214,7 +222,13 @@ const annotations = {
   },
   flying: {
     labels: [
-      { id: "flying", text: "Flying", labelX: 270, labelY: 100, paddingY: 3 },
+      {
+        id: "flying",
+        text: "Flying",
+        labelX: focalPointX + 144,
+        labelY: 100,
+        paddingY: 3,
+      },
     ],
     connectors: [
       {
@@ -631,7 +645,8 @@ function setupScales() {
 }
 
 function setupChart() {
-  svg.attr("width", width).attr("height", height);
+  svg.attr("width", dimensions.width).attr("height", dimensions.height);
+  svg.attr("transform", `translate(${(width - dimensions.width - 16) / 2},0)`);
 
   svg.call(texture);
   // svg.call(textureNonVenomous);

@@ -762,16 +762,6 @@ function scSpeciesSimulation() {
 
   speciesGroupSimulation = d3.forceSimulation(scSpeciesData);
 
-  speciesGroupSimulation.on("tick", () => {
-    scSpeciesNodes.attr(
-      "transform",
-      (d) =>
-        `translate(${d.x - scSpeciesNodeRadius}, ${d.y - scSpeciesNodeRadius})`
-    );
-  });
-
-  speciesGroupSimulation.stop();
-
   speciesGroupSimulation
     .force("bounding-rect", () => {
       sightingsData.forEach((node) => {
@@ -824,7 +814,18 @@ function scSpeciesSimulation() {
     .velocityDecay(0.6)
     .stop();
 
-  speciesGroupSimulation.restart();
+  const ticked = () => {
+    scSpeciesNodes.attr(
+      "transform",
+      (d) =>
+        `translate(${d.x - scSpeciesNodeRadius}, ${d.y - scSpeciesNodeRadius})`
+    );
+  };
+
+  while (speciesGroupSimulation.alpha() > speciesGroupSimulation.alphaMin()) {
+    speciesGroupSimulation.tick();
+    ticked();
+  }
 }
 
 function setupAxes() {

@@ -52,6 +52,7 @@ const circleDiameter = 24; // small enough to fit within plot area
 const circleRadius = circleDiameter / 2;
 const circleSpacing = circleDiameter + 2;
 const circleStroke = "#3C3941";
+const scSpeciesFill = "#A6A1AF";
 const scSpeciesNodeRadius = 12;
 const scSpeciesGroupChargeStrength = -180;
 const scSpeciesGroupRadius = 16;
@@ -1687,7 +1688,7 @@ function scCount() {
     .attr("stroke-dasharray", null)
     .call((g) => {
       g.selectAll("path.species--fill")
-        .attr("fill", "#fff")
+        .attr("fill", scSpeciesFill)
         .attr("opacity", 1)
         .attr("stroke", circleStroke)
         .transition()
@@ -1732,7 +1733,7 @@ function scSeenSpecies() {
     .attr("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
-        .attr("fill", "#fff")
+        .attr("fill", scSpeciesFill)
         .attr("opacity", 1)
         .attr("stroke", circleStroke)
         .transition()
@@ -1817,7 +1818,7 @@ function scVenomQuestion() {
     .attr("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
-        .attr("fill", "#fff")
+        .attr("fill", scSpeciesFill)
         .attr("opacity", 1)
         .attr("stroke", circleStroke)
         .transition()
@@ -1869,7 +1870,11 @@ function scNonVenomous() {
     .attr("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
-        .attr("fill", "#fff")
+        .attr("fill", (d) =>
+          ["non venomous"].includes(d[metricSpeciesVenomProp])
+            ? "#fff"
+            : scSpeciesFill
+        )
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
@@ -1921,7 +1926,13 @@ function scWeaklyVenomous() {
     .attr("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
-        .attr("fill", "#fff")
+        .attr("fill", (d) =>
+          ["weakly venomous", "non venomous"].includes(
+            d[metricSpeciesVenomProp]
+          )
+            ? "#fff"
+            : scSpeciesFill
+        )
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
@@ -1975,7 +1986,13 @@ function scMildlyVenomous() {
     .attr("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
-        .attr("fill", "#fff")
+        .attr("fill", (d) =>
+          ["mildly venomous", "weakly venomous", "non venomous"].includes(
+            d[metricSpeciesVenomProp]
+          )
+            ? "#fff"
+            : scSpeciesFill
+        )
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||
@@ -2033,7 +2050,16 @@ function scModeratelyVenomous() {
     .attr("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
-        .attr("fill", "#fff")
+        .attr("fill", (d) =>
+          [
+            "moderately venomous",
+            "mildly venomous",
+            "weakly venomous",
+            "non venomous",
+          ].includes(d[metricSpeciesVenomProp])
+            ? "#fff"
+            : scSpeciesFill
+        )
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
           d.species.includes("Yellow-faced") ||

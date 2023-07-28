@@ -321,6 +321,7 @@ const didChill = (d) => {
   return departure.includes("chill") || departure.includes("slowly");
 };
 
+// NOTE: the shortest screen I'll try to handle is 640px tall
 let figureHeight = window.innerHeight / 2;
 let figureMarginTop = (window.innerHeight - figureHeight) / 2;
 // generic window resize listener event

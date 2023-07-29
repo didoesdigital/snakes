@@ -654,7 +654,10 @@ function setupChart() {
   svg.call(textureVenomous);
   svg.call(textureHighlyVenomous);
 
-  const snekIllo = svg.append("g").classed("introductory-snek", true);
+  const snekIllo = svg
+    .append("g")
+    .attr("role", "presentation")
+    .classed("introductory-snek", true);
   snekIllo
     .append("path")
     .attr(
@@ -666,6 +669,9 @@ function setupChart() {
 
   const placeholderRecordingSightingsContent = svg
     .append("g")
+    .attr("tabindex", "0")
+    .attr("role", "list")
+    .attr("aria-label", "placeholderRecordingSightingsContent")
     .classed("placeholderRecordingSightingsContent", true)
     .attr("opacity", 0);
 
@@ -775,6 +781,8 @@ function scSpeciesSimulation() {
     .selectAll("g.species")
     .data(scSpeciesData)
     .join("g")
+    .attr("role", "img")
+    .attr("aria-label", (d) => d[metricSpeciesGroupSpProp])
     .attr("class", "species")
     .attr("opacity", 0)
     .attr(
@@ -876,6 +884,7 @@ function setupAxes() {
   // X-Axis labels:
   svg
     .append("g")
+    .attr("role", "presentation")
     .attr("class", "strip-plot-x-weather")
     .attr("pointer-events", "none")
     .attr("opacity", 0)
@@ -885,13 +894,15 @@ function setupAxes() {
     )
     .call(weatherStripPlotXAxis)
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
-    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
-    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
     .call(
       (g) =>
         g
           .selectAll("text")
+          .attr("role", "presentation")
+          .attr("aria-hidden", "true")
+          .style("font-family", chartTextFamily)
+          .style("font-size", chartTextSize)
+          .style("font-weight", chartTextWeight)
           .attr("opacity", (d) =>
             ["clear", "cloudy", "unknown"].includes(d) ? 1 : 0
           )
@@ -906,6 +917,7 @@ function setupAxes() {
   // X-Axis labels:
   svg
     .append("g")
+    .attr("role", "presentation")
     .attr("class", "strip-plot-x-time-of-day")
     .attr("pointer-events", "none")
     .attr("opacity", 0)
@@ -915,12 +927,14 @@ function setupAxes() {
     )
     .call(timeOfDayStripPlotXAxis)
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
-    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
-    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
     .call((g) =>
       g
         .selectAll("text")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
+        .style("font-family", chartTextFamily)
+        .style("font-size", chartTextSize)
+        .style("font-weight", chartTextWeight)
         .attr("opacity", (d) =>
           ["morning", "afternoon", "evening"].includes(d) ? 1 : 0
         )
@@ -931,6 +945,7 @@ function setupAxes() {
   // X-Axis labels:
   svg
     .append("g")
+    .attr("role", "presentation")
     .attr("class", "strip-plot-x-temperature")
     .attr("pointer-events", "none")
     .attr("opacity", 0)
@@ -940,9 +955,15 @@ function setupAxes() {
     )
     .call(tempStripPlotXAxis)
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
-    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
-    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
+    .call((g) =>
+      g
+        .selectAll("text")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
+        .style("font-family", chartTextFamily)
+        .style("font-size", chartTextSize)
+        .style("font-weight", chartTextWeight)
+    )
     .lower();
 
   let tempStripPlotYAxis = d3.axisLeft(speciesBandScale).tickFormat("");
@@ -950,6 +971,7 @@ function setupAxes() {
   // Temperature Y-Axis labels:
   svg
     .append("g")
+    .attr("role", "presentation")
     .attr("class", "strip-plot-y")
     .attr("pointer-events", "none")
     .attr("opacity", 0)
@@ -959,9 +981,13 @@ function setupAxes() {
     .call((g) =>
       g
         .selectAll(".tick text")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
         .selectAll("tspan")
         .data((species) => splitSpeciesLabels(species))
         .join("tspan")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
         .attr("x", 0)
         .attr("dx", -(nodeRadius + 8))
         .attr("dy", getLabelPartYShift)
@@ -977,6 +1003,7 @@ function setupAxes() {
   // Temperature Y-Axis grid lines:
   svg
     .append("g")
+    .attr("role", "presentation")
     .attr("class", "strip-plot-y-grid-lines")
     .attr("pointer-events", "none")
     .attr("opacity", 0)
@@ -1005,6 +1032,7 @@ function setupAxes() {
   // Timeline Y-Axis labels:
   svg
     .append("g")
+    .attr("role", "presentation")
     .attr("class", "timeline-y-axis")
     .attr("pointer-events", "none")
     .attr("opacity", 0)
@@ -1014,6 +1042,8 @@ function setupAxes() {
     .call((g) =>
       g
         .selectAll(".tick text")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
         .style("font-family", chartTextFamily)
         .style("font-size", chartTextSize)
         .style("font-weight", chartTextWeight)
@@ -1029,6 +1059,7 @@ function setupAxes() {
   const watchingMeSneksTallCount = 4;
   svg
     .append("g")
+    .attr("role", "presentation")
     .attr("class", "watching-me-axis")
     .attr("pointer-events", "none")
     .attr("opacity", 0)
@@ -1038,9 +1069,15 @@ function setupAxes() {
     )
     .call(watchingMeAxis)
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
-    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
-    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
+    .call((g) =>
+      g
+        .selectAll("text")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
+        .style("font-family", chartTextFamily)
+        .style("font-size", chartTextSize)
+        .style("font-weight", chartTextWeight)
+    )
     .lower();
 
   // Seasons axis
@@ -1048,6 +1085,7 @@ function setupAxes() {
   const seasonSneksTallCount = 4;
   svg
     .append("g")
+    .attr("role", "presentation")
     .attr("class", "seasons-axis")
     .attr("pointer-events", "none")
     .attr("opacity", 0)
@@ -1057,9 +1095,15 @@ function setupAxes() {
     )
     .call(seasonAxis)
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
-    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
-    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
+    .call((g) =>
+      g
+        .selectAll("text")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
+        .style("font-family", chartTextFamily)
+        .style("font-size", chartTextSize)
+        .style("font-weight", chartTextWeight)
+    )
     .lower();
 
   const venomLabel = (d) => {
@@ -1076,6 +1120,7 @@ function setupAxes() {
   const venomSneksTallCount = 4;
   svg
     .append("g")
+    .attr("role", "presentation")
     .attr("class", "venom-axis")
     .attr("pointer-events", "none")
     .attr("opacity", 0)
@@ -1085,10 +1130,16 @@ function setupAxes() {
     )
     .call(venomAxis)
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll("text").style("font-family", chartTextFamily))
-    .call((g) => g.selectAll("text").style("font-size", chartTextSize))
-    .call((g) => g.selectAll("text").style("font-weight", chartTextWeight))
-    .call((g) => g.selectAll("text").text((d) => venomLabel(d)))
+    .call((g) =>
+      g
+        .selectAll("text")
+        .style("font-family", chartTextFamily)
+        .style("font-size", chartTextSize)
+        .style("font-weight", chartTextWeight)
+        .text((d) => venomLabel(d))
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
+    )
     .lower();
 }
 
@@ -1097,6 +1148,8 @@ function setupAnnotations() {
     for (const label of annotations[snakeFn]["labels"]) {
       svg
         .append("text")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
         .attr("class", `annotation-label-${label["id"]}`)
         .attr("opacity", 0)
         .attr("stroke", "none")
@@ -1391,6 +1444,7 @@ function timeline() {
   hideOtherChartStuff("timeline");
 
   updateTitle("On average, I've seen a snake every two and a half weeks");
+  // "There are snake sightings in most months between April 2021 and April 2023 except July and August 2022."
   snekSimulation
     // .force("forceX", d3.forceX(focalPointX).strength(1.55))
     .force("forceX", d3.forceX(xWiggle).strength(1))
@@ -1411,7 +1465,15 @@ function timeline() {
     .delay((d) => accelerate(timeDelayScale(d[metricDateProp])))
     .attr("opacity", 1);
 
-  d3.select(".timeline-y-axis").transition().attr("opacity", 1);
+  d3.select(".timeline-y-axis")
+    .call((g) =>
+      g
+        .selectAll("text")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
+    )
+    .transition()
+    .attr("opacity", 1);
   reheatSimulation();
 }
 
@@ -1419,6 +1481,7 @@ function seasons() {
   hideOtherChartStuff("seasons");
 
   updateTitle("Fewer snek in Winter");
+  // "There were 12 snakes in Summer, 11 in Autumn, 7 in Winter, and 13 in Spring"
   snekSimulation
     .force(
       "forceX",
@@ -1442,6 +1505,7 @@ function staringContest() {
   hideOtherChartStuff("staringContest");
 
   updateTitle("I won a staring contest with a noodle boi");
+  // "3 snakes were staring, yeah 25 saw me, nah 5 didn't see me, not sure about 10 of them."
   snekSimulation
     .force(
       "forceX",

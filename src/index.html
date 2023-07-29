@@ -31,7 +31,7 @@
     <main>
       <div class="page">
         <section id="intro" style="padding-left: 16px; padding-right: 16px">
-          <div class=content-area>
+          <div class="content-area">
             <h1 style="font-size: 3rem; font-weight: 700; text-align: center">
               I moved to Queensland and met 43 snakes
             </h1>
@@ -48,10 +48,15 @@
         </section>
 
         <section id="scrolly">
-          <div class=content-area>
+          <div class="content-area">
+            <h2 class="sr-only">Visualisation of individual snake sightings</h2>
             <figure>
-              <p id="chart-title"></p>
-              <div id="viz"><svg></svg></div>
+              <div aria-live="polite" aria-atomic="true">
+                <p id="chart-title"></p>
+              </div>
+              <div id="viz">
+                <svg aria-labelledby="chart-title"></svg>
+              </div>
             </figure>
 
             <article>

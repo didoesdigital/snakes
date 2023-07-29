@@ -172,6 +172,11 @@ figure #chart-title {
   /* position: sticky; */
 }
 
+#viz {
+  display: flex;
+  justify-content: center;
+}
+
 img {
   width: 320px;
   /* display: none; */

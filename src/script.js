@@ -646,7 +646,6 @@ function setupScales() {
 
 function setupChart() {
   svg.attr("width", dimensions.width).attr("height", dimensions.height);
-  svg.attr("transform", `translate(${(width - dimensions.width - 16) / 2},0)`);
 
   svg.call(texture);
   // svg.call(textureNonVenomous);

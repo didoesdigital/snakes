@@ -1558,7 +1558,7 @@ function venom() {
 function mating() {
   hideOtherChartStuff("mating");
 
-  updateTitle("Caught in the act!");
+  updateTitle("Mating snakes in the yard");
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "mating" ? 1 : 0.2));
 

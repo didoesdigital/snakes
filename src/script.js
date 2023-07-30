@@ -1619,10 +1619,11 @@ function courting() {
   reheatSimulation();
 }
 
+const sharedBirdTitle = "Attacked by birds";
 function flying() {
   hideOtherChartStuff("flying");
 
-  updateTitle("Hungry birbs");
+  updateTitle(sharedBirdTitle);
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
 
@@ -1650,7 +1651,7 @@ function flying() {
 function magpies() {
   hideOtherChartStuff("magpies");
 
-  updateTitle("Hungry birbs");
+  updateTitle(sharedBirdTitle);
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
 
@@ -1678,7 +1679,7 @@ function magpies() {
 function butcherBirds() {
   hideOtherChartStuff("butcherBirds");
 
-  updateTitle("Hungry birbs");
+  updateTitle(sharedBirdTitle);
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
 
@@ -1746,7 +1747,7 @@ function attacked() {
 function onCamera() {
   hideOtherChartStuff("onCamera");
 
-  updateTitle("Photographic proof!");
+  updateTitle("Caught on camera");
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["onCamera"] === "no" ? 0.2 : 1));
 
@@ -1756,7 +1757,7 @@ function onCamera() {
 function climbing() {
   hideOtherChartStuff("climbing");
 
-  updateTitle("Tree snakes zoom up trees");
+  updateTitle("Climbing");
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["climbing"] === "not climbing" ? 0.2 : 1));
 
@@ -1766,7 +1767,7 @@ function climbing() {
 function yard() {
   hideOtherChartStuff("yard");
 
-  updateTitle("Too close to home");
+  updateTitle("In the yard");
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["room"] === "elsewhere" ? 0.2 : 1));
 
@@ -1776,7 +1777,7 @@ function yard() {
 function all() {
   hideOtherChartStuff("all");
 
-  updateTitle("They're all good snakes, mate");
+  updateTitle("");
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors(1);
 

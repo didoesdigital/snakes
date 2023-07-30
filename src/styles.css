@@ -36,7 +36,7 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 h1,
@@ -109,7 +109,7 @@ figure #chart-title {
   /* font-weight: 900; */
   /* font-weight: 700; */
   color: var(--coolgrey-900);
-  min-width: 343px;
+  min-width: 21rem;
 }
 
 .step {
@@ -177,7 +177,7 @@ figure #chart-title {
 }
 
 .snek-img {
-  width: 320px;
+  width: 20rem;
   /* display: none; */
   /* position: sticky; */
 }
@@ -188,8 +188,8 @@ tspan.long-name {
 
 .fun-facts-list li,
 .learn-more-links-list li {
-  margin-top: 12px;
-  margin-bottom: 12px;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 summary {

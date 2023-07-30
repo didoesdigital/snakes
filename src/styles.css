@@ -117,8 +117,9 @@ figure #chart-title {
 }
 
 .step {
-  margin: 0 auto 2rem auto;
   color: #fff;
+  margin: 0 auto 2rem auto;
+  min-height: 40rem;
   /* pointer-events: none; */
   /* outline: 1px dashed #e8686a; */
   /* background-color: rgba(0, 0, 0, 0.1); */

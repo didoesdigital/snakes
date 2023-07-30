@@ -20,25 +20,23 @@
   --green-200: #ecf9f5;
   --cursive-font-stack: "Gaegu", "Marker Felt", "Segoe Print", "Bradley Hand",
     Chilanka, TSCu_Comic, casual, cursive;
+  --sans-serif-stack: "Overpass", "Varela", "Varela Round", "Source Sans Pro",
+    "Work Sans", "Lato", "Noto Sans", "Assistant", "Libre Franklin", "Open Sans",
+    "Roboto Condensed", "Titillium Web", "Raleway", "Merriweather Sans",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 html {
-  /* TODO: delete this when ready to publish */
-  background-color: #ebebeb;
-
   font-size: 16px;
 }
 
 body {
-  font-family: "Overpass", "Varela", "Varela Round", "Source Sans Pro",
-    "Work Sans", "Lato", "Noto Sans", "Assistant", "Libre Franklin", "Open Sans",
-    "Roboto Condensed", "Titillium Web", "Raleway", "Merriweather Sans",
-    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--coolgrey-900);
+  font-family: var(--sans-serif-stack);
   font-size: 1rem;
   font-weight: 400;
-  margin: 0px auto;
   line-height: 1.5;
-  color: var(--coolgrey-900);
+  margin: 0px auto;
 }
 
 h1,

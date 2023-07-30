@@ -43,7 +43,7 @@ const textureHighlyVenomous = textures
   .size(5);
 
 const chartTextFamily =
-  '"Overpass Mono", "Varela", "Varela Round", "Helvetica", arial, sans-serif';
+  '"Overpass Mono", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace';
 const chartTextSize = "0.75rem";
 const chartTextWeight = 300;
 const timeParser = d3.timeParse("%d %b %Y %H"); // "02 Jan 2023 06"

@@ -303,7 +303,7 @@ const weatherGroup = (d) => {
 const watchingMeGroup = (d) => {
   const watchingMe = d["watchingMe"];
   if (["staring"].includes(watchingMe)) {
-    return "staring";
+    return "stared";
   }
   if (["probably", "yes", "possibly", "flattened"].includes(watchingMe)) {
     return "yeah";
@@ -558,7 +558,7 @@ function setupScales() {
 
   watchingMeScale = d3
     .scalePoint()
-    .domain(["staring", "yeah", "nah", "not sure"])
+    .domain(["stared", "yeah", "nah", "not sure"])
     .range([nodeSpacing, dimensions.width - nodeSpacing])
     .padding(0.25);
 
@@ -1205,7 +1205,7 @@ function setupPointsOfInterestDataPoints() {
 function species() {
   hideOtherChartStuff("species");
 
-  updateTitle("All species");
+  updateTitle("7 species and unknowns");
   addSpeciesBlobForces();
   addVisibleSpeciesColors(1);
 
@@ -1436,7 +1436,7 @@ function temperatureStripPlot() {
 function timeline() {
   hideOtherChartStuff("timeline");
 
-  updateTitle("On average, I've seen a snake every two and a half weeks");
+  updateTitle("Snake sightings over two years");
   // "There are snake sightings in most months between April 2021 and April 2023 except July and August 2022."
   snekSimulation
     // .force("forceX", d3.forceX(focalPointX).strength(1.55))
@@ -1473,7 +1473,7 @@ function timeline() {
 function seasons() {
   hideOtherChartStuff("seasons");
 
-  updateTitle("Fewer snek in Winter");
+  updateTitle("Fewer snakes in Winter");
   // "There were 12 snakes in Summer, 11 in Autumn, 7 in Winter, and 13 in Spring"
   snekSimulation
     .force(
@@ -1497,7 +1497,7 @@ function seasons() {
 function staringContest() {
   hideOtherChartStuff("staringContest");
 
-  updateTitle("I won a staring contest with a noodle boi");
+  updateTitle("Did it see me?");
   // "3 snakes were staring, yeah 25 saw me, nah 5 didn't see me, not sure about 10 of them."
   snekSimulation
     .force(

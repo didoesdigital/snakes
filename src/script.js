@@ -47,7 +47,6 @@ const chartTextFamily =
 const chartTextSize = "0.75rem";
 const chartTextWeight = 300;
 const timeParser = d3.timeParse("%d %b %Y %H"); // "02 Jan 2023 06"
-const leftPad = 5;
 // const nodeDiameter = 40; // big enough to tap
 const nodeDiameter = 24; // small enough to fit within plot area
 const nodeRadius = nodeDiameter / 2;
@@ -695,12 +694,9 @@ function snakeSimulation() {
     .attr("data-id", (d) => d.id)
     .attr("fill", (d) => speciesColorScale(d.speciesBestGuess))
     .attr("opacity", 0)
-    // .attr("opacity", 0)
-    // .attr("opacity", 0.8)
-    // .attr("style", "mix-blend-mode: color-dodge")
     .attr(
       "transform",
-      (_d, i) => `translate(${leftPad + i * nodeSpacing}, ${height - 10})`
+      `translate(${dimensions.width / 2}, ${dimensions.height / 2})`
     )
     // .attr("pointer-events", "none") // TODO: remove this for interactivity
     .attr("stroke-width", 1)
@@ -783,7 +779,7 @@ function scSpeciesSimulation() {
     .attr("opacity", 0)
     .attr(
       "transform",
-      (_d, i) => `translate(${leftPad + i * nodeSpacing}, ${height - 10})`
+      (_d, i) => `translate(${i * nodeSpacing}, ${height - 10})`
     )
     .call((g) => {
       g.append("path")

@@ -960,7 +960,7 @@ function setupAxes() {
 
   let tempStripPlotYAxis = d3.axisLeft(speciesBandScale).tickFormat("");
 
-  // Temperature Y-Axis labels:
+  // Strip plot Y-Axis labels:
   svg
     .append("g")
     .attr("role", "presentation")
@@ -975,9 +975,10 @@ function setupAxes() {
         .selectAll(".tick text")
         .attr("role", "presentation")
         .attr("aria-hidden", "true")
-        .selectAll("tspan")
+        .selectAll("tspan.long-name")
         .data((species) => splitSpeciesLabels(species))
         .join("tspan")
+        .classed("long-name", true)
         .attr("role", "presentation")
         .attr("aria-hidden", "true")
         .attr("x", 0)
@@ -992,7 +993,7 @@ function setupAxes() {
     .attr("stroke-dasharray", 2.5)
     .lower();
 
-  // Temperature Y-Axis grid lines:
+  // Strip plot Y-Axis grid lines:
   svg
     .append("g")
     .attr("role", "presentation")

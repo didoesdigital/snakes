@@ -241,7 +241,8 @@ let speciesAngleScale = null;
 let speciesColorScale = null;
 let speciesBandScale = null;
 
-let speciesGroupAngleScale = null;
+let scSpeciesGroupAngleScale = null;
+
 let speciesGroupColorScale = null;
 
 let temperatureScale = null;
@@ -496,7 +497,7 @@ function setupScales() {
     .map((d) => d[0]);
   // console.log(orderedSnakeSpecies);
 
-  speciesGroupAngleScale = d3
+  scSpeciesGroupAngleScale = d3
     .scaleBand()
     .domain(Array.from(new Set(scSpeciesData.map(metricSpeciesGroupAccessor))))
     .range([0, 360]);
@@ -803,9 +804,9 @@ function scSpeciesSimulation() {
   scSpeciesNodes.on("mouseenter", onMouseEnterSpecies);
   scSpeciesNodes.on("click", onMouseClick);
 
-  speciesGroupSimulation = d3.forceSimulation(scSpeciesData);
+  scSpeciesGroupSimulation = d3.forceSimulation(scSpeciesData);
 
-  speciesGroupSimulation
+  scSpeciesGroupSimulation
     .force("bounding-rect", () => {
       sightingsData.forEach((node) => {
         node.x = Math.max(node.x, boundingMinX + boundingPadding);
@@ -821,7 +822,7 @@ function scSpeciesSimulation() {
           (d) =>
             scSpeciesGroupRadius *
               Math.sin(
-                speciesGroupAngleScale(d[metricSpeciesGroupProp]) *
+                scSpeciesGroupAngleScale(d[metricSpeciesGroupProp]) *
                   (Math.PI / 180)
               ) +
             focalPointX
@@ -835,7 +836,7 @@ function scSpeciesSimulation() {
           (d) =>
             scSpeciesGroupRadius *
               Math.cos(
-                speciesGroupAngleScale(d[metricSpeciesGroupProp]) *
+                scSpeciesGroupAngleScale(d[metricSpeciesGroupProp]) *
                   (Math.PI / 180)
               ) +
             focalPointY
@@ -865,8 +866,10 @@ function scSpeciesSimulation() {
     );
   };
 
-  while (speciesGroupSimulation.alpha() > speciesGroupSimulation.alphaMin()) {
-    speciesGroupSimulation.tick();
+  while (
+    scSpeciesGroupSimulation.alpha() > scSpeciesGroupSimulation.alphaMin()
+  ) {
+    scSpeciesGroupSimulation.tick();
     ticked();
   }
 }

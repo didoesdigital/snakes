@@ -106,7 +106,7 @@ let nodes = null;
 let scSpeciesNodes = null;
 let sightingsData = null;
 let scSpeciesData = null;
-let speciesGroupSimulation = null;
+let scSpeciesGroupSimulation = null;
 let snekSimulation = null;
 
 let activeStepFunctionName = null;
@@ -480,9 +480,9 @@ function loadData() {
 }
 
 function setupScales() {
-  const allSnakeSpecies = Array.from(
-    new Set(sightingsData.map((d) => d.speciesBestGuess))
-  );
+  // const allSnakeSpecies = Array.from(
+  //   new Set(sightingsData.map((d) => d.speciesBestGuess))
+  // );
   const orderedSnakeSpecies = d3
     .rollups(
       sightingsData,
@@ -502,11 +502,11 @@ function setupScales() {
     .domain(Array.from(new Set(scSpeciesData.map(metricSpeciesGroupAccessor))))
     .range([0, 360]);
 
+  const rotationOffset = 45;
   speciesAngleScale = d3
     .scaleBand()
     .domain(orderedSnakeSpecies)
-    .range([0, 360]);
-  // speciesAngleScale = d3.scaleBand().domain(allSnakeSpecies).range([0, 360]);
+    .range([360 + rotationOffset, 0 + rotationOffset]);
 
   speciesBandScale = d3
     .scalePoint()

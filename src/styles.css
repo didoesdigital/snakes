@@ -37,6 +37,10 @@ body {
   font-weight: 400;
   line-height: 1.5;
   margin: 0 auto;
+  /* TODO: Remove before publishing */
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='58' height='58'%3E%3Ccircle r='28' cx='28.5' cy='28.5' fill='rgba%280,0,0,0.1%29' stroke='deeppink' stroke-width='1'/%3E%3C/svg%3E")
+      28.5 28.5,
+    auto;
 }
 
 h1,

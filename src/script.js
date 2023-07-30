@@ -1239,7 +1239,7 @@ function redBelly() {
 function commonTreeSnake() {
   hideOtherChartStuff("commonTreeSnake");
 
-  updateTitle("Common tree snake");
+  updateTitle("Common tree snakes");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Common tree snake" ? 1 : opacityFade
@@ -1251,7 +1251,7 @@ function commonTreeSnake() {
 function easternSmallEyedSnake() {
   hideOtherChartStuff("easternSmallEyedSnake");
 
-  updateTitle("Eastern small-eyed snakes");
+  updateTitle("Eastern small-eyed snake");
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Eastern small-eyed snake" ? 1 : opacityFade

@@ -1,29 +1,3 @@
-const textures = window.textures;
-const texture = textures.lines().thicker();
-const textureWeaklyVenomous = textures
-  .paths()
-  .d("woven")
-  .lighter()
-  .thicker()
-  .size(20);
-// .background("#E17547");
-const textureMildlyVenomous = textures
-  .paths()
-  .d("woven")
-  .lighter()
-  .thicker()
-  .size(14);
-// .background("#F6D43C");
-const textureVenomous = textures.paths().d("woven").lighter().thicker().size(8);
-// .background("#09A573");
-const textureHighlyVenomous = textures
-  .paths()
-  .d("woven")
-  .lighter()
-  .thicker()
-  .size(5);
-// .background("#5598E2");
-
 // Selections
 const main = d3.select("main");
 const scrolly = main.select("#scrolly");
@@ -45,6 +19,28 @@ const slightBufferForScrollTrack = 8;
 const gapFromTopOfScreenBeforeParagraph = 24;
 const heightOfThreeLineStepParagraph = 90;
 const gapBetweenBottomOfParagraphAndTopOfChartTitle = 24;
+
+const textures = window.textures;
+const texture = textures.lines().thicker();
+const textureWeaklyVenomous = textures
+  .paths()
+  .d("woven")
+  .lighter()
+  .thicker()
+  .size(20);
+const textureMildlyVenomous = textures
+  .paths()
+  .d("woven")
+  .lighter()
+  .thicker()
+  .size(14);
+const textureVenomous = textures.paths().d("woven").lighter().thicker().size(8);
+const textureHighlyVenomous = textures
+  .paths()
+  .d("woven")
+  .lighter()
+  .thicker()
+  .size(5);
 
 const chartTextFamily =
   '"Overpass Mono", "Varela", "Varela Round", "Helvetica", arial, sans-serif';

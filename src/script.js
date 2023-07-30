@@ -1314,7 +1314,7 @@ function keelback() {
 function timeOfDayStripPlot() {
   hideOtherChartStuff("timeOfDayStripPlot");
 
-  updateTitle("I see Keelbacks only at dusk");
+  updateTitle("Time of day");
   snekSimulation
     .force("forceX", null)
     .force("forceY", null)
@@ -1355,9 +1355,7 @@ function timeOfDayStripPlot() {
 function weatherStripPlot() {
   hideOtherChartStuff("weatherStripPlot");
 
-  // updateTitle("Nope ropes, rain, hail, or shine");
-  // updateTitle("Rain, hail, or shine, there be nope ropes");
-  updateTitle("Nope ropes in all weather");
+  updateTitle("Weather conditions");
   snekSimulation
     .force("forceX", null)
     .force("forceY", null)
@@ -1398,7 +1396,7 @@ function weatherStripPlot() {
 function temperatureStripPlot() {
   hideOtherChartStuff("temperatureStripPlot");
 
-  updateTitle("Whip snakes like it hot");
+  updateTitle("Temperature");
   snekSimulation
     .force("forceX", null)
     .force("forceY", null)
@@ -1590,7 +1588,7 @@ function mating() {
 function courting() {
   hideOtherChartStuff("courting");
 
-  updateTitle("Separated by a roller door!");
+  updateTitle("Separated by a roller door");
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["mating"] === "probably" ? 1 : 0.2));
 
@@ -1704,56 +1702,6 @@ function butcherBirds() {
   reheatSimulation();
 }
 
-function defensive() {
-  hideOtherChartStuff("defensive");
-
-  updateTitle("This red belly flattened its neck at me from 3m away");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["watchingMe"] === "flattened" ? 1 : 0.2));
-
-  reheatSimulation();
-}
-
-function chill() {
-  hideOtherChartStuff("chill");
-
-  updateTitle("Bend frends");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (!didChill(d) ? 0.2 : 1));
-
-  reheatSimulation();
-}
-
-function fled() {
-  hideOtherChartStuff("fled");
-
-  updateTitle("I'm scary");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (!didFlee(d) ? 0.2 : 1));
-
-  reheatSimulation();
-}
-
-function attacked() {
-  hideOtherChartStuff("attacked");
-
-  updateTitle("Zero snakes have attacked me");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors(0.2);
-
-  reheatSimulation();
-}
-
-function onCamera() {
-  hideOtherChartStuff("onCamera");
-
-  updateTitle("Caught on camera");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["onCamera"] === "no" ? 0.2 : 1));
-
-  reheatSimulation();
-}
-
 function climbing() {
   hideOtherChartStuff("climbing");
 
@@ -1770,6 +1718,56 @@ function yard() {
   updateTitle("In the yard");
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["room"] === "elsewhere" ? 0.2 : 1));
+
+  reheatSimulation();
+}
+
+function onCamera() {
+  hideOtherChartStuff("onCamera");
+
+  updateTitle("Caught on camera");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["onCamera"] === "no" ? 0.2 : 1));
+
+  reheatSimulation();
+}
+
+function attacked() {
+  hideOtherChartStuff("attacked");
+
+  updateTitle("Zero snakes have attacked me");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors(0.2);
+
+  reheatSimulation();
+}
+
+function fled() {
+  hideOtherChartStuff("fled");
+
+  updateTitle("Fled");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (!didFlee(d) ? 0.2 : 1));
+
+  reheatSimulation();
+}
+
+function chill() {
+  hideOtherChartStuff("chill");
+
+  updateTitle("Remained still or left slowly");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (!didChill(d) ? 0.2 : 1));
+
+  reheatSimulation();
+}
+
+function defensive() {
+  hideOtherChartStuff("defensive");
+
+  updateTitle("Defensive posture");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["watchingMe"] === "flattened" ? 1 : 0.2));
 
   reheatSimulation();
 }
@@ -1794,7 +1792,7 @@ function fin() {
 function scCount() {
   hideOtherChartStuff("scCount");
 
-  updateTitle("Many hazard spaghetti");
+  updateTitle("40 species");
 
   scSpeciesNodes
     .transition()
@@ -1827,7 +1825,7 @@ function scCount() {
 function scSeenSpecies() {
   hideOtherChartStuff("scSeenSpecies");
 
-  updateTitle("Gotta catch 'em all!");
+  updateTitle("Seen species");
 
   // const seenSnakeSpeciesWithMatchingNamingConvention = [
   //   "Red-bellied Black Snake", // "Snake" included here
@@ -1912,7 +1910,7 @@ function scSeenSpecies() {
 function scVenomQuestion() {
   hideOtherChartStuff("scVenomQuestion");
 
-  updateTitle("Not actually murder noodles?");
+  updateTitle("Seen species");
 
   // const seenSnakeSpeciesWithMatchingNamingConvention = [
   //   "Red-bellied Black Snake", // "Snake" included here
@@ -1977,7 +1975,7 @@ function scVenomQuestion() {
 function scNonVenomous() {
   hideOtherChartStuff("scNonVenomous");
 
-  updateTitle("Shabby fangs");
+  updateTitle("Non-venomous");
 
   scSpeciesNodes
     .transition()
@@ -2033,7 +2031,7 @@ function scNonVenomous() {
 function scWeaklyVenomous() {
   hideOtherChartStuff("scWeaklyVenomous");
 
-  updateTitle("Weak sauce");
+  updateTitle("Weakly venomous");
 
   scSpeciesNodes
     .transition()
@@ -2093,7 +2091,7 @@ function scWeaklyVenomous() {
 function scMildlyVenomous() {
   hideOtherChartStuff("scMildlyVenomous");
 
-  updateTitle("A bit nippy");
+  updateTitle("Mildly venomous");
 
   scSpeciesNodes
     .transition()
@@ -2157,7 +2155,7 @@ function scMildlyVenomous() {
 function scModeratelyVenomous() {
   hideOtherChartStuff("scModeratelyVenomous");
 
-  updateTitle("A bit nippy");
+  updateTitle("Moderately venomous");
 
   scSpeciesNodes
     .transition()
@@ -2508,7 +2506,7 @@ function scLandSnakes() {
 function scSpecies() {
   hideOtherChartStuff("scSpecies");
 
-  updateTitle("And that's that");
+  updateTitle("");
 
   scSpeciesNodes
     .transition()

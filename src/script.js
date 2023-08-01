@@ -70,7 +70,8 @@ const dimensions = {
   },
 };
 const focalPointX = dimensions.width / 2;
-const focalPointY = 160; // enough for tallest blob layout to fit under chartTitle
+const focalPointY = 190; // enough for tallest blob layout and annotations to fit under chartTitle
+const focalPointYWithAxes = 160;
 const opacityFade = 0.2;
 const circlePath =
   "M26,13.5L26,13.5C26,12.4659 25.8744,11.4611 25.6377,10.5C25.4226,9.62696 25.1158,8.79003 24.7281,8C24.381,7.29275 23.9691,6.62309 23.5,5.99878C22.9167,5.22238 22.245,4.51612 21.5,3.89491C20.5986,3.14334 19.5898,2.51627 18.5,2.04011C16.9688,1.37112 15.2778,1 13.5,1C12.6438,1 11.8078,1.08608 11,1.25005C10.1305,1.42655 9.29376,1.6933 8.5,2.04011C7.12946,2.63893 5.88705,3.4764 4.82531,4.5C4.34493,4.96312 3.90154,5.46433 3.5,5.99878C2.81499,6.91052 2.25177,7.91897 1.83449,9C1.29551,10.3963 1,11.9136 1,13.5C1,15.0864 1.29551,16.6037 1.83449,18C2.25177,19.081 2.815,20.0895 3.5,21.0012C4.05068,21.7342 4.68006,22.4046 5.3756,23C6.02885,23.5592 6.74044,24.0522 7.5,24.4685C8.43393,24.9805 9.44037,25.3767 10.5,25.6377C11.4611,25.8744 12.4659,26 13.5,26C14.5341,26 15.5389,25.8744 16.5,25.6377C17.9493,25.2807 19.2991,24.6708 20.5,23.8577C21.0971,23.4534 21.6573,22.9988 22.1747,22.5C22.6551,22.0369 23.0985,21.5357 23.5,21.0012C24.3898,19.8169 25.0741,18.4694 25.5,17.0116C25.8255,15.8976 26,14.7192 26,13.5";
@@ -126,8 +127,8 @@ const annotations = {
       {
         id: "smoochy",
         text: "Smoochy snakes",
-        labelX: focalPointX - 144,
-        labelY: 90,
+        labelX: focalPointX - 96,
+        labelY: focalPointY - 4.5 * nodeSpacing,
         paddingY: 3,
       },
     ],
@@ -153,8 +154,8 @@ const annotations = {
       {
         id: "snuggle",
         text: "Looking to snuggle",
-        labelX: focalPointX + 144,
-        labelY: 100,
+        labelX: focalPointX + 88,
+        labelY: focalPointY - 4.5 * nodeSpacing,
         paddingY: 3,
       },
     ],
@@ -180,8 +181,8 @@ const annotations = {
       {
         id: "cowering",
         text: "Cowering",
-        labelX: focalPointX - 144,
-        labelY: 340,
+        labelX: focalPointX - 96,
+        labelY: focalPointY + 5.5 * nodeSpacing,
         paddingY: -12,
       },
     ],
@@ -200,18 +201,18 @@ const annotations = {
       {
         id: "gulped",
         text: "Gulped",
-        labelX: focalPointX + 144,
-        labelY: 100,
-        paddingY: 3,
+        labelX: focalPointX + 96,
+        labelY: focalPointY + 5.5 * nodeSpacing,
+        paddingY: -24,
       },
     ],
     connectors: [
       {
         labelId: "gulped",
         targetSnake: "magpiesSnake",
-        snakeXOffset: nodeRadius,
-        snakeYOffset: -nodeRadius,
-        distance: -30,
+        snakeXOffset: nodeRadius * 0.25,
+        snakeYOffset: nodeRadius * 1.25,
+        distance: 15,
       },
     ],
   },
@@ -220,8 +221,8 @@ const annotations = {
       {
         id: "flying",
         text: "Flying",
-        labelX: focalPointX + 144,
-        labelY: 100,
+        labelX: focalPointX + 96,
+        labelY: focalPointY - 4.5 * nodeSpacing,
         paddingY: 3,
       },
     ],
@@ -229,8 +230,8 @@ const annotations = {
       {
         labelId: "flying",
         targetSnake: "flyingSnake",
-        snakeXOffset: nodeRadius * 1.75,
-        snakeYOffset: -nodeRadius * 0.5,
+        snakeXOffset: nodeRadius * 0.25,
+        snakeYOffset: -nodeRadius,
         distance: -30,
       },
     ],
@@ -1483,7 +1484,7 @@ function seasons() {
         .forceX((d) => seasonScale(getSeason(d[metricDateProp].getMonth())))
         .strength(1)
     )
-    .force("forceY", d3.forceY(focalPointY).strength(0.3))
+    .force("forceY", d3.forceY(focalPointYWithAxes).strength(0.3))
     .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     // .force("collide", null);
@@ -1505,7 +1506,7 @@ function staringContest() {
       "forceX",
       d3.forceX((d) => watchingMeScale(watchingMeGroup(d))).strength(1)
     )
-    .force("forceY", d3.forceY(focalPointY).strength(0.3))
+    .force("forceY", d3.forceY(focalPointYWithAxes).strength(0.3))
     .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     // .force("collide", null);
@@ -1539,7 +1540,10 @@ function venom() {
         .forceX((d) => venomScale(metricVenomAccessor(d)) + jitter(d) * 0.5)
         .strength(1)
     )
-    .force("forceY", d3.forceY((d) => focalPointY + jitter(d)).strength(0.3))
+    .force(
+      "forceY",
+      d3.forceY((d) => focalPointYWithAxes + jitter(d)).strength(0.3)
+    )
     .force("charge", null)
     // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
     // .force("collide", null);

@@ -67,7 +67,7 @@ h3 {
   margin-right: auto;
 }
 #intro {
-  margin-bottom: 20rem;
+  margin-bottom: 10rem;
 }
 
 #scrolly {
@@ -226,6 +226,23 @@ summary {
 
 .viz-tooltip-wrapper {
   position: relative;
+}
+
+.warning-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.warning-text {
+  color: var(--coolgrey-600);
+  font-size: 1.5rem;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 180px auto 0;
+  text-align: center;
+  max-width: 20rem;
 }
 
 .tooltip {

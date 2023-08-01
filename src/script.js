@@ -433,7 +433,6 @@ const sightingsFunctions = {
   species,
   seasons,
   fin,
-  recordingSightings,
 };
 const sunnyCoastSpeciesFunctions = {
   scCount,
@@ -482,7 +481,7 @@ function handleStepExit(response) {
 
   if (response.index === 0 && response.direction === "up") {
     step.classed("is-active", false);
-    restoreIntroIllo();
+    restorePreArticleStep();
   }
 }
 
@@ -702,41 +701,6 @@ function setupChart() {
   svg.call(textureMildlyVenomous);
   svg.call(textureVenomous);
   svg.call(textureHighlyVenomous);
-
-  const snekIllo = svg
-    .append("g")
-    .attr("role", "presentation")
-    .attr("pointer-events", "none") // TODO: remove this for interactivity
-    .classed("introductory-snek", true);
-  snekIllo
-    .append("path")
-    .attr("pointer-events", "none") // TODO: remove this for interactivity
-    .attr(
-      "d",
-      "M306.643 257.013C303.38 255.377 294.128 267.577 292.119 269.406C286.048 274.944 278.661 280.022 270.322 280.526C251.032 281.686 243.873 260.101 238.507 245.151C225.909 210.311 198.818 175.023 158.425 195.105C141.403 203.569 130.608 220.264 121.088 236.418C115.048 246.649 105.714 269.299 91.9765 270.251C74.5305 271.46 64.0459 253.83 65.6933 237.515C67.558 219.028 81.6265 205.704 94.3069 194.061C120.932 169.618 148.614 150.087 157.025 112.338C165.624 73.7154 147.692 32.5835 109.982 20.0893C96.0266 15.4713 72.7695 2.66148 50.2777 28.7092C11.8217 73.2283 44.4449 68.8403 56.0172 68.4339C94.9185 67.064 111.442 74.6247 105.972 95.8359C104.201 102.685 100.254 109.7 96.3688 114.58C93.8821 117.919 83.0768 128.427 78.291 132.724C67.382 142.522 56.3285 152.207 46.2893 162.968C27.611 182.974 13.7804 207.202 12.8792 235.631C11.1386 290.221 67.4753 342.954 119.068 311.929C143.424 297.283 152.126 269.08 165.645 245.371C171.282 235.477 181.713 222.607 193.502 232.597C203.283 240.934 208.277 255.108 214.222 266.296C225.619 287.732 245.148 307.375 271.088 302.03C283.54 299.461 293.993 290.826 300.636 279.845C302.314 277.064 311.792 259.502 306.643 257.013Z"
-    )
-    .attr("fill", "white")
-    .attr("stroke", "#FF1493");
-
-  const placeholderRecordingSightingsContent = svg
-    .append("g")
-    .attr("tabindex", "0")
-    .attr("role", "list")
-    .attr("aria-label", "placeholderRecordingSightingsContent")
-    .classed("placeholderRecordingSightingsContent", true)
-    .attr("pointer-events", "none") // TODO: remove this for interactivity
-    .attr("opacity", 0);
-
-  placeholderRecordingSightingsContent
-    .append("path")
-    .attr("pointer-events", "none") // TODO: remove this for interactivity
-    .attr(
-      "d",
-      "M9.97352 178.522C12.241 177.385 18.6679 185.859 20.0638 187.13C24.2812 190.977 29.4129 194.504 35.2064 194.854C48.6069 195.66 53.5807 180.667 57.3084 170.282C66.0598 146.082 84.8801 121.57 112.942 135.52C124.767 141.399 132.266 152.996 138.88 164.216C143.076 171.323 149.56 187.056 159.104 187.717C171.223 188.557 178.507 176.311 177.363 164.978C176.067 152.137 166.294 142.882 157.485 134.794C138.988 117.816 119.757 104.25 113.914 78.0286C107.94 51.2013 120.398 22.6306 146.595 13.952C156.29 10.7443 172.447 1.84644 188.072 19.9395C214.787 50.8629 192.124 47.815 184.085 47.5327C157.06 46.5811 145.581 51.8329 149.381 66.5664C150.611 71.3237 153.353 76.1965 156.052 79.5862C157.78 81.9055 165.286 89.2047 168.611 92.1894C176.189 98.995 183.868 105.722 190.843 113.197C203.819 127.094 213.427 143.923 214.053 163.669C215.262 201.588 176.125 238.217 140.283 216.667C123.363 206.494 117.318 186.903 107.926 170.435C104.01 163.562 96.7633 154.623 88.573 161.562C81.7786 167.353 78.3088 177.199 74.1788 184.97C66.2614 199.86 52.695 213.504 34.6739 209.791C26.0233 208.006 18.7615 202.008 14.1472 194.381C12.9814 192.449 6.3966 180.25 9.97352 178.522Z"
-    )
-    .attr("fill", "#3C3941")
-    .attr("stroke", "#3C3941")
-    .attr("transform", "translate(50, 80)");
 
   snakeSimulation();
   scSpeciesSimulation();
@@ -2602,43 +2566,22 @@ function scSpecies() {
   reheatSimulation();
 }
 
-function restoreIntroIllo() {
-  hideOtherChartStuff("restoreIntroIllo");
+function restorePreArticleStep() {
+  hideOtherChartStuff("restorePreArticleStep");
 
-  d3.select(".introductory-snek").attr("opacity", 1);
-}
-
-function recordingSightings() {
-  hideOtherChartStuff("recordingSightings");
-
-  updateTitle("Imagine some relevant thing here about recording snake data");
-
-  d3.select(".placeholderRecordingSightingsContent")
-    .attr("pointer-events", "none") // TODO: remove this for interactivity
-    .transition()
-    .duration(200)
-    .attr("opacity", 1);
-
-  // chartTitle.text("");
-  // chartTitle.attr("opacity", 0);
+  d3.select(".warning-container").attr("opacity", 1);
 }
 
 function hideOtherChartStuff(stepFunctionName) {
   // NOTE: not actually a step function name, it's pre-steppage:
-  if (stepFunctionName === "restoreIntroIllo") {
+  if (stepFunctionName === "restorePreArticleStep") {
     chartTitle.transition().duration(200).style("opacity", 0);
+    sneks.transition().duration(200).style("opacity", 0);
   }
-  if (stepFunctionName !== "restoreIntroIllo") {
-    svg.select(".introductory-snek").transition().attr("opacity", 0);
+  if (stepFunctionName !== "restorePreArticleStep") {
+    svg.select(".warning-container").transition().attr("opacity", 0);
   }
   // NOTE: end pre-steppage
-
-  if (stepFunctionName !== "recordingSightings") {
-    d3.select(".placeholderRecordingSightingsContent")
-      .transition()
-      .duration(200)
-      .attr("opacity", 0);
-  }
 
   if (
     ![
@@ -2727,17 +2670,11 @@ function hideOtherChartStuff(stepFunctionName) {
     svg.select(".annotation-label-flying").transition().attr("opacity", 0);
   }
 
-  if (
-    stepFunctionName === "restoreIntroIllo" ||
-    sunnyCoastSpeciesStepNames.includes(stepFunctionName)
-  ) {
+  if (sunnyCoastSpeciesStepNames.includes(stepFunctionName)) {
     sneks.transition().attr("opacity", 0);
   }
 
-  if (
-    stepFunctionName === "restoreIntroIllo" ||
-    sightingsStepNames.includes(stepFunctionName)
-  ) {
+  if (sightingsStepNames.includes(stepFunctionName)) {
     scSpeciesNodes.transition().attr("opacity", 0);
   }
 }

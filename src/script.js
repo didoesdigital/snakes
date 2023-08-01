@@ -102,6 +102,11 @@ const boundingMaxX = dimensions.width - nodeRadius;
 const boundingMinY = nodeRadius;
 const boundingMaxY = dimensions.height - nodeRadius;
 
+const scBoundingMinX = scSpeciesNodeRadius;
+const scBoundingMaxX = dimensions.width - scSpeciesNodeRadius;
+const scBoundingMinY = scSpeciesNodeRadius;
+const scBoundingMaxY = dimensions.height - scSpeciesNodeRadius;
+
 let sneks = null;
 let nodes = null;
 let scSpeciesNodes = null;
@@ -809,11 +814,11 @@ function scSpeciesSimulation() {
 
   scSpeciesGroupSimulation
     .force("bounding-rect", () => {
-      sightingsData.forEach((node) => {
-        node.x = Math.max(node.x, boundingMinX + boundingPadding);
-        node.x = Math.min(node.x, boundingMaxX - boundingPadding);
-        node.y = Math.max(node.y, boundingMinY + boundingPadding);
-        node.y = Math.min(node.y, boundingMaxY - boundingPadding);
+      scSpeciesData.forEach((node) => {
+        node.x = Math.max(node.x, scBoundingMinX + boundingPadding);
+        node.x = Math.min(node.x, scBoundingMaxX - boundingPadding);
+        node.y = Math.max(node.y, scBoundingMinY + boundingPadding);
+        node.y = Math.min(node.y, scBoundingMaxY - boundingPadding);
       });
     })
     .force(

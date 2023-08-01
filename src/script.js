@@ -154,6 +154,12 @@ function chartPointerMove(event) {
         .duration(100)
         .style("opacity", 1);
       tooltipText.text(nearestNode.species);
+
+      d3.selectAll(".species--fill").style("filter", null);
+      const scHighlightedNode = d3.select(
+        `[aria-label="${nearestNode[metricSpeciesGroupSpProp]}"] .species--fill`
+      );
+      scHighlightedNode.style("filter", "blur(5px) contrast(400%)");
     } else {
       tooltip.transition().duration(100).style("opacity", 0);
     }
@@ -162,6 +168,7 @@ function chartPointerMove(event) {
 
 function chartPointerLeave() {
   tooltip.transition().duration(100).style("opacity", 0);
+  d3.selectAll(".species--fill").style("filter", null);
 }
 
 const annotations = {

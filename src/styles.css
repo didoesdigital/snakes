@@ -255,6 +255,7 @@ summary {
   position: absolute;
   text-align: center;
   top: -12px;
+  transform: translate(156px, 144px);
   transition: opacity 0.1s linear, transform 0.1s ease-in-out;
   z-index: 1;
 }

@@ -133,7 +133,10 @@ let tooltipText = d3.select(".tooltip-text");
 tooltip.transition().duration(0).style("opacity", 0);
 
 function chartPointerMove(event) {
-  if (scSpeciesGroupSimulation && activeStepFunctionName === "scSpecies") {
+  if (
+    scSpeciesGroupSimulation &&
+    sunnyCoastSpeciesStepNames.includes(activeStepFunctionName)
+  ) {
     const bounds = event.target.getBoundingClientRect();
     const relativePointerX = event.clientX - bounds.left;
     const relativePointerY = event.clientY - bounds.top;

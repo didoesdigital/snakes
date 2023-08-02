@@ -21,7 +21,6 @@ const heightOfThreeLineStepParagraph = 90;
 const gapBetweenBottomOfParagraphAndTopOfChartTitle = 24;
 
 const textures = window.textures;
-const texture = textures.lines().thicker();
 const textureWeaklyVenomous = textures
   .paths()
   .d("woven")
@@ -464,7 +463,6 @@ function handleStepEnter(response) {
   // console.log(response);
   // response = { element, direction, index }
 
-  // add color to current step only
   step.classed("is-active", function (_d, i) {
     return i === response.index;
   });
@@ -507,10 +505,6 @@ function loadData() {
   })
     .then((data) => {
       sightingsData = data.filter((d) => d.family !== "Pygopodidae"); // Legless lizards
-      // console.log(sightingsData.map((d) => d.date));
-      // console.log(sightingsData);
-      // console.log(sightingsData.map((d) => d.temp).sort());
-      // console.log(d3.extent(sightingsData, (d) => d.temp));
     })
     .then(() => {
       d3.json("./data/sunny-coast-snake-species.json", (d) => {
@@ -533,9 +527,6 @@ function loadData() {
 }
 
 function setupScales() {
-  // const allSnakeSpecies = Array.from(
-  //   new Set(sightingsData.map((d) => d.speciesBestGuess))
-  // );
   const orderedSnakeSpecies = d3
     .rollups(
       sightingsData,
@@ -548,7 +539,6 @@ function setupScales() {
       return b[1] < a[1] ? -1 : b[1] > a[1] ? 1 : b[1] >= a[1] ? 0 : 0;
     })
     .map((d) => d[0]);
-  // console.log(orderedSnakeSpecies);
 
   scSpeciesGroupAngleScale = d3
     .scaleBand()
@@ -642,7 +632,6 @@ function setupScales() {
   timeDelayScale = d3
     .scaleLinear()
     .domain(d3.extent(sightingsData, metricDateAccessor))
-    // .range([0, 716 * 20]);
     .range([0, sightingsData.length * delay]);
 
   temperatureScale = d3
@@ -700,8 +689,6 @@ function setupChart() {
   svg.on("mousemove", chartPointerMove);
   svg.on("mouseleave", chartPointerLeave);
 
-  svg.call(texture);
-  // svg.call(textureNonVenomous);
   svg.call(textureWeaklyVenomous);
   svg.call(textureMildlyVenomous);
   svg.call(textureVenomous);
@@ -725,12 +712,11 @@ function snakeSimulation() {
       "transform",
       `translate(${dimensions.width / 2}, ${dimensions.height / 2})`
     )
-    .attr("pointer-events", "none") // TODO: remove this for interactivity
     .attr("stroke-width", 1)
-    .attr("stroke", nodeStroke);
-
-  sneks.on("mouseenter", onMouseEnter);
-  sneks.on("click", onMouseClick);
+    .attr("stroke", nodeStroke)
+    .attr("pointer-events", "none"); // NOTE: remove this and uncomment mouse events for debugging
+  // sneks.on("mouseenter", onMouseEnter);
+  sneks.on("click", onMouseClick); // TODO: resolve lightbox photo test
 
   snekSimulation = d3.forceSimulation(sightingsData);
 
@@ -803,7 +789,7 @@ function scSpeciesSimulation() {
     .attr("role", "img")
     .attr("aria-label", (d) => d[metricSCSpeciesProp])
     .attr("class", "species")
-    .attr("pointer-events", "none") // TODO: remove this for interactivity
+    .attr("pointer-events", "none") // NOTE: remove this and uncomment mouse events for debugging
     .attr("opacity", 0)
     .attr(
       "transform",
@@ -813,7 +799,7 @@ function scSpeciesSimulation() {
       g.append("path")
         .attr("class", "species--fill")
         .attr("d", circlePath)
-        .attr("pointer-events", "none") // TODO: remove this for interactivity
+        .attr("pointer-events", "none")
         .attr("fill", "#fff")
         .attr("opacity", 1)
         .attr("stroke-width", 1)
@@ -823,15 +809,13 @@ function scSpeciesSimulation() {
       g.append("path")
         .attr("class", "species--pattern")
         .attr("d", circlePath)
-        .attr("pointer-events", "none") // TODO: remove this for interactivity
+        .attr("pointer-events", "none")
         .attr("opacity", 0)
         .attr("fill", (d) => getVenomPatternFill(d))
         .attr("stroke-width", 1)
         .attr("stroke", nodeStroke);
     });
-
-  scSpeciesNodes.on("mouseenter", onMouseEnterSpecies);
-  scSpeciesNodes.on("click", onMouseClick);
+  // scSpeciesNodes.on("mouseenter", onMouseEnterSpecies);
 
   scSpeciesGroupSimulation = d3.forceSimulation(scSpeciesData);
 
@@ -905,7 +889,7 @@ function scSpeciesSimulation() {
 
 function setupAxes() {
   let weatherStripPlotXAxis = d3.axisBottom(weatherScale).tickSize(0).ticks(6);
-  // X-Axis labels:
+  // Weather X-Axis labels:
   svg
     .append("g")
     .attr("role", "presentation")
@@ -938,7 +922,7 @@ function setupAxes() {
     .axisBottom(timeOfDayScale)
     .tickSize(0)
     .ticks(6);
-  // X-Axis labels:
+  // Time of Day X-Axis labels:
   svg
     .append("g")
     .attr("role", "presentation")
@@ -966,7 +950,7 @@ function setupAxes() {
     .lower();
 
   let tempStripPlotXAxis = d3.axisBottom(temperatureScale).tickSize(0).ticks(6);
-  // X-Axis labels:
+  // Temperature X-Axis labels:
   svg
     .append("g")
     .attr("role", "presentation")
@@ -992,7 +976,7 @@ function setupAxes() {
 
   let tempStripPlotYAxis = d3.axisLeft(speciesBandScale).tickFormat("");
 
-  // Strip plot Y-Axis labels:
+  // All Strip plot Y-Axis labels:
   svg
     .append("g")
     .attr("role", "presentation")
@@ -1025,7 +1009,7 @@ function setupAxes() {
     .attr("stroke-dasharray", 2.5)
     .lower();
 
-  // Strip plot Y-Axis grid lines:
+  // All Strip plot Y-Axis grid lines:
   svg
     .append("g")
     .attr("role", "presentation")
@@ -1859,16 +1843,6 @@ function scSeenSpecies() {
 
   updateTitle("Seen species");
 
-  // const seenSnakeSpeciesWithMatchingNamingConvention = [
-  //   "Red-bellied Black Snake", // "Snake" included here
-  //   "Keelback",
-  //   "Yellow-faced Whipsnake", // "Whipsnake" 1 word instead of 2 here
-  //   "Eastern Small-eyed Snake", // title cased
-  //   "Common Tree Snake", // title cased
-  //   "Marsh Snake", // title cased
-  //   "Carpet Python", // title cased
-  // ];
-
   scSpeciesNodes
     .transition()
     .duration(200)
@@ -1915,16 +1889,6 @@ function scVenomQuestion() {
   hideOtherChartStuff("scVenomQuestion");
 
   updateTitle("Seen species");
-
-  // const seenSnakeSpeciesWithMatchingNamingConvention = [
-  //   "Red-bellied Black Snake", // "Snake" included here
-  //   "Keelback",
-  //   "Yellow-faced Whipsnake", // "Whipsnake" 1 word instead of 2 here
-  //   "Eastern Small-eyed Snake", // title cased
-  //   "Common Tree Snake", // title cased
-  //   "Marsh Snake", // title cased
-  //   "Carpet Python", // title cased
-  // ];
 
   scSpeciesNodes
     .transition()
@@ -2396,7 +2360,6 @@ function scSpecies() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("opacity", 1)
-        // .attr("stroke", nodeStroke);
         .attr("stroke", nodeStroke)
         .attr("stroke-width", (d) =>
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
@@ -2527,8 +2490,6 @@ function onMouseEnter(_event, d) {
 
 function onMouseEnterSpecies(_event, d) {
   console.log(d.species);
-  // console.log([d.temp, d.speciesBestGuess]);
-  // console.log([d3.timeFormat("%d %b %Y")(d.date), d.speciesBestGuess]);
 }
 
 function onMouseClick(event, d) {
@@ -2586,7 +2547,7 @@ function init() {
   scroller
     .setup({
       step: "#scrolly article .step",
-      offset: `${offsetNumber}px`, // 0.33,
+      offset: `${offsetNumber}px`,
       debug: false,
     })
     .onStepEnter(handleStepEnter)
@@ -2611,11 +2572,23 @@ function getSeason(zeroIndexedMonth) {
   return monthIndexToSeason[zeroIndexedMonth];
 }
 
-function xWiggle(_d, i) {
-  // return 5 * Math.sin(i % 4) + focalPointX;
+// function xWiggle(_d, i) {
+//   return 5 * Math.sin(i % 4) + focalPointX;
+// }
+function xWiggle() {
   return focalPointX;
 }
 
+// NOTE: my snake sighting data casing does not match SC snake casing:
+// const seenSnakeSpeciesWithMatchingNamingConvention = [
+//   "Red-bellied Black Snake", // "Snake" included here
+//   "Keelback",
+//   "Yellow-faced Whipsnake", // "Whipsnake" 1 word instead of 2 here
+//   "Eastern Small-eyed Snake", // title cased
+//   "Common Tree Snake", // title cased
+//   "Marsh Snake", // title cased
+//   "Carpet Python", // title cased
+// ];
 function isSeenSCSpecies(species) {
   return (
     species.includes("Yellow-faced") ||

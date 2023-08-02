@@ -1881,26 +1881,12 @@ function scSeenSpecies() {
         .transition()
         .duration(morphDuration)
         .attr("d", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
+          isSeenSCSpecies(d[metricSCSpeciesProp])
             ? scSpeciesSnakePath
             : circlePath
         )
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? snakeShapeStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? snakeShapeStrokeWidth : 1
         );
     })
     .call((g) => {
@@ -1910,26 +1896,12 @@ function scSeenSpecies() {
         .transition()
         .duration(morphDuration)
         .attr("d", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
+          isSeenSCSpecies(d[metricSCSpeciesProp])
             ? scSpeciesSnakePath
             : circlePath
         )
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? 2
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? 2 : 1
         );
     });
 
@@ -1967,15 +1939,7 @@ function scVenomQuestion() {
         .duration(morphDuration)
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         );
     })
     .call((g) => {
@@ -1986,15 +1950,7 @@ function scVenomQuestion() {
         .duration(morphDuration)
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         );
     });
 
@@ -2019,15 +1975,7 @@ function scNonVenomous() {
         )
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2040,15 +1988,7 @@ function scNonVenomous() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2079,15 +2019,7 @@ function scWeaklyVenomous() {
         )
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2100,15 +2032,7 @@ function scWeaklyVenomous() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2139,15 +2063,7 @@ function scMildlyVenomous() {
         )
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2160,15 +2076,7 @@ function scMildlyVenomous() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2206,15 +2114,7 @@ function scModeratelyVenomous() {
         )
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2227,15 +2127,7 @@ function scModeratelyVenomous() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2266,15 +2158,7 @@ function scVenom() {
         .attr("fill", "#fff")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2291,15 +2175,7 @@ function scVenom() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
@@ -2347,15 +2223,7 @@ function scSeaSnakes() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", 1);
@@ -2390,15 +2258,7 @@ function scBlindSnakes() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", 1);
@@ -2434,15 +2294,7 @@ function scPythons() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", 1);
@@ -2479,15 +2331,7 @@ function scRearFangedSnakes() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", 1);
@@ -2519,15 +2363,7 @@ function scLandSnakes() {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Common Tree") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", 1);
@@ -2560,14 +2396,7 @@ function scSpecies() {
         // .attr("stroke", nodeStroke);
         .attr("stroke", nodeStroke)
         .attr("stroke-width", (d) =>
-          d.species.includes("Yellow-faced") ||
-          d.species.includes("Red-bellied") ||
-          d.species.includes("Marsh") ||
-          d.species.includes("Carpet") ||
-          d.species.includes("Small-eyed") ||
-          d.species.includes("Keelback")
-            ? seenStrokeWidth
-            : 1
+          isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         );
     });
 
@@ -2782,6 +2611,18 @@ function getSeason(zeroIndexedMonth) {
 function xWiggle(_d, i) {
   // return 5 * Math.sin(i % 4) + focalPointX;
   return focalPointX;
+}
+
+function isSeenSCSpecies(species) {
+  return (
+    species.includes("Yellow-faced") ||
+    species.includes("Red-bellied") ||
+    species.includes("Marsh") ||
+    species.includes("Carpet") ||
+    species.includes("Small-eyed") ||
+    species.includes("Common Tree") ||
+    species.includes("Keelback")
+  );
 }
 
 function accelerate(delay) {

@@ -708,7 +708,7 @@ function snakeSimulation() {
     .attr("d", individualSnakePath)
     .attr("data-id", (d) => d.id)
     .attr("fill", (d) => speciesColorScale(d.speciesBestGuess))
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr(
       "transform",
       `translate(${dimensions.width / 2}, ${dimensions.height / 2})`
@@ -791,7 +791,7 @@ function scSpeciesSimulation() {
     .attr("aria-label", (d) => d[metricSCSpeciesProp])
     .attr("class", "species")
     .attr("pointer-events", "none") // NOTE: remove this and uncomment mouse events for debugging
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr(
       "transform",
       (_d, i) => `translate(${i * nodeSpacing}, ${height - 10})`
@@ -802,7 +802,7 @@ function scSpeciesSimulation() {
         .attr("d", circlePath)
         .attr("pointer-events", "none")
         .attr("fill", "#fff")
-        .attr("opacity", 1)
+        .style("opacity", 1)
         .attr("stroke-width", 1)
         .attr("stroke", nodeStroke);
     })
@@ -811,7 +811,7 @@ function scSpeciesSimulation() {
         .attr("class", "species--pattern")
         .attr("d", circlePath)
         .attr("pointer-events", "none")
-        .attr("opacity", 0)
+        .style("opacity", 0)
         .attr("fill", (d) => getVenomPatternFill(d))
         .attr("stroke-width", 1)
         .attr("stroke", nodeStroke);
@@ -896,7 +896,7 @@ function setupAxes() {
     .attr("role", "presentation")
     .attr("class", "strip-plot-x-weather")
     .attr("pointer-events", "none")
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr(
       "transform",
       `translate(0, ${dimensions.height - dimensions.margin.bottom})`
@@ -912,10 +912,10 @@ function setupAxes() {
           .style("font-family", chartTextFamily)
           .style("font-size", chartTextSize)
           .style("font-weight", chartTextWeight)
-          .attr("opacity", (d) =>
+          .style("opacity", (d) =>
             ["clear", "cloudy", "unknown"].includes(d) ? 1 : 0
           )
-      // .attr("opacity", (d) => (["sunny", "cloudy"].includes(d) ? 1 : 0))
+      // .style("opacity", (d) => (["sunny", "cloudy"].includes(d) ? 1 : 0))
     )
     .lower();
 
@@ -929,7 +929,7 @@ function setupAxes() {
     .attr("role", "presentation")
     .attr("class", "strip-plot-x-time-of-day")
     .attr("pointer-events", "none")
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr(
       "transform",
       `translate(0, ${dimensions.height - dimensions.margin.bottom})`
@@ -944,7 +944,7 @@ function setupAxes() {
         .style("font-family", chartTextFamily)
         .style("font-size", chartTextSize)
         .style("font-weight", chartTextWeight)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           ["morning", "afternoon", "evening"].includes(d) ? 1 : 0
         )
     )
@@ -957,7 +957,7 @@ function setupAxes() {
     .attr("role", "presentation")
     .attr("class", "strip-plot-x-temperature")
     .attr("pointer-events", "none")
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr(
       "transform",
       `translate(0, ${dimensions.height - dimensions.margin.bottom})`
@@ -983,7 +983,7 @@ function setupAxes() {
     .attr("role", "presentation")
     .attr("class", "strip-plot-y")
     .attr("pointer-events", "none")
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr("transform", `translate(${dimensions.margin.left}, 0)`)
     .call(tempStripPlotYAxis)
     .call((g) => g.select(".domain").remove())
@@ -1016,7 +1016,7 @@ function setupAxes() {
     .attr("role", "presentation")
     .attr("class", "strip-plot-y-grid-lines")
     .attr("pointer-events", "none")
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr(
       "transform",
       `translate(${dimensions.width - dimensions.margin.right}, 0)`
@@ -1045,7 +1045,7 @@ function setupAxes() {
     .attr("role", "presentation")
     .attr("class", "timeline-y-axis")
     .attr("pointer-events", "none")
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr("transform", `translate(${dimensions.margin.left}, 0)`)
     .call(timeAxis)
     .call((g) => g.select(".domain").remove())
@@ -1072,7 +1072,7 @@ function setupAxes() {
     .attr("role", "presentation")
     .attr("class", "watching-me-axis")
     .attr("pointer-events", "none")
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr(
       "transform",
       `translate(0, ${focalPointY + watchingMeSneksTallCount * nodeSpacing})`
@@ -1098,7 +1098,7 @@ function setupAxes() {
     .attr("role", "presentation")
     .attr("class", "seasons-axis")
     .attr("pointer-events", "none")
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr(
       "transform",
       `translate(0, ${focalPointY + seasonSneksTallCount * nodeSpacing})`
@@ -1133,7 +1133,7 @@ function setupAxes() {
     .attr("role", "presentation")
     .attr("class", "venom-axis")
     .attr("pointer-events", "none")
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .attr(
       "transform",
       `translate(0, ${focalPointY + venomSneksTallCount * nodeSpacing})`
@@ -1161,7 +1161,7 @@ function setupAnnotations() {
         .attr("role", "presentation")
         .attr("aria-hidden", "true")
         .attr("class", `annotation-label-${label["id"]}`)
-        .attr("opacity", 0)
+        .style("opacity", 0)
         .attr("stroke", "none")
         .attr("fill", "#3C3941");
     }
@@ -1173,7 +1173,7 @@ function setupAnnotations() {
           "class",
           `annotation-connector-${connector["labelId"]}-${connector["targetSnake"]}`
         )
-        .attr("opacity", 0)
+        .style("opacity", 0)
         .attr("fill", "none")
         .attr("stroke", "#3C3941")
         .attr("stroke-width", 2);
@@ -1358,11 +1358,11 @@ function timeOfDayStripPlot() {
     .transition()
     .duration(200)
     .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
-    .attr("opacity", 1);
+    .style("opacity", 1);
 
-  d3.select(".strip-plot-x-time-of-day").transition().attr("opacity", 1);
-  d3.select(".strip-plot-y").transition().attr("opacity", 1);
-  d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
+  d3.select(".strip-plot-x-time-of-day").transition().style("opacity", 1);
+  d3.select(".strip-plot-y").transition().style("opacity", 1);
+  d3.select(".strip-plot-y-grid-lines").transition().style("opacity", 1);
   reheatSimulation();
 }
 
@@ -1399,11 +1399,11 @@ function weatherStripPlot() {
     .transition()
     .duration(200)
     .attr("fill", (d) => weatherColorScale(weatherGroup(d)))
-    .attr("opacity", 1);
+    .style("opacity", 1);
 
-  d3.select(".strip-plot-x-weather").transition().attr("opacity", 1);
-  d3.select(".strip-plot-y").transition().attr("opacity", 1);
-  d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
+  d3.select(".strip-plot-x-weather").transition().style("opacity", 1);
+  d3.select(".strip-plot-y").transition().style("opacity", 1);
+  d3.select(".strip-plot-y-grid-lines").transition().style("opacity", 1);
   reheatSimulation();
 }
 
@@ -1440,11 +1440,11 @@ function temperatureStripPlot() {
     .transition()
     .duration(200)
     .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
-    .attr("opacity", 1);
+    .style("opacity", 1);
 
-  d3.select(".strip-plot-x-temperature").transition().attr("opacity", 1);
-  d3.select(".strip-plot-y").transition().attr("opacity", 1);
-  d3.select(".strip-plot-y-grid-lines").transition().attr("opacity", 1);
+  d3.select(".strip-plot-x-temperature").transition().style("opacity", 1);
+  d3.select(".strip-plot-y").transition().style("opacity", 1);
+  d3.select(".strip-plot-y-grid-lines").transition().style("opacity", 1);
   reheatSimulation();
 }
 
@@ -1462,7 +1462,7 @@ function timeline() {
   // .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
 
   sneks
-    .attr("opacity", 0)
+    .style("opacity", 0)
     .transition()
     .duration(200)
     .attr("fill", (d) => {
@@ -1471,7 +1471,7 @@ function timeline() {
     .transition()
     .duration(10)
     .delay((d) => accelerate(timeDelayScale(d[metricDateProp])))
-    .attr("opacity", 1);
+    .style("opacity", 1);
 
   d3.select(".timeline-y-axis")
     .call((g) =>
@@ -1481,7 +1481,7 @@ function timeline() {
         .attr("aria-hidden", "true")
     )
     .transition()
-    .attr("opacity", 1);
+    .style("opacity", 1);
   reheatSimulation();
 }
 
@@ -1505,7 +1505,7 @@ function seasons() {
 
   addVisibleSpeciesColors(1);
 
-  d3.select(".seasons-axis").transition().attr("opacity", 1);
+  d3.select(".seasons-axis").transition().style("opacity", 1);
   reheatSimulation();
 }
 
@@ -1527,7 +1527,7 @@ function staringContest() {
 
   addVisibleSpeciesColors(1);
 
-  d3.select(".watching-me-axis").transition().attr("opacity", 1);
+  d3.select(".watching-me-axis").transition().style("opacity", 1);
   reheatSimulation();
 }
 
@@ -1566,7 +1566,7 @@ function venom() {
     metricVenomAccessor(d) === "unknown" ? 0.2 : 1
   );
 
-  d3.select(".venom-axis").transition().attr("opacity", 1);
+  d3.select(".venom-axis").transition().style("opacity", 1);
   reheatSimulation();
 }
 
@@ -1582,7 +1582,7 @@ function mating() {
   )
     .raise()
     .transition()
-    .attr("opacity", 1);
+    .style("opacity", 1);
 
   d3.select(".annotation-label-smoochy")
     .text(annotations.mating.labels[0].text)
@@ -1592,7 +1592,7 @@ function mating() {
     .style("font-family", chartTextFamily)
     .style("font-size", chartTextSize)
     .style("font-weight", chartTextWeight)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .transition();
 
   d3.selectAll(
@@ -1614,7 +1614,7 @@ function courting() {
   )
     .raise()
     .transition()
-    .attr("opacity", 1);
+    .style("opacity", 1);
 
   d3.select(".annotation-label-snuggle")
     .text(annotations.courting.labels[0].text)
@@ -1624,7 +1624,7 @@ function courting() {
     .style("font-family", chartTextFamily)
     .style("font-size", chartTextSize)
     .style("font-weight", chartTextWeight)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .transition();
 
   d3.selectAll(
@@ -1645,7 +1645,7 @@ function flying() {
   d3.select(".annotation-connector-flying-flyingSnake")
     .raise()
     .transition()
-    .attr("opacity", 1);
+    .style("opacity", 1);
 
   d3.select(".annotation-label-flying")
     .text(annotations.flying.labels[0].text)
@@ -1655,7 +1655,7 @@ function flying() {
     .style("font-family", chartTextFamily)
     .style("font-size", chartTextSize)
     .style("font-weight", chartTextWeight)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .transition();
 
   d3.select(`path[data-id="${flyingSnake.id}"]`).raise();
@@ -1673,7 +1673,7 @@ function magpies() {
   d3.select(".annotation-connector-gulped-magpiesSnake")
     .raise()
     .transition()
-    .attr("opacity", 1);
+    .style("opacity", 1);
 
   d3.select(".annotation-label-gulped")
     .text(annotations.magpies.labels[0].text)
@@ -1683,7 +1683,7 @@ function magpies() {
     .style("font-family", chartTextFamily)
     .style("font-size", chartTextSize)
     .style("font-weight", chartTextWeight)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .transition();
 
   d3.select(`path[data-id="${magpiesSnake.id}"]`).raise();
@@ -1701,7 +1701,7 @@ function butcherBirds() {
   d3.select(".annotation-connector-cowering-butcherBirdsSnake")
     .raise()
     .transition()
-    .attr("opacity", 1);
+    .style("opacity", 1);
 
   d3.select(".annotation-label-cowering")
     .text(annotations.butcherBirds.labels[0].text)
@@ -1711,7 +1711,7 @@ function butcherBirds() {
     .style("font-family", chartTextFamily)
     .style("font-size", chartTextSize)
     .style("font-weight", chartTextWeight)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .transition();
 
   d3.select(`path[data-id="${butcherBirdsSnake.id}"]`).raise();
@@ -1802,8 +1802,8 @@ function all() {
 function fin() {
   hideOtherChartStuff("fin");
   chartTitle.text("");
-  chartTitle.attr("opacity", 0);
-  sneks.transition().duration(200).attr("opacity", 0);
+  chartTitle.style("opacity", 0);
+  sneks.transition().duration(200).style("opacity", 0);
 }
 
 function scCount() {
@@ -1814,12 +1814,12 @@ function scCount() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .attr("stroke-dasharray", null)
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", scSpeciesFill)
-        .attr("opacity", 1)
+        .style("opacity", 1)
         .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
@@ -1828,7 +1828,7 @@ function scCount() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
-        .attr("opacity", 0)
+        .style("opacity", 0)
         .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
@@ -1850,11 +1850,11 @@ function scSeenSpecies() {
     .attr("stroke", nodeStroke)
     .attr("stroke-width", 1)
     .attr("stroke-dasharray", null)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", scSpeciesFill)
-        .attr("opacity", 1)
+        .style("opacity", 1)
         .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
@@ -1869,7 +1869,7 @@ function scSeenSpecies() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
-        .attr("opacity", 0)
+        .style("opacity", 0)
         .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
@@ -1897,11 +1897,11 @@ function scVenomQuestion() {
     .attr("stroke", nodeStroke)
     .attr("stroke-width", 1)
     .attr("stroke-dasharray", null)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", scSpeciesFill)
-        .attr("opacity", 1)
+        .style("opacity", 1)
         .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
@@ -1912,7 +1912,7 @@ function scVenomQuestion() {
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
-        .attr("opacity", 0)
+        .style("opacity", 0)
         .attr("stroke", nodeStroke)
         .transition()
         .duration(morphDuration)
@@ -1933,7 +1933,7 @@ function scNonVenomous() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", (d) =>
@@ -1946,7 +1946,7 @@ function scNonVenomous() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           ["non venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : opacityFade
@@ -1959,7 +1959,7 @@ function scNonVenomous() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           ["non venomous"].includes(d[metricSCSpeciesVenomProp]) ? 1 : 0
         );
     });
@@ -1975,7 +1975,7 @@ function scWeaklyVenomous() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", (d) =>
@@ -1990,7 +1990,7 @@ function scWeaklyVenomous() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           ["weakly venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : opacityFade
@@ -2003,7 +2003,7 @@ function scWeaklyVenomous() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           ["weakly venomous"].includes(d[metricSCSpeciesVenomProp]) ? 1 : 0
         );
     });
@@ -2019,7 +2019,7 @@ function scMildlyVenomous() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", (d) =>
@@ -2034,7 +2034,7 @@ function scMildlyVenomous() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           ["mildly venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : opacityFade
@@ -2047,7 +2047,7 @@ function scMildlyVenomous() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           ["mildly venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : ["weakly venomous"].includes(d[metricSCSpeciesVenomProp])
@@ -2067,7 +2067,7 @@ function scModeratelyVenomous() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", (d) =>
@@ -2085,7 +2085,7 @@ function scModeratelyVenomous() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           ["moderately venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : opacityFade
@@ -2098,7 +2098,7 @@ function scModeratelyVenomous() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           ["moderately venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : ["mildly venomous", "weakly venomous"].includes(
@@ -2120,7 +2120,7 @@ function scVenom() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", "#fff")
@@ -2129,7 +2129,7 @@ function scVenom() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           [
             "potentially dangerous",
             "dangerously venomous",
@@ -2146,7 +2146,7 @@ function scVenom() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", (d) =>
+        .style("opacity", (d) =>
           [
             "potentially dangerous",
             "dangerously venomous",
@@ -2174,7 +2174,7 @@ function scSeaSnakes() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", (d) =>
+    .style("opacity", (d) =>
       d[metricSCSpeciesGroupProp].includes("Sea Snakes") ? 1 : opacityFade
     )
     .call((g) => {
@@ -2185,7 +2185,7 @@ function scSeaSnakes() {
             ? speciesGroupColorScale(d[metricSCSpeciesGroupProp])
             : "#fff"
         )
-        .attr("opacity", 1);
+        .style("opacity", 1);
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
@@ -2194,7 +2194,7 @@ function scSeaSnakes() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", 1);
+        .style("opacity", 1);
     });
 
   reheatSimulation();
@@ -2208,7 +2208,7 @@ function scBlindSnakes() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", (d) =>
+    .style("opacity", (d) =>
       d[metricSCSpeciesGroupProp].includes("Blind Snakes") ? 1 : opacityFade
     )
     .call((g) => {
@@ -2220,7 +2220,7 @@ function scBlindSnakes() {
             ? speciesGroupColorScale(d[metricSCSpeciesGroupProp])
             : "#fff"
         )
-        .attr("opacity", 1);
+        .style("opacity", 1);
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
@@ -2229,7 +2229,7 @@ function scBlindSnakes() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", 1);
+        .style("opacity", 1);
     });
 
   reheatSimulation();
@@ -2243,7 +2243,7 @@ function scPythons() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", (d) =>
+    .style("opacity", (d) =>
       d[metricSCSpeciesGroupProp].includes("Pythons") ? 1 : opacityFade
     )
     .call((g) => {
@@ -2256,7 +2256,7 @@ function scPythons() {
             ? speciesGroupColorScale(d[metricSCSpeciesGroupProp])
             : "#fff"
         )
-        .attr("opacity", 1);
+        .style("opacity", 1);
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
@@ -2265,7 +2265,7 @@ function scPythons() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", 1);
+        .style("opacity", 1);
     });
 
   reheatSimulation();
@@ -2279,7 +2279,7 @@ function scRearFangedSnakes() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", (d) =>
+    .style("opacity", (d) =>
       d[metricSCSpeciesGroupProp].includes("Rear") ? 1 : opacityFade
     )
     .call((g) => {
@@ -2293,7 +2293,7 @@ function scRearFangedSnakes() {
             ? speciesGroupColorScale(d[metricSCSpeciesGroupProp])
             : "#fff"
         )
-        .attr("opacity", 1);
+        .style("opacity", 1);
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
@@ -2302,7 +2302,7 @@ function scRearFangedSnakes() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", 1);
+        .style("opacity", 1);
     });
 
   reheatSimulation();
@@ -2316,7 +2316,7 @@ function scLandSnakes() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", (d) =>
+    .style("opacity", (d) =>
       d[metricSCSpeciesGroupProp].includes("Terrestrial") ? 1 : opacityFade
     )
     .call((g) => {
@@ -2325,7 +2325,7 @@ function scLandSnakes() {
         .attr("fill", (d) =>
           speciesGroupColorScale(d[metricSCSpeciesGroupProp])
         )
-        .attr("opacity", 1);
+        .style("opacity", 1);
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
@@ -2334,7 +2334,7 @@ function scLandSnakes() {
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
         )
         .attr("stroke", nodeStroke)
-        .attr("opacity", 1);
+        .style("opacity", 1);
     });
 
   reheatSimulation();
@@ -2348,19 +2348,19 @@ function scSpecies() {
   scSpeciesNodes
     .transition()
     .duration(200)
-    .attr("opacity", 1)
+    .style("opacity", 1)
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("d", circlePath)
         .attr("fill", (d) =>
           speciesGroupColorScale(d[metricSCSpeciesGroupProp])
         )
-        .attr("opacity", 1);
+        .style("opacity", 1);
     })
     .call((g) => {
       g.selectAll("path.species--pattern")
         .attr("d", circlePath)
-        .attr("opacity", 1)
+        .style("opacity", 1)
         .attr("stroke", nodeStroke)
         .attr("stroke-width", (d) =>
           isSeenSCSpecies(d[metricSCSpeciesProp]) ? seenStrokeWidth : 1
@@ -2373,7 +2373,7 @@ function scSpecies() {
 function restorePreArticleStep() {
   hideOtherChartStuff("restorePreArticleStep");
 
-  d3.select(".warning-container").attr("opacity", 1);
+  d3.select(".warning-container").style("opacity", 1);
 }
 
 function hideOtherChartStuff(stepFunctionName) {
@@ -2383,7 +2383,7 @@ function hideOtherChartStuff(stepFunctionName) {
     sneks.transition().duration(200).style("opacity", 0);
   }
   if (stepFunctionName !== "restorePreArticleStep") {
-    svg.select(".warning-container").transition().attr("opacity", 0);
+    svg.select(".warning-container").transition().style("opacity", 0);
   }
   // NOTE: end pre-steppage
 
@@ -2394,92 +2394,92 @@ function hideOtherChartStuff(stepFunctionName) {
       "weatherStripPlot",
     ].includes(stepFunctionName)
   ) {
-    svg.select(".strip-plot-y").transition().attr("opacity", 0);
-    svg.select(".strip-plot-y-grid-lines").transition().attr("opacity", 0);
+    svg.select(".strip-plot-y").transition().style("opacity", 0);
+    svg.select(".strip-plot-y-grid-lines").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "temperatureStripPlot") {
-    svg.select(".strip-plot-x-temperature").transition().attr("opacity", 0);
+    svg.select(".strip-plot-x-temperature").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "weatherStripPlot") {
-    svg.select(".strip-plot-x-weather").transition().attr("opacity", 0);
+    svg.select(".strip-plot-x-weather").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "timeOfDayStripPlot") {
-    svg.select(".strip-plot-x-time-of-day").transition().attr("opacity", 0);
+    svg.select(".strip-plot-x-time-of-day").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "timeline") {
-    svg.select(".timeline-y-axis").transition().attr("opacity", 0);
+    svg.select(".timeline-y-axis").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "seasons") {
-    svg.select(".seasons-axis").transition().attr("opacity", 0);
+    svg.select(".seasons-axis").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "watchingMe") {
-    svg.select(".watching-me-axis").transition().attr("opacity", 0);
+    svg.select(".watching-me-axis").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "venom") {
-    svg.select(".venom-axis").transition().attr("opacity", 0);
+    svg.select(".venom-axis").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "mating") {
     svg
       .select(".annotation-connector-smoochy-matingSnakeOne")
       .transition()
-      .attr("opacity", 0);
+      .style("opacity", 0);
     svg
       .select(".annotation-connector-smoochy-matingSnakeTwo")
       .transition()
-      .attr("opacity", 0);
-    svg.select(".annotation-label-smoochy").transition().attr("opacity", 0);
+      .style("opacity", 0);
+    svg.select(".annotation-label-smoochy").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "courting") {
     svg
       .select(".annotation-connector-snuggle-courtingSnakeOne")
       .transition()
-      .attr("opacity", 0);
+      .style("opacity", 0);
     svg
       .select(".annotation-connector-snuggle-courtingSnakeTwo")
       .transition()
-      .attr("opacity", 0);
-    svg.select(".annotation-label-snuggle").transition().attr("opacity", 0);
+      .style("opacity", 0);
+    svg.select(".annotation-label-snuggle").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "butcherBirds") {
     svg
       .select(".annotation-connector-cowering-butcherBirdsSnake")
       .transition()
-      .attr("opacity", 0);
-    svg.select(".annotation-label-cowering").transition().attr("opacity", 0);
+      .style("opacity", 0);
+    svg.select(".annotation-label-cowering").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "magpies") {
     svg
       .select(".annotation-connector-gulped-magpiesSnake")
       .transition()
-      .attr("opacity", 0);
-    svg.select(".annotation-label-gulped").transition().attr("opacity", 0);
+      .style("opacity", 0);
+    svg.select(".annotation-label-gulped").transition().style("opacity", 0);
   }
 
   if (stepFunctionName !== "flying") {
     svg
       .select(".annotation-connector-flying-flyingSnake")
       .transition()
-      .attr("opacity", 0);
-    svg.select(".annotation-label-flying").transition().attr("opacity", 0);
+      .style("opacity", 0);
+    svg.select(".annotation-label-flying").transition().style("opacity", 0);
   }
 
   if (sunnyCoastSpeciesStepNames.includes(stepFunctionName)) {
-    sneks.transition().attr("opacity", 0);
+    sneks.transition().style("opacity", 0);
   }
 
   if (sightingsStepNames.includes(stepFunctionName)) {
-    scSpeciesNodes.transition().attr("opacity", 0);
+    scSpeciesNodes.transition().style("opacity", 0);
   }
 }
 
@@ -2755,7 +2755,7 @@ function addVisibleSpeciesColors(opacityFnOrNumber) {
     .attr("fill", (d) => {
       return speciesColorScale(d.speciesBestGuess);
     })
-    .attr("opacity", opacityFnOrNumber);
+    .style("opacity", opacityFnOrNumber);
 }
 
 function updateTitle(title) {

@@ -694,8 +694,8 @@ function setupScales() {
 
 function setupChart() {
   svg.attr("width", dimensions.width).attr("height", dimensions.height);
-  svg.on("pointermove", chartPointerMove);
-  svg.on("pointerleave", chartPointerLeave);
+  svg.on("mousemove", chartPointerMove);
+  svg.on("mouseleave", chartPointerLeave);
 
   svg.call(texture);
   // svg.call(textureNonVenomous);

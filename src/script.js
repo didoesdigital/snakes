@@ -157,7 +157,7 @@ function chartPointerMove(event) {
 
       d3.selectAll(".species--fill").style("filter", null);
       const scHighlightedNode = d3.select(
-        `[aria-label="${nearestNode[metricSpeciesGroupSpProp]}"] .species--fill`
+        `[aria-label="${nearestNode[metricSCSpeciesProp]}"] .species--fill`
       );
       scHighlightedNode.style("filter", "blur(5px) contrast(400%)");
     } else {
@@ -324,10 +324,10 @@ const metricMatingAccessor = (d) => d[metricMatingProp];
 const metricBirdsProp = "attackedByBirds";
 const metricBirdsAccessor = (d) => d[metricBirdsProp];
 
-const metricSpeciesGroupProp = "group";
-const metricSpeciesGroupAccessor = (d) => d[metricSpeciesGroupProp];
-const metricSpeciesVenomProp = "venom";
-const metricSpeciesGroupSpProp = "species";
+const metricSCSpeciesGroupProp = "group";
+const metricSCSpeciesGroupAccessor = (d) => d[metricSCSpeciesGroupProp];
+const metricSCSpeciesVenomProp = "venom";
+const metricSCSpeciesProp = "species";
 
 const weatherGroup = (d) => {
   const weather = d[metricWeatherProp];
@@ -520,7 +520,7 @@ function loadData() {
         .then((data) => {
           scSpeciesData = data.filter(
             (d) =>
-              d[metricSpeciesGroupProp] !== "Legless and Snake-like Lizards"
+              d[metricSCSpeciesGroupProp] !== "Legless and Snake-like Lizards"
           );
         })
         .then(() => {
@@ -549,7 +549,9 @@ function setupScales() {
 
   scSpeciesGroupAngleScale = d3
     .scaleBand()
-    .domain(Array.from(new Set(scSpeciesData.map(metricSpeciesGroupAccessor))))
+    .domain(
+      Array.from(new Set(scSpeciesData.map(metricSCSpeciesGroupAccessor)))
+    )
     .range([0, 360]);
 
   const rotationOffset = 45;
@@ -796,7 +798,7 @@ function scSpeciesSimulation() {
     .data(scSpeciesData)
     .join("g")
     .attr("role", "img")
-    .attr("aria-label", (d) => d[metricSpeciesGroupSpProp])
+    .attr("aria-label", (d) => d[metricSCSpeciesProp])
     .attr("class", "species")
     .attr("pointer-events", "none") // TODO: remove this for interactivity
     .attr("opacity", 0)
@@ -846,7 +848,7 @@ function scSpeciesSimulation() {
           (d) =>
             scSpeciesGroupRadius *
               Math.sin(
-                scSpeciesGroupAngleScale(d[metricSpeciesGroupProp]) *
+                scSpeciesGroupAngleScale(d[metricSCSpeciesGroupProp]) *
                   (Math.PI / 180)
               ) +
             focalPointX
@@ -860,7 +862,7 @@ function scSpeciesSimulation() {
           (d) =>
             scSpeciesGroupRadius *
               Math.cos(
-                scSpeciesGroupAngleScale(d[metricSpeciesGroupProp]) *
+                scSpeciesGroupAngleScale(d[metricSCSpeciesGroupProp]) *
                   (Math.PI / 180)
               ) +
             focalPointY
@@ -2011,7 +2013,7 @@ function scNonVenomous() {
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("fill", (d) =>
-          ["non venomous"].includes(d[metricSpeciesVenomProp])
+          ["non venomous"].includes(d[metricSCSpeciesVenomProp])
             ? "#fff"
             : scSpeciesFill
         )
@@ -2029,7 +2031,9 @@ function scNonVenomous() {
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
-          ["non venomous"].includes(d[metricSpeciesVenomProp]) ? 1 : opacityFade
+          ["non venomous"].includes(d[metricSCSpeciesVenomProp])
+            ? 1
+            : opacityFade
         );
     })
     .call((g) => {
@@ -2048,7 +2052,7 @@ function scNonVenomous() {
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
-          ["non venomous"].includes(d[metricSpeciesVenomProp]) ? 1 : 0
+          ["non venomous"].includes(d[metricSCSpeciesVenomProp]) ? 1 : 0
         );
     });
 
@@ -2068,7 +2072,7 @@ function scWeaklyVenomous() {
       g.selectAll("path.species--fill")
         .attr("fill", (d) =>
           ["weakly venomous", "non venomous"].includes(
-            d[metricSpeciesVenomProp]
+            d[metricSCSpeciesVenomProp]
           )
             ? "#fff"
             : scSpeciesFill
@@ -2087,7 +2091,7 @@ function scWeaklyVenomous() {
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
-          ["weakly venomous"].includes(d[metricSpeciesVenomProp])
+          ["weakly venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : opacityFade
         );
@@ -2108,7 +2112,7 @@ function scWeaklyVenomous() {
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
-          ["weakly venomous"].includes(d[metricSpeciesVenomProp]) ? 1 : 0
+          ["weakly venomous"].includes(d[metricSCSpeciesVenomProp]) ? 1 : 0
         );
     });
 
@@ -2128,7 +2132,7 @@ function scMildlyVenomous() {
       g.selectAll("path.species--fill")
         .attr("fill", (d) =>
           ["mildly venomous", "weakly venomous", "non venomous"].includes(
-            d[metricSpeciesVenomProp]
+            d[metricSCSpeciesVenomProp]
           )
             ? "#fff"
             : scSpeciesFill
@@ -2147,7 +2151,7 @@ function scMildlyVenomous() {
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
-          ["mildly venomous"].includes(d[metricSpeciesVenomProp])
+          ["mildly venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : opacityFade
         );
@@ -2168,9 +2172,9 @@ function scMildlyVenomous() {
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
-          ["mildly venomous"].includes(d[metricSpeciesVenomProp])
+          ["mildly venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
-            : ["weakly venomous"].includes(d[metricSpeciesVenomProp])
+            : ["weakly venomous"].includes(d[metricSCSpeciesVenomProp])
             ? opacityFade
             : 0
         );
@@ -2196,7 +2200,7 @@ function scModeratelyVenomous() {
             "mildly venomous",
             "weakly venomous",
             "non venomous",
-          ].includes(d[metricSpeciesVenomProp])
+          ].includes(d[metricSCSpeciesVenomProp])
             ? "#fff"
             : scSpeciesFill
         )
@@ -2214,7 +2218,7 @@ function scModeratelyVenomous() {
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
-          ["moderately venomous"].includes(d[metricSpeciesVenomProp])
+          ["moderately venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : opacityFade
         );
@@ -2235,10 +2239,10 @@ function scModeratelyVenomous() {
         )
         .attr("stroke", nodeStroke)
         .attr("opacity", (d) =>
-          ["moderately venomous"].includes(d[metricSpeciesVenomProp])
+          ["moderately venomous"].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : ["mildly venomous", "weakly venomous"].includes(
-                d[metricSpeciesVenomProp]
+                d[metricSCSpeciesVenomProp]
               )
             ? opacityFade
             : 0
@@ -2278,7 +2282,7 @@ function scVenom() {
             "potentially dangerous",
             "dangerously venomous",
             "highly venomous",
-          ].includes(d[metricSpeciesVenomProp])
+          ].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : opacityFade
         );
@@ -2303,13 +2307,13 @@ function scVenom() {
             "potentially dangerous",
             "dangerously venomous",
             "highly venomous",
-          ].includes(d[metricSpeciesVenomProp])
+          ].includes(d[metricSCSpeciesVenomProp])
             ? 1
             : [
                 "moderately venomous",
                 "mildly venomous",
                 "weakly venomous",
-              ].includes(d[metricSpeciesVenomProp])
+              ].includes(d[metricSCSpeciesVenomProp])
             ? opacityFade
             : 0
         );
@@ -2327,14 +2331,14 @@ function scSeaSnakes() {
     .transition()
     .duration(200)
     .attr("opacity", (d) =>
-      d[metricSpeciesGroupProp].includes("Sea Snakes") ? 1 : opacityFade
+      d[metricSCSpeciesGroupProp].includes("Sea Snakes") ? 1 : opacityFade
     )
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("d", circlePath)
         .attr("fill", (d) =>
-          d[metricSpeciesGroupProp].includes("Sea Snakes")
-            ? speciesGroupColorScale(d[metricSpeciesGroupProp])
+          d[metricSCSpeciesGroupProp].includes("Sea Snakes")
+            ? speciesGroupColorScale(d[metricSCSpeciesGroupProp])
             : "#fff"
         )
         .attr("opacity", 1);
@@ -2369,15 +2373,15 @@ function scBlindSnakes() {
     .transition()
     .duration(200)
     .attr("opacity", (d) =>
-      d[metricSpeciesGroupProp].includes("Blind Snakes") ? 1 : opacityFade
+      d[metricSCSpeciesGroupProp].includes("Blind Snakes") ? 1 : opacityFade
     )
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("d", circlePath)
         .attr("fill", (d) =>
-          d[metricSpeciesGroupProp].includes("Sea Snakes") ||
-          d[metricSpeciesGroupProp].includes("Blind Snakes")
-            ? speciesGroupColorScale(d[metricSpeciesGroupProp])
+          d[metricSCSpeciesGroupProp].includes("Sea Snakes") ||
+          d[metricSCSpeciesGroupProp].includes("Blind Snakes")
+            ? speciesGroupColorScale(d[metricSCSpeciesGroupProp])
             : "#fff"
         )
         .attr("opacity", 1);
@@ -2412,16 +2416,16 @@ function scPythons() {
     .transition()
     .duration(200)
     .attr("opacity", (d) =>
-      d[metricSpeciesGroupProp].includes("Pythons") ? 1 : opacityFade
+      d[metricSCSpeciesGroupProp].includes("Pythons") ? 1 : opacityFade
     )
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("d", circlePath)
         .attr("fill", (d) =>
-          d[metricSpeciesGroupProp].includes("Sea Snakes") ||
-          d[metricSpeciesGroupProp].includes("Blind Snakes") ||
-          d[metricSpeciesGroupProp].includes("Pythons")
-            ? speciesGroupColorScale(d[metricSpeciesGroupProp])
+          d[metricSCSpeciesGroupProp].includes("Sea Snakes") ||
+          d[metricSCSpeciesGroupProp].includes("Blind Snakes") ||
+          d[metricSCSpeciesGroupProp].includes("Pythons")
+            ? speciesGroupColorScale(d[metricSCSpeciesGroupProp])
             : "#fff"
         )
         .attr("opacity", 1);
@@ -2456,17 +2460,17 @@ function scRearFangedSnakes() {
     .transition()
     .duration(200)
     .attr("opacity", (d) =>
-      d[metricSpeciesGroupProp].includes("Rear") ? 1 : opacityFade
+      d[metricSCSpeciesGroupProp].includes("Rear") ? 1 : opacityFade
     )
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("d", circlePath)
         .attr("fill", (d) =>
-          d[metricSpeciesGroupProp].includes("Sea Snakes") ||
-          d[metricSpeciesGroupProp].includes("Blind Snakes") ||
-          d[metricSpeciesGroupProp].includes("Pythons") ||
-          d[metricSpeciesGroupProp].includes("Rear")
-            ? speciesGroupColorScale(d[metricSpeciesGroupProp])
+          d[metricSCSpeciesGroupProp].includes("Sea Snakes") ||
+          d[metricSCSpeciesGroupProp].includes("Blind Snakes") ||
+          d[metricSCSpeciesGroupProp].includes("Pythons") ||
+          d[metricSCSpeciesGroupProp].includes("Rear")
+            ? speciesGroupColorScale(d[metricSCSpeciesGroupProp])
             : "#fff"
         )
         .attr("opacity", 1);
@@ -2501,12 +2505,14 @@ function scLandSnakes() {
     .transition()
     .duration(200)
     .attr("opacity", (d) =>
-      d[metricSpeciesGroupProp].includes("Terrestrial") ? 1 : opacityFade
+      d[metricSCSpeciesGroupProp].includes("Terrestrial") ? 1 : opacityFade
     )
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("d", circlePath)
-        .attr("fill", (d) => speciesGroupColorScale(d[metricSpeciesGroupProp]))
+        .attr("fill", (d) =>
+          speciesGroupColorScale(d[metricSCSpeciesGroupProp])
+        )
         .attr("opacity", 1);
     })
     .call((g) => {
@@ -2542,7 +2548,9 @@ function scSpecies() {
     .call((g) => {
       g.selectAll("path.species--fill")
         .attr("d", circlePath)
-        .attr("fill", (d) => speciesGroupColorScale(d[metricSpeciesGroupProp]))
+        .attr("fill", (d) =>
+          speciesGroupColorScale(d[metricSCSpeciesGroupProp])
+        )
         .attr("opacity", 1);
     })
     .call((g) => {
@@ -2960,7 +2968,7 @@ const venomTextures = {
   harmless: "transparent",
 };
 function getVenomPatternFill(d) {
-  return venomTextures[d[metricSpeciesVenomProp]] || "transparent";
+  return venomTextures[d[metricSCSpeciesVenomProp]] || "transparent";
 }
 
 loadData();

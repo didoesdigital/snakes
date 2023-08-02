@@ -164,6 +164,7 @@ function chartPointerMove(event) {
       scHighlightedNode.style("filter", "blur(5px) contrast(400%)");
     } else {
       tooltip.transition().duration(100).style("opacity", 0);
+      d3.selectAll(".species--fill").style("filter", null);
     }
   }
 }

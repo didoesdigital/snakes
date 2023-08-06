@@ -133,26 +133,22 @@ figure #chart-title {
 /*   /1* color: var(--coolgrey-900); *1/ */
 /* } */
 
-.step.is-active p {
+.step.is-active .step-box {
   border-color: var(--coolgrey-500);
 }
 
-.step.is-active .overlay-box {
+.step.is-active .overlay-box-container {
   opacity: 1;
 }
 
-.overlay-box {
+.overlay-box-container {
   min-height: 90px;
   position: relative;
   opacity: 0.3;
   /* background-color: rgba(80, 0, 0, 0.1); */
 }
 
-.step p {
-  text-align: center;
-  padding: 0.5rem;
-  font-size: 1rem;
-  color: var(--coolgrey-900);
+.step-box {
   background-color: #fff;
   border: 1px solid var(--coolgrey-400);
   /* position: absolute; */
@@ -165,6 +161,13 @@ figure #chart-title {
   position: absolute;
   width: 100%;
   /* position: sticky; */
+}
+
+.step p {
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: var(--coolgrey-900);
 }
 
 #viz {

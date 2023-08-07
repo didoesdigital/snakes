@@ -2774,4 +2774,11 @@ function getVenomPatternFill(d) {
   return venomTextures[d[metricSCSpeciesVenomProp]] || "transparent";
 }
 
+function updateCopyright() {
+  const copy = d3.select("#copyright");
+  const currentYear = new Date().getFullYear();
+  copy.text(currentYear > 2023 ? `-${currentYear}` : "");
+}
+
+updateCopyright();
 loadData();

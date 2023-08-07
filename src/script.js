@@ -2482,15 +2482,15 @@ function hideOtherChartStuff(stepFunctionName) {
   }
 }
 
-function onMouseEnter(_event, d) {
-  console.log(d);
-  // console.log([d.temp, d.speciesBestGuess]);
-  // console.log([d3.timeFormat("%d %b %Y")(d.date), d.speciesBestGuess]);
-}
+// function onMouseEnter(_event, d) {
+//   console.log(d);
+//   // console.log([d.temp, d.speciesBestGuess]);
+//   // console.log([d3.timeFormat("%d %b %Y")(d.date), d.speciesBestGuess]);
+// }
 
-function onMouseEnterSpecies(_event, d) {
-  console.log(d.species);
-}
+// function onMouseEnterSpecies(_event, d) {
+//   console.log(d.species);
+// }
 
 function splitSpeciesLabels(species) {
   const speciesLabelParts = {

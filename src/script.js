@@ -2517,7 +2517,7 @@ function init() {
   handleResize();
 
   const offsetForLargerScreens =
-    (figureMarginTop - heightOfThreeLineStepParagraph) / 2;
+    ((figureMarginTop - heightOfThreeLineStepParagraph) * 2) / 3;
 
   const offsetNumber =
     figureMarginTop <

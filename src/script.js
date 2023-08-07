@@ -2777,7 +2777,7 @@ function getVenomPatternFill(d) {
 function updateCopyright() {
   const copy = d3.select("#copyright");
   const currentYear = new Date().getFullYear();
-  copy.text(currentYear > 2023 ? `-${currentYear}` : "");
+  copy.text(currentYear > 2023 ? `–${currentYear}` : "");
 }
 
 updateCopyright();

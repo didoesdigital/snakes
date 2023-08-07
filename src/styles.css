@@ -56,6 +56,14 @@ h3 {
   line-height: 1.2;
 }
 
+small {
+  font-size: 0.875rem;
+}
+
+a {
+  color: #5f428f;
+}
+
 .page {
   background-color: var(--green-200);
   min-height: 667px;

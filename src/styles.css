@@ -24,6 +24,12 @@
     "Work Sans", "Lato", "Noto Sans", "Assistant", "Libre Franklin", "Open Sans",
     "Roboto Condensed", "Titillium Web", "Raleway", "Merriweather Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --z-index-tooltip: 5;
+  --z-index-img-container: 4;
+  --z-index-img: 3;
+  --z-index-img-disclosure-summary: 2;
+  --z-index-overlay-box-container: 1;
+  --z-index-figure: 0;
 }
 
 html {
@@ -93,7 +99,7 @@ figure {
   transform: translate3d(0, 0, 0);
   background-color: transparent;
   /* outline: 1px dashed #cadff7; */
-  z-index: 0;
+  z-index: var(--z-index-figure);
 }
 
 figure #chart-title {
@@ -145,6 +151,7 @@ figure #chart-title {
   min-height: 90px;
   position: relative;
   opacity: 0.3;
+  z-index: var(--z-index-overlay-box-container);
   /* background-color: rgba(80, 0, 0, 0.1); */
 }
 
@@ -236,7 +243,7 @@ summary {
   top: -12px;
   transform: translate(156px, 144px);
   transition: opacity 0.1s linear, transform 0.1s ease-in-out;
-  z-index: 1;
+  z-index: var(--z-index-tooltip);
 }
 
 .tooltip-text {
@@ -246,4 +253,40 @@ summary {
   font-weight: 400;
   line-height: 1.5;
   pointer-events: none;
+}
+
+.img-disclosure summary {
+  background-color: #fff;
+  color: var(--coolgrey-700);
+  letter-spacing: 0.1rem;
+  padding: 8px 0;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: var(--z-index-img-disclosure-summary);
+}
+.img-container {
+  background-color: #fff;
+  height: 100vh;
+  left: 0;
+  margin: auto auto;
+  max-width: 100%;
+  position: absolute;
+  right: 0;
+  z-index: var(--z-index-img-container);
+}
+.img-container img {
+  box-shadow: 0.3px 0.5px 0.6px hsl(0deg 0% 57% / 0.62),
+    1.8px 3.7px 4.3px -0.6px hsl(0deg 0% 57% / 0.58),
+    4.1px 8.3px 9.7px -1.2px hsl(0deg 0% 57% / 0.55),
+    8.5px 16.9px 19.9px -1.8px hsl(0deg 0% 57% / 0.52),
+    16.2px 32.4px 38px -2.4px hsl(0deg 0% 57% / 0.48),
+    28.8px 57.5px 67.5px -3px hsl(0deg 0% 57% / 0.45);
+  left: 0;
+  margin: auto auto;
+  max-width: 100%;
+  position: absolute;
+  right: 0;
+  width: 720px;
+  z-index: var(--z-index-img);
 }

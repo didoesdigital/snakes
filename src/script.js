@@ -717,7 +717,6 @@ function snakeSimulation() {
     .attr("stroke", nodeStroke)
     .attr("pointer-events", "none"); // NOTE: remove this and uncomment mouse events for debugging
   // sneks.on("mouseenter", onMouseEnter);
-  sneks.on("click", onMouseClick); // TODO: resolve lightbox photo test
 
   snekSimulation = d3.forceSimulation(sightingsData);
 
@@ -2492,20 +2491,6 @@ function onMouseEnter(_event, d) {
 function onMouseEnterSpecies(_event, d) {
   console.log(d.species);
 }
-
-function onMouseClick(event, d) {
-  // const currentLightbox = d3.select(
-  //   `[data-step-function=${activeStepFunctionName}] .lightbox`
-  // );
-  const currentLightbox = d3.selectAll(".lightbox");
-  currentLightbox.style("display", "block");
-}
-
-const backdrop = d3.selectAll(".lightbox__content");
-backdrop.on("click", () => {
-  const allLightboxes = d3.selectAll(`.lightbox`);
-  allLightboxes.style("display", "none");
-});
 
 function splitSpeciesLabels(species) {
   const speciesLabelParts = {

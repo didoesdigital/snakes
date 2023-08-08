@@ -175,6 +175,10 @@ figure #chart-title {
   overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px);
 }
+p.sr-only {
+  margin: 0;
+  padding: 0;
+}
 
 tspan.long-name {
   letter-spacing: -0.05rem;

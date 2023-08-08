@@ -63,7 +63,7 @@ summary {
 }
 
 small {
-  font-size: 0.875rem;
+  font-size: calc(0.75rem + 0.25vw);
 }
 
 a {
@@ -172,7 +172,7 @@ figure #chart-title {
 .step p {
   text-align: center;
   padding: 0.5rem;
-  font-size: calc(0.75rem + 0.5vw);
+  font-size: calc(0.875rem + 0.5vw);
   color: var(--coolgrey-500);
 }
 .step.is-active p {
@@ -220,8 +220,7 @@ tspan.long-name {
   align-items: center;
   color: var(--coolgrey-900);
   display: flex;
-  font-size: 1.5rem;
-  font-size: calc(0.75rem + 0.5vw);
+  font-size: calc(0.875rem + 0.5vw);
   justify-content: center;
   margin: 120px auto 0;
   max-width: 30rem;

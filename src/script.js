@@ -2468,10 +2468,14 @@ function hideOtherChartStuff(stepFunctionName) {
 
   if (sunnyCoastSpeciesStepNames.includes(stepFunctionName)) {
     sneks.transition().style("opacity", 0);
+    step.style("pointer-events", "none");
+    article.style("pointer-events", "none");
   }
 
   if (sightingsStepNames.includes(stepFunctionName)) {
     scSpeciesNodes.transition().style("opacity", 0);
+    step.style("pointer-events", null);
+    article.style("pointer-events", null);
   }
 }
 

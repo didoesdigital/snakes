@@ -39,7 +39,7 @@ const textureHighlyVenomous = textures
 
 const chartTextFamily =
   '"Overpass Mono", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace';
-const chartTextSize = "0.75rem";
+const chartTextSize = "calc(0.75rem + 0.125vw)";
 const chartTextWeight = 300;
 const timeParser = d3.timeParse("%d %b %Y %H"); // "02 Jan 2023 06"
 // const nodeDiameter = 40; // big enough to tap
@@ -61,7 +61,7 @@ const dimensions = {
     top: 48,
     right: 24, // at least nodeRadius wide
     bottom: 24,
-    left: 112,
+    left: window.innerWidth > 450 ? 160 : 112,
   },
 };
 const focalPointX = dimensions.width / 2;

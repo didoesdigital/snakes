@@ -138,14 +138,9 @@ figure #chart-title {
   border-color: var(--coolgrey-500);
 }
 
-.step.is-active .overlay-box-container {
-  opacity: 1;
-}
-
 .overlay-box-container {
   min-height: 90px;
   position: relative;
-  opacity: 0.3;
   z-index: var(--z-index-overlay-box-container);
 }
 

@@ -111,8 +111,6 @@ figure #chart-title {
   text-align: center;
   padding: 1rem;
   position: absolute;
-  /* top: 50%; */
-  /* top: 30%; */
   top: 16px;
   left: 50%;
   -moz-transform: translate(-50%, -50%);
@@ -120,8 +118,6 @@ figure #chart-title {
   transform: translate(-50%, -50%);
   font-size: 1.5rem;
   line-height: 1;
-  /* font-weight: 900; */
-  /* font-weight: 700; */
   color: var(--coolgrey-900);
   min-width: 21rem;
 }
@@ -138,11 +134,6 @@ figure #chart-title {
   margin-bottom: 0;
 }
 
-/* .step.is-active p { */
-/*   /1* background-color: rgba(255, 255, 255, 0.8); *1/ */
-/*   /1* color: var(--coolgrey-900); *1/ */
-/* } */
-
 .step.is-active .step-box {
   border-color: var(--coolgrey-500);
 }
@@ -156,22 +147,15 @@ figure #chart-title {
   position: relative;
   opacity: 0.3;
   z-index: var(--z-index-overlay-box-container);
-  /* background-color: rgba(80, 0, 0, 0.1); */
 }
 
 .step-box {
   background-color: #fff;
   border: 1px solid var(--coolgrey-400);
-  /* position: absolute; */
-  /* top: 50%; */
-  /* top: 0; */
-  /* left: 50%; */
-  /* transform: translateX(-50%); */
   top: 50%;
   transform: translateY(-50%);
   position: absolute;
   width: 100%;
-  /* position: sticky; */
 }
 
 .step p {
@@ -192,12 +176,6 @@ figure #chart-title {
   width: 1px;
   overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px);
-}
-
-.snek-img {
-  width: 20rem;
-  /* display: none; */
-  /* position: sticky; */
 }
 
 tspan.long-name {

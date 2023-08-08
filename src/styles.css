@@ -123,6 +123,7 @@ figure #chart-title {
 }
 
 .fix-safari-z-index-rendering-issue {
+  /* NOTE: causes warning in Firefox: Will-change memory consumption is too high. Budget limit is the document surface area multiplied by 3 (230400 px). Occurrences of will-change over the budget will be ignored.*/
   will-change: opacity;
 }
 
@@ -207,7 +208,8 @@ summary {
 .warning-text {
   color: var(--coolgrey-900);
   position: relative;
-  text-shadow: -1px -1px 2px #fff, 1px 1px 2px #fff, -1px 1px 2px #fff, 1px -1px 2px #fff;
+  text-shadow: -1px -1px 2px #fff, 1px 1px 2px #fff, -1px 1px 2px #fff,
+    1px -1px 2px #fff;
   font-size: 1.5rem;
   align-items: center;
   display: flex;

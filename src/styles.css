@@ -246,8 +246,6 @@ summary {
   z-index: var(--z-index-img-disclosure-summary);
 }
 .img-container {
-  background-color: #fff;
-  height: 100vh;
   left: 0;
   margin: auto auto;
   max-width: 100%;

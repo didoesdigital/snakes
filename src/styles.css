@@ -102,7 +102,7 @@ a {
 }
 
 article {
-  /* pointer-events: none;*/ /* debugging */
+  pointer-events: none;
   padding: 0;
   max-width: 20rem;
   max-width: 40rem;
@@ -142,7 +142,7 @@ figure #chart-title {
 .step {
   margin: 0 auto 2rem auto;
   min-height: 40rem;
-  /* pointer-events: none; */
+  pointer-events: none;
   /* outline: 1px dashed #e8686a; */
   /* background-color: rgba(0, 0, 0, 0.1); */
 }
@@ -251,7 +251,7 @@ tspan.long-name {
 .tooltip-text {
   color: var(--coolgrey-900);
   font-family: var(--sans-serif-stack);
-  font-size: 1rem;
+  font-size: calc(0.75rem + 0.25vw);
   font-weight: 400;
   line-height: 1.5;
   pointer-events: none;

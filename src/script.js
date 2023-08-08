@@ -971,6 +971,14 @@ function setupAxes() {
         .style("font-size", chartTextSize)
         .style("font-weight", chartTextWeight)
     )
+    .call((g) =>
+      g
+        .select(".tick:last-of-type text")
+        .clone()
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
+        .text("    °C")
+    )
     .lower();
 
   let tempStripPlotYAxis = d3.axisLeft(speciesBandScale).tickFormat("");

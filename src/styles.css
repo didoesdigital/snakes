@@ -91,18 +91,13 @@ a {
   margin-bottom: 10rem;
 }
 
-.fix-safari-z-index-rendering-issue {
-  /* NOTE: causes warning in Firefox: Will-change memory consumption is too high. Budget limit is the document surface area multiplied by 3 (230400 px). Occurrences of will-change over the budget will be ignored.*/
-  will-change: opacity;
-}
-
 #scrolly {
   background-color: #fff;
   padding: 1rem;
 }
 
 article {
-  pointer-events: none;
+  /* pointer-events: none; */ /* for debugging */
   padding: 0;
   max-width: 20rem;
   max-width: 40rem;
@@ -142,7 +137,7 @@ figure #chart-title {
 .step {
   margin: 0 auto 2rem auto;
   min-height: 40rem;
-  pointer-events: none;
+  /* pointer-events: none; */
   /* outline: 1px dashed #e8686a; */
   /* background-color: rgba(0, 0, 0, 0.1); */
 }

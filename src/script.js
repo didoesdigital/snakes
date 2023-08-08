@@ -12,8 +12,8 @@ const scroller = scrollama();
 
 const pagePaddingX = 16 * 2;
 const maxSupportedPageWidth = 1200;
-const width = Math.min(window.innerWidth, maxSupportedPageWidth) - pagePaddingX; // 375 - 16 - 16
-const height = 555; //400;
+const contentWidth =
+  Math.min(window.innerWidth, maxSupportedPageWidth) - pagePaddingX; // 375 - 16 - 16
 const slightBufferForScrollTrack = 8;
 
 const textures = window.textures;
@@ -55,8 +55,8 @@ const snekChargeStrength = -180;
 const snekChargeStrengthTimeline = -20;
 const hideOffscreen = 80;
 const dimensions = {
-  width: Math.min(width - slightBufferForScrollTrack, 600),
-  height: 455, // 400,
+  width: Math.min(contentWidth - slightBufferForScrollTrack, 600),
+  height: 455,
   margin: {
     top: 48,
     right: 24, // at least nodeRadius wide
@@ -495,8 +495,8 @@ function loadData() {
           ? +d.temperature
           : +d.estimatedTemperature.replace("~", ""),
       // initialize x/y values for force simulation to start from center
-      x: width / 2,
-      y: height / 2,
+      x: dimensions.width / 2,
+      y: dimensions.height / 2,
     };
   })
     .then((data) => {
@@ -788,7 +788,7 @@ function scSpeciesSimulation() {
     .style("opacity", 0)
     .attr(
       "transform",
-      (_d, i) => `translate(${i * nodeSpacing}, ${height - 10})`
+      (_d, i) => `translate(${i * nodeSpacing}, ${dimensions.height - 10})`
     )
     .call((g) => {
       g.append("path")

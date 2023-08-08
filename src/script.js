@@ -309,7 +309,7 @@ let weatherScale = null;
 let timeScale = null;
 let timeDelayScale = null;
 let seasonScale = null;
-const delay = 100;
+const delay = 50;
 
 const metricTimeOfDayProp = "timeOfDay";
 const metricTimeOfDayAccessor = (d) => d[metricTimeOfDayProp];

@@ -24,11 +24,12 @@
     "Work Sans", "Lato", "Noto Sans", "Assistant", "Libre Franklin", "Open Sans",
     "Roboto Condensed", "Titillium Web", "Raleway", "Merriweather Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --z-index-tooltip: 5;
-  --z-index-img-container: 4;
-  --z-index-img: 3;
-  --z-index-img-disclosure-summary: 2;
-  --z-index-overlay-box-container: 1;
+  --z-index-tooltip: 6;
+  --z-index-img-container: 5;
+  --z-index-img: 4;
+  --z-index-img-disclosure-summary: 3;
+  --z-index-overlay-box-container: 2;
+  --z-index-warning-text: 1;
   --z-index-figure: 0;
 }
 
@@ -209,17 +210,18 @@ summary {
 }
 
 .warning-text {
-  color: var(--coolgrey-900);
-  position: relative;
-  text-shadow: -1px -1px 2px #fff, 1px 1px 2px #fff, -1px 1px 2px #fff,
-    1px -1px 2px #fff;
-  font-size: 1.5rem;
   align-items: center;
+  color: var(--coolgrey-900);
   display: flex;
+  font-size: 1.5rem;
   justify-content: center;
   margin: 120px auto 0;
-  text-align: center;
   max-width: 20rem;
+  position: relative;
+  text-align: center;
+  text-shadow: -1px -1px 2px #fff, 1px 1px 2px #fff, -1px 1px 2px #fff,
+    1px -1px 2px #fff;
+  z-index: var(--z-index-warning-text);
 }
 
 .tooltip {

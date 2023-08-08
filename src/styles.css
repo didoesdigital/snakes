@@ -81,6 +81,11 @@ a {
   margin-bottom: 10rem;
 }
 
+.fix-safari-z-index-rendering-issue {
+  /* NOTE: causes warning in Firefox: Will-change memory consumption is too high. Budget limit is the document surface area multiplied by 3 (230400 px). Occurrences of will-change over the budget will be ignored.*/
+  will-change: opacity;
+}
+
 #scrolly {
   background-color: #fff;
   padding: 1rem;
@@ -121,11 +126,6 @@ figure #chart-title {
   line-height: 1;
   color: var(--coolgrey-900);
   min-width: 21rem;
-}
-
-.fix-safari-z-index-rendering-issue {
-  /* NOTE: causes warning in Firefox: Will-change memory consumption is too high. Budget limit is the document surface area multiplied by 3 (230400 px). Occurrences of will-change over the budget will be ignored.*/
-  will-change: opacity;
 }
 
 .step {

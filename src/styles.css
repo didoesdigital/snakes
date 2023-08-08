@@ -147,8 +147,7 @@ figure #chart-title {
 .step-box {
   background-color: #fff;
   border: 1px solid var(--coolgrey-400);
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 0;
   position: absolute;
   width: 100%;
 }

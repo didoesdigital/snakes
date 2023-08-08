@@ -1217,6 +1217,125 @@ function setupPointsOfInterestDataPoints() {
   flyingSnake = sightingsData.filter((d) => d["departure"] === "flying")[0];
 }
 
+function timeline() {
+  hideOtherChartStuff("timeline");
+
+  updateTitle("Snake sightings over two years");
+  snekSimulation
+    // .force("forceX", d3.forceX(focalPointX).strength(1.55))
+    .force("forceX", d3.forceX(xWiggle).strength(1))
+    .force("forceY", d3.forceY((d) => timeScale(d[metricDateProp])).strength(1))
+    .force("charge", d3.forceManyBody().strength(snekChargeStrengthTimeline))
+    .force("collide", null);
+  // .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
+
+  sneks
+    .style("opacity", 0)
+    .transition()
+    .duration(200)
+    .attr("fill", (d) => {
+      return speciesColorScale(d.speciesBestGuess);
+    })
+    .transition()
+    .duration(10)
+    .delay((d) => accelerate(timeDelayScale(d[metricDateProp])))
+    .style("opacity", 1);
+
+  d3.select(".timeline-y-axis")
+    .call((g) =>
+      g
+        .selectAll("text")
+        .attr("role", "presentation")
+        .attr("aria-hidden", "true")
+    )
+    .transition()
+    .style("opacity", 1);
+  reheatSimulation();
+}
+
+function staringContest() {
+  hideOtherChartStuff("staringContest");
+
+  updateTitle("Did it see me?");
+  snekSimulation
+    .force(
+      "forceX",
+      d3.forceX((d) => watchingMeScale(watchingMeGroup(d))).strength(1)
+    )
+    .force("forceY", d3.forceY(focalPointYWithAxes).strength(0.3))
+    .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
+
+  addVisibleSpeciesColors(1);
+
+  d3.select(".watching-me-axis").transition().style("opacity", 1);
+  reheatSimulation();
+}
+
+function seasons() {
+  hideOtherChartStuff("seasons");
+
+  updateTitle("Fewer snakes in Winter");
+  snekSimulation
+    .force(
+      "forceX",
+      d3
+        .forceX((d) => seasonScale(getSeason(d[metricDateProp].getMonth())))
+        .strength(1)
+    )
+    .force("forceY", d3.forceY(focalPointYWithAxes).strength(0.3))
+    .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
+
+  addVisibleSpeciesColors(1);
+
+  d3.select(".seasons-axis").transition().style("opacity", 1);
+  reheatSimulation();
+}
+
+function venom() {
+  hideOtherChartStuff("venom");
+
+  updateTitle("Are they venomous?");
+
+  const jitter = (d) => {
+    return d[metricSpeciesProp] === "Keelback"
+      ? -10
+      : d[metricSpeciesProp] === "Common tree snake"
+      ? 16
+      : d[metricSpeciesProp] === "Carpet python"
+      ? 18
+      : 0;
+  };
+
+  snekSimulation
+    .force(
+      "forceX",
+      d3
+        .forceX((d) => venomScale(metricVenomAccessor(d)) + jitter(d) * 0.5)
+        .strength(1)
+    )
+    .force(
+      "forceY",
+      d3.forceY((d) => focalPointYWithAxes + jitter(d)).strength(0.3)
+    )
+    .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
+    // .force("collide", null);
+    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
+
+  addVisibleSpeciesColors((d) =>
+    metricVenomAccessor(d) === "unknown" ? 0.2 : 1
+  );
+
+  d3.select(".venom-axis").transition().style("opacity", 1);
+  reheatSimulation();
+}
+
 function species() {
   hideOtherChartStuff("species");
 
@@ -1246,6 +1365,18 @@ function redBelly() {
   addSpeciesBlobForces();
   addVisibleSpeciesColors((d) =>
     d[metricSpeciesProp] === "Red-bellied black" ? 1 : opacityFade
+  );
+
+  reheatSimulation();
+}
+
+function keelback() {
+  hideOtherChartStuff("keelback");
+
+  updateTitle("Keelbacks");
+  addSpeciesBlobForces();
+  addVisibleSpeciesColors((d) =>
+    d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade
   );
 
   reheatSimulation();
@@ -1311,56 +1442,222 @@ function unknownSpecies() {
   reheatSimulation();
 }
 
-function keelback() {
-  hideOtherChartStuff("keelback");
+function mating() {
+  hideOtherChartStuff("mating");
 
-  updateTitle("Keelbacks");
-  addSpeciesBlobForces();
-  addVisibleSpeciesColors((d) =>
-    d[metricSpeciesProp] === "Keelback" ? 1 : opacityFade
-  );
+  updateTitle("Mating snakes in the yard");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["mating"] === "mating" ? 1 : 0.2));
+
+  d3.selectAll(
+    ".annotation-connector-smoochy-matingSnakeOne,.annotation-connector-smoochy-matingSnakeTwo"
+  )
+    .raise()
+    .transition()
+    .style("opacity", 1);
+
+  d3.select(".annotation-label-smoochy")
+    .text(annotations.mating.labels[0].text)
+    .attr("x", annotations.mating.labels[0].labelX)
+    .attr("y", annotations.mating.labels[0].labelY)
+    .attr("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .style("opacity", 1)
+    .transition();
+
+  d3.selectAll(
+    `path[data-id="${matingSnakeOne.id}"],path[data-id="${matingSnakeTwo.id}"]`
+  ).raise();
 
   reheatSimulation();
 }
 
-function timeOfDayStripPlot() {
-  hideOtherChartStuff("timeOfDayStripPlot");
+function courting() {
+  hideOtherChartStuff("courting");
 
-  updateTitle("Time of day");
-  snekSimulation
-    .force("forceX", null)
-    .force("forceY", null)
-    .force("charge", null);
-  // .force("collide", null);
+  updateTitle("Separated by a roller door");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["mating"] === "probably" ? 1 : 0.2));
 
-  const jitter = (i) => {
-    return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
-  };
-
-  snekSimulation
-    .force(
-      "forceX",
-      d3.forceX((d) => timeOfDayScale(d[metricTimeOfDayProp])).strength(0.9)
-    )
-    .force(
-      "forceY",
-      d3
-        .forceY((d, i) => speciesBandScale(d[metricSpeciesProp]) + jitter(i))
-        .strength(0.9)
-    )
-    // .force("charge", null)
-    // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
-    .force("collide", d3.forceCollide(nodeRadius).strength(1));
-
-  sneks
+  d3.selectAll(
+    ".annotation-connector-snuggle-courtingSnakeOne, .annotation-connector-snuggle-courtingSnakeTwo"
+  )
+    .raise()
     .transition()
-    .duration(200)
-    .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
     .style("opacity", 1);
 
-  d3.select(".strip-plot-x-time-of-day").transition().style("opacity", 1);
-  d3.select(".strip-plot-y").transition().style("opacity", 1);
-  d3.select(".strip-plot-y-grid-lines").transition().style("opacity", 1);
+  d3.select(".annotation-label-snuggle")
+    .text(annotations.courting.labels[0].text)
+    .attr("x", annotations.courting.labels[0].labelX)
+    .attr("y", annotations.courting.labels[0].labelY)
+    .attr("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .style("opacity", 1)
+    .transition();
+
+  d3.selectAll(
+    `path[data-id="${courtingSnakeOne.id}"],path[data-id="${matingSnakeTwo.id}"]`
+  ).raise();
+
+  reheatSimulation();
+}
+
+function yard() {
+  hideOtherChartStuff("yard");
+
+  updateTitle("In the yard");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["room"] === "elsewhere" ? 0.2 : 1));
+
+  reheatSimulation();
+}
+
+const sharedBirdTitle = "Attacked by birds";
+function flying() {
+  hideOtherChartStuff("flying");
+
+  updateTitle(sharedBirdTitle);
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
+
+  d3.select(".annotation-connector-flying-flyingSnake")
+    .raise()
+    .transition()
+    .style("opacity", 1);
+
+  d3.select(".annotation-label-flying")
+    .text(annotations.flying.labels[0].text)
+    .attr("x", annotations.flying.labels[0].labelX)
+    .attr("y", annotations.flying.labels[0].labelY)
+    .attr("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .style("opacity", 1)
+    .transition();
+
+  d3.select(`path[data-id="${flyingSnake.id}"]`).raise();
+
+  reheatSimulation();
+}
+
+function butcherBirds() {
+  hideOtherChartStuff("butcherBirds");
+
+  updateTitle(sharedBirdTitle);
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
+
+  d3.select(".annotation-connector-cowering-butcherBirdsSnake")
+    .raise()
+    .transition()
+    .style("opacity", 1);
+
+  d3.select(".annotation-label-cowering")
+    .text(annotations.butcherBirds.labels[0].text)
+    .attr("x", annotations.butcherBirds.labels[0].labelX)
+    .attr("y", annotations.butcherBirds.labels[0].labelY)
+    .attr("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .style("opacity", 1)
+    .transition();
+
+  d3.select(`path[data-id="${butcherBirdsSnake.id}"]`).raise();
+
+  reheatSimulation();
+}
+
+function magpies() {
+  hideOtherChartStuff("magpies");
+
+  updateTitle(sharedBirdTitle);
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
+
+  d3.select(".annotation-connector-gulped-magpiesSnake")
+    .raise()
+    .transition()
+    .style("opacity", 1);
+
+  d3.select(".annotation-label-gulped")
+    .text(annotations.magpies.labels[0].text)
+    .attr("x", annotations.magpies.labels[0].labelX)
+    .attr("y", annotations.magpies.labels[0].labelY)
+    .attr("text-anchor", "middle")
+    .style("font-family", chartTextFamily)
+    .style("font-size", chartTextSize)
+    .style("font-weight", chartTextWeight)
+    .style("opacity", 1)
+    .transition();
+
+  d3.select(`path[data-id="${magpiesSnake.id}"]`).raise();
+
+  reheatSimulation();
+}
+
+function climbing() {
+  hideOtherChartStuff("climbing");
+
+  updateTitle("Climbing");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["climbing"] === "not climbing" ? 0.2 : 1));
+
+  reheatSimulation();
+}
+
+function onCamera() {
+  hideOtherChartStuff("onCamera");
+
+  updateTitle("Caught on camera");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["onCamera"] === "no" ? 0.2 : 1));
+
+  reheatSimulation();
+}
+
+function attacked() {
+  hideOtherChartStuff("attacked");
+
+  updateTitle("Zero snakes have attacked me");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors(0.2);
+
+  reheatSimulation();
+}
+
+function defensive() {
+  hideOtherChartStuff("defensive");
+
+  updateTitle("Defensive posture");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (d["watchingMe"] === "flattened" ? 1 : 0.2));
+
+  reheatSimulation();
+}
+
+function fled() {
+  hideOtherChartStuff("fled");
+
+  updateTitle("Fled");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (!didFlee(d) ? 0.2 : 1));
+
+  reheatSimulation();
+}
+
+function chill() {
+  hideOtherChartStuff("chill");
+
+  updateTitle("Remained still or left slowly");
+  addPointsOfInterestBlobForces();
+  addVisibleSpeciesColors((d) => (!didChill(d) ? 0.2 : 1));
+
   reheatSimulation();
 }
 
@@ -1446,344 +1743,44 @@ function temperatureStripPlot() {
   reheatSimulation();
 }
 
-function timeline() {
-  hideOtherChartStuff("timeline");
+function timeOfDayStripPlot() {
+  hideOtherChartStuff("timeOfDayStripPlot");
 
-  updateTitle("Snake sightings over two years");
-  // "There are snake sightings in most months between April 2021 and April 2023 except July and August 2022."
+  updateTitle("Time of day");
   snekSimulation
-    // .force("forceX", d3.forceX(focalPointX).strength(1.55))
-    .force("forceX", d3.forceX(xWiggle).strength(1))
-    .force("forceY", d3.forceY((d) => timeScale(d[metricDateProp])).strength(1))
-    .force("charge", d3.forceManyBody().strength(snekChargeStrengthTimeline))
-    .force("collide", null);
-  // .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
+    .force("forceX", null)
+    .force("forceY", null)
+    .force("charge", null);
+  // .force("collide", null);
 
-  sneks
-    .style("opacity", 0)
-    .transition()
-    .duration(200)
-    .attr("fill", (d) => {
-      return speciesColorScale(d.speciesBestGuess);
-    })
-    .transition()
-    .duration(10)
-    .delay((d) => accelerate(timeDelayScale(d[metricDateProp])))
-    .style("opacity", 1);
-
-  d3.select(".timeline-y-axis")
-    .call((g) =>
-      g
-        .selectAll("text")
-        .attr("role", "presentation")
-        .attr("aria-hidden", "true")
-    )
-    .transition()
-    .style("opacity", 1);
-  reheatSimulation();
-}
-
-function seasons() {
-  hideOtherChartStuff("seasons");
-
-  updateTitle("Fewer snakes in Winter");
-  // "There were 12 snakes in Summer, 11 in Autumn, 7 in Winter, and 13 in Spring"
-  snekSimulation
-    .force(
-      "forceX",
-      d3
-        .forceX((d) => seasonScale(getSeason(d[metricDateProp].getMonth())))
-        .strength(1)
-    )
-    .force("forceY", d3.forceY(focalPointYWithAxes).strength(0.3))
-    .force("charge", null)
-    // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    // .force("collide", null);
-    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
-
-  addVisibleSpeciesColors(1);
-
-  d3.select(".seasons-axis").transition().style("opacity", 1);
-  reheatSimulation();
-}
-
-function staringContest() {
-  hideOtherChartStuff("staringContest");
-
-  updateTitle("Did it see me?");
-  // "3 snakes were staring, yeah 25 saw me, nah 5 didn't see me, not sure about 10 of them."
-  snekSimulation
-    .force(
-      "forceX",
-      d3.forceX((d) => watchingMeScale(watchingMeGroup(d))).strength(1)
-    )
-    .force("forceY", d3.forceY(focalPointYWithAxes).strength(0.3))
-    .force("charge", null)
-    // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    // .force("collide", null);
-    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
-
-  addVisibleSpeciesColors(1);
-
-  d3.select(".watching-me-axis").transition().style("opacity", 1);
-  reheatSimulation();
-}
-
-function venom() {
-  hideOtherChartStuff("venom");
-
-  updateTitle("Are they venomous?");
-
-  const jitter = (d) => {
-    return d[metricSpeciesProp] === "Keelback"
-      ? -10
-      : d[metricSpeciesProp] === "Common tree snake"
-      ? 16
-      : d[metricSpeciesProp] === "Carpet python"
-      ? 18
-      : 0;
+  const jitter = (i) => {
+    return i % 2 === 0 ? 2 : -2; // try to minimise spinning nodes without pushing nodes off grid lines
   };
 
   snekSimulation
     .force(
       "forceX",
-      d3
-        .forceX((d) => venomScale(metricVenomAccessor(d)) + jitter(d) * 0.5)
-        .strength(1)
+      d3.forceX((d) => timeOfDayScale(d[metricTimeOfDayProp])).strength(0.9)
     )
     .force(
       "forceY",
-      d3.forceY((d) => focalPointYWithAxes + jitter(d)).strength(0.3)
+      d3
+        .forceY((d, i) => speciesBandScale(d[metricSpeciesProp]) + jitter(i))
+        .strength(0.9)
     )
-    .force("charge", null)
-    // .force("charge", d3.forceManyBody().strength(snekChargeStrength))
-    // .force("collide", null);
-    .force("collide", d3.forceCollide((_d) => nodeRadius).strength(1));
+    // .force("charge", null)
+    // .force("charge", d3.forceManyBody().strength(-2)) // try to minimise spinning nodes without pushing nodes off grid lines
+    .force("collide", d3.forceCollide(nodeRadius).strength(1));
 
-  addVisibleSpeciesColors((d) =>
-    metricVenomAccessor(d) === "unknown" ? 0.2 : 1
-  );
-
-  d3.select(".venom-axis").transition().style("opacity", 1);
-  reheatSimulation();
-}
-
-function mating() {
-  hideOtherChartStuff("mating");
-
-  updateTitle("Mating snakes in the yard");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["mating"] === "mating" ? 1 : 0.2));
-
-  d3.selectAll(
-    ".annotation-connector-smoochy-matingSnakeOne,.annotation-connector-smoochy-matingSnakeTwo"
-  )
-    .raise()
+  sneks
     .transition()
+    .duration(200)
+    .attr("fill", (d) => temperatureColorScale(d[metricTempProp]))
     .style("opacity", 1);
 
-  d3.select(".annotation-label-smoochy")
-    .text(annotations.mating.labels[0].text)
-    .attr("x", annotations.mating.labels[0].labelX)
-    .attr("y", annotations.mating.labels[0].labelY)
-    .attr("text-anchor", "middle")
-    .style("font-family", chartTextFamily)
-    .style("font-size", chartTextSize)
-    .style("font-weight", chartTextWeight)
-    .style("opacity", 1)
-    .transition();
-
-  d3.selectAll(
-    `path[data-id="${matingSnakeOne.id}"],path[data-id="${matingSnakeTwo.id}"]`
-  ).raise();
-
-  reheatSimulation();
-}
-
-function courting() {
-  hideOtherChartStuff("courting");
-
-  updateTitle("Separated by a roller door");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["mating"] === "probably" ? 1 : 0.2));
-
-  d3.selectAll(
-    ".annotation-connector-snuggle-courtingSnakeOne, .annotation-connector-snuggle-courtingSnakeTwo"
-  )
-    .raise()
-    .transition()
-    .style("opacity", 1);
-
-  d3.select(".annotation-label-snuggle")
-    .text(annotations.courting.labels[0].text)
-    .attr("x", annotations.courting.labels[0].labelX)
-    .attr("y", annotations.courting.labels[0].labelY)
-    .attr("text-anchor", "middle")
-    .style("font-family", chartTextFamily)
-    .style("font-size", chartTextSize)
-    .style("font-weight", chartTextWeight)
-    .style("opacity", 1)
-    .transition();
-
-  d3.selectAll(
-    `path[data-id="${courtingSnakeOne.id}"],path[data-id="${matingSnakeTwo.id}"]`
-  ).raise();
-
-  reheatSimulation();
-}
-
-const sharedBirdTitle = "Attacked by birds";
-function flying() {
-  hideOtherChartStuff("flying");
-
-  updateTitle(sharedBirdTitle);
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
-
-  d3.select(".annotation-connector-flying-flyingSnake")
-    .raise()
-    .transition()
-    .style("opacity", 1);
-
-  d3.select(".annotation-label-flying")
-    .text(annotations.flying.labels[0].text)
-    .attr("x", annotations.flying.labels[0].labelX)
-    .attr("y", annotations.flying.labels[0].labelY)
-    .attr("text-anchor", "middle")
-    .style("font-family", chartTextFamily)
-    .style("font-size", chartTextSize)
-    .style("font-weight", chartTextWeight)
-    .style("opacity", 1)
-    .transition();
-
-  d3.select(`path[data-id="${flyingSnake.id}"]`).raise();
-
-  reheatSimulation();
-}
-
-function magpies() {
-  hideOtherChartStuff("magpies");
-
-  updateTitle(sharedBirdTitle);
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
-
-  d3.select(".annotation-connector-gulped-magpiesSnake")
-    .raise()
-    .transition()
-    .style("opacity", 1);
-
-  d3.select(".annotation-label-gulped")
-    .text(annotations.magpies.labels[0].text)
-    .attr("x", annotations.magpies.labels[0].labelX)
-    .attr("y", annotations.magpies.labels[0].labelY)
-    .attr("text-anchor", "middle")
-    .style("font-family", chartTextFamily)
-    .style("font-size", chartTextSize)
-    .style("font-weight", chartTextWeight)
-    .style("opacity", 1)
-    .transition();
-
-  d3.select(`path[data-id="${magpiesSnake.id}"]`).raise();
-
-  reheatSimulation();
-}
-
-function butcherBirds() {
-  hideOtherChartStuff("butcherBirds");
-
-  updateTitle(sharedBirdTitle);
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["attackedByBirds"] === "no" ? 0.2 : 1));
-
-  d3.select(".annotation-connector-cowering-butcherBirdsSnake")
-    .raise()
-    .transition()
-    .style("opacity", 1);
-
-  d3.select(".annotation-label-cowering")
-    .text(annotations.butcherBirds.labels[0].text)
-    .attr("x", annotations.butcherBirds.labels[0].labelX)
-    .attr("y", annotations.butcherBirds.labels[0].labelY)
-    .attr("text-anchor", "middle")
-    .style("font-family", chartTextFamily)
-    .style("font-size", chartTextSize)
-    .style("font-weight", chartTextWeight)
-    .style("opacity", 1)
-    .transition();
-
-  d3.select(`path[data-id="${butcherBirdsSnake.id}"]`).raise();
-
-  reheatSimulation();
-}
-
-function climbing() {
-  hideOtherChartStuff("climbing");
-
-  updateTitle("Climbing");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["climbing"] === "not climbing" ? 0.2 : 1));
-
-  reheatSimulation();
-}
-
-function yard() {
-  hideOtherChartStuff("yard");
-
-  updateTitle("In the yard");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["room"] === "elsewhere" ? 0.2 : 1));
-
-  reheatSimulation();
-}
-
-function onCamera() {
-  hideOtherChartStuff("onCamera");
-
-  updateTitle("Caught on camera");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["onCamera"] === "no" ? 0.2 : 1));
-
-  reheatSimulation();
-}
-
-function attacked() {
-  hideOtherChartStuff("attacked");
-
-  updateTitle("Zero snakes have attacked me");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors(0.2);
-
-  reheatSimulation();
-}
-
-function fled() {
-  hideOtherChartStuff("fled");
-
-  updateTitle("Fled");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (!didFlee(d) ? 0.2 : 1));
-
-  reheatSimulation();
-}
-
-function chill() {
-  hideOtherChartStuff("chill");
-
-  updateTitle("Remained still or left slowly");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (!didChill(d) ? 0.2 : 1));
-
-  reheatSimulation();
-}
-
-function defensive() {
-  hideOtherChartStuff("defensive");
-
-  updateTitle("Defensive posture");
-  addPointsOfInterestBlobForces();
-  addVisibleSpeciesColors((d) => (d["watchingMe"] === "flattened" ? 1 : 0.2));
-
+  d3.select(".strip-plot-x-time-of-day").transition().style("opacity", 1);
+  d3.select(".strip-plot-y").transition().style("opacity", 1);
+  d3.select(".strip-plot-y-grid-lines").transition().style("opacity", 1);
   reheatSimulation();
 }
 

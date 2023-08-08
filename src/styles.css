@@ -122,6 +122,10 @@ figure #chart-title {
   min-width: 21rem;
 }
 
+.fix-safari-z-index-rendering-issue {
+  position: relative;
+}
+
 .step {
   margin: 0 auto 2rem auto;
   min-height: 40rem;

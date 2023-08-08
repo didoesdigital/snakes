@@ -708,7 +708,7 @@ function snakeSimulation() {
     .attr("d", individualSnakePath)
     .attr("data-id", (d) => d.id)
     .attr("fill", (d) => speciesColorScale(d.speciesBestGuess))
-    .style("opacity", 0)
+    .style("opacity", opacityFade)
     .attr(
       "transform",
       `translate(${dimensions.width / 2}, ${dimensions.height / 2})`

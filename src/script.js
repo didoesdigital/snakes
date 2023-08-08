@@ -16,10 +16,6 @@ const width = Math.min(window.innerWidth, maxSupportedPageWidth) - pagePaddingX;
 const height = 555; //400;
 const slightBufferForScrollTrack = 8;
 
-const gapFromTopOfScreenBeforeParagraph = 24;
-const heightOfThreeLineStepParagraph = 90;
-const gapBetweenBottomOfParagraphAndTopOfChartTitle = 24;
-
 const textures = window.textures;
 const textureWeaklyVenomous = textures
   .paths()
@@ -2513,16 +2509,8 @@ function init() {
   // 1. force a resize on load to ensure proper dimensions are sent to scrollama
   handleResize();
 
-  const offsetForLargerScreens =
-    ((figureMarginTop - heightOfThreeLineStepParagraph) * 2) / 3;
-
-  const offsetNumber =
-    figureMarginTop <
-    gapFromTopOfScreenBeforeParagraph +
-      heightOfThreeLineStepParagraph +
-      gapBetweenBottomOfParagraphAndTopOfChartTitle
-      ? gapFromTopOfScreenBeforeParagraph
-      : offsetForLargerScreens;
+  const chartTitleHeight = 56;
+  const offsetNumber = figureMarginTop + chartTitleHeight;
 
   // 2. setup the scroller passing options
   // 		this will also initialize trigger observations

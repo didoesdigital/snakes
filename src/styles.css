@@ -161,6 +161,9 @@ figure #chart-title {
   text-align: center;
   padding: 0.5rem;
   font-size: 1rem;
+  color: var(--coolgrey-500);
+}
+.step.is-active p {
   color: var(--coolgrey-900);
 }
 
@@ -245,13 +248,16 @@ summary {
 
 .img-disclosure summary {
   background-color: #fff;
-  color: var(--coolgrey-700);
+  color: var(--coolgrey-400);
   letter-spacing: 0.1rem;
   padding: 8px 0;
   position: relative;
   text-align: center;
   text-transform: uppercase;
   z-index: var(--z-index-img-disclosure-summary);
+}
+.step.is-active .img-disclosure summary {
+  color: var(--coolgrey-700);
 }
 .img-container {
   left: 0;

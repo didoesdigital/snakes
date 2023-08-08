@@ -53,13 +53,14 @@ h3 {
   line-height: 1.2;
 }
 
+summary,
+li,
 p {
   font-size: calc(1rem + 0.125vw);
 }
 
 summary {
   cursor: pointer;
-  font-size: calc(0.75rem + 0.25vw);
 }
 
 small {
@@ -259,6 +260,7 @@ tspan.long-name {
 .img-disclosure summary {
   background-color: #fff;
   color: var(--coolgrey-400);
+  font-size: calc(0.75rem + 0.25vw);
   letter-spacing: 0.1rem;
   padding: 8px 0;
   position: relative;

@@ -435,7 +435,6 @@ const sightingsFunctions = {
   timeline,
   species,
   seasons,
-  fin,
 };
 const sunnyCoastSpeciesFunctions = {
   scCount,
@@ -1796,13 +1795,6 @@ function all() {
   addVisibleSpeciesColors(1);
 
   reheatSimulation();
-}
-
-function fin() {
-  hideOtherChartStuff("fin");
-  chartTitle.text("");
-  chartTitle.style("opacity", 0);
-  sneks.transition().duration(200).style("opacity", 0);
 }
 
 function scCount() {

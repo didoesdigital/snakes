@@ -83,6 +83,12 @@ a {
 
 #scrolly {
   background-color: #fff;
+  background-image: url("./images/gum-leaf-and-nuts.svg"),
+    url("./images/gum-leaf-and-nuts.svg");
+  background-attachment: fixed, fixed;
+  background-repeat: no-repeat, no-repeat;
+  background-position: calc(50vw + 960px) 20vh, calc(50vw - 960px) 60vh;
+  background-size: 10%, 15%;
   padding: 1rem;
 }
 

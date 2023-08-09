@@ -98,7 +98,6 @@ a {
 }
 
 article {
-  /* pointer-events: none; */ /* for debugging */
   padding: 0;
   max-width: 20rem;
   max-width: 40rem;
@@ -115,7 +114,6 @@ figure {
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   background-color: transparent;
-  /* outline: 1px dashed #cadff7; */
   z-index: var(--z-index-figure);
 }
 
@@ -138,9 +136,6 @@ figure #chart-title {
 .step {
   margin: 0 auto 2rem auto;
   min-height: 40rem;
-  /* pointer-events: none; */
-  /* outline: 1px dashed #e8686a; */
-  /* background-color: rgba(0, 0, 0, 0.1); */
 }
 
 .step:last-child {
@@ -296,4 +291,27 @@ tspan.long-name {
   text-align: center;
   width: 720px;
   z-index: var(--z-index-img);
+}
+
+.footer-links {
+  columns: 1;
+  margin-top: 0.5rem;
+}
+.footer-links p {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+.copyright-para {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+@media only screen and (min-width: 500px) {
+  .footer-links {
+    columns: 3;
+  }
+  .copyright-para {
+    margin-top: 3rem;
+    text-align: center;
+  }
 }

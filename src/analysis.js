@@ -45,7 +45,7 @@ function loadData() {
     );
 
     console.log(validate("consistentSpeciesData"));
-    console.log(validate("noMissingValues") || "No missing values");
+    console.log(validate("noMissingValues") || "✅ No missing values");
 
     d3.json("./data/sunny-coast-snake-species.json", (d) => {
       return {

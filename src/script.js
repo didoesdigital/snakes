@@ -86,9 +86,9 @@ const speciesColors = [
   "#B19CD3",
   "#9880C2",
   "#5F428F",
-  "#452D6C",
-  "#331A5B",
-  "#1C0A39",
+  // "#452D6C",
+  // "#331A5B",
+  // "#1C0A39",
 ];
 
 const boundingPadding = 0;
@@ -563,19 +563,19 @@ function setupScales() {
       case "Yellow-faced whip snake":
         return "#F6D43C";
       case "Red-bellied black":
-        return "#930B0D";
+        return "#C01113";
       case "Keelback":
         return "#5598E2";
       case "Common tree snake":
-        return "#067551";
+        return "#24BC8C";
       case "Verreaux's skink":
         return "#E17547";
       case "Eastern small-eyed snake":
-        return "#E26F99";
+        return "#E89BB7";
       case "Marsh snake":
-        return "#CD840E";
+        return "#E17547";
       case "Carpet python":
-        return "#045D40";
+        return "#067551";
       default:
         return speciesColors[Math.floor(Math.random() * speciesColors.length)];
     }

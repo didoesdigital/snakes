@@ -423,7 +423,7 @@ const sightingsFunctions = {
   attacked,
   fled,
   chill,
-  defensive,
+  defensiveOrBasking,
   temperatureStripPlot,
   weatherStripPlot,
   timeOfDayStripPlot,
@@ -1635,10 +1635,10 @@ function attacked() {
   reheatSimulation();
 }
 
-function defensive() {
-  hideOtherChartStuff("defensive");
+function defensiveOrBasking() {
+  hideOtherChartStuff("defensiveOrBasking");
 
-  updateTitle("Defensive posture");
+  updateTitle("Defensive or basking?");
   addPointsOfInterestBlobForces();
   addVisibleSpeciesColors((d) => (d["watchingMe"] === "flattened" ? 1 : 0.2));
 

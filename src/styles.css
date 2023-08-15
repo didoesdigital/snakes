@@ -175,6 +175,10 @@ figure #chart-title {
   justify-content: center;
 }
 
+path.annotation-connector {
+  marker-end: url(#arrow-head);
+}
+
 .fix-safari-z-index-rendering-issue {
   /* NOTE: causes warning in Firefox: Will-change memory consumption is too high. Budget limit is the document surface area multiplied by 3 (230400 px). Occurrences of will-change over the budget will be ignored.*/
   will-change: opacity;

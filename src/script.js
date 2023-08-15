@@ -1173,7 +1173,7 @@ function setupAnnotations() {
         .append("path")
         .attr(
           "class",
-          `annotation-connector-${connector["labelId"]}-${connector["targetSnake"]}`
+          `annotation-connector annotation-connector-${connector["labelId"]}-${connector["targetSnake"]}`
         )
         .style("opacity", 0)
         .attr("fill", "none")
@@ -2669,15 +2669,13 @@ function updateConnectorPaths(label, snake, connector, selector) {
     connector.distance
   );
 
-  d3.select(selector)
-    .attr(
-      "d",
-      `M${label.labelX} ${label.labelY + label.paddingY}
+  d3.select(selector).attr(
+    "d",
+    `M${label.labelX} ${label.labelY + label.paddingY}
         Q${controlPointX},${controlPointY} ${
-        snake.x + connector.snakeXOffset
-      },${snake.y + connector.snakeYOffset}`
-    )
-    .attr("marker-end", `url(${new URL("#arrow-head", window.location)})`);
+      snake.x + connector.snakeXOffset
+    },${snake.y + connector.snakeYOffset}`
+  );
 }
 
 function addSpeciesBlobForces() {

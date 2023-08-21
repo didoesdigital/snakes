@@ -175,6 +175,11 @@ figure #chart-title {
   justify-content: center;
 }
 
+g.species path {
+  stroke-miterlimit: 1;
+  stroke-linecap: round;
+}
+
 path.annotation-connector {
   marker-end: url(#arrow-head);
 }

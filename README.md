@@ -4,6 +4,10 @@ A scrollytelling visualisation of snake sightings in South-East Queensland, Aust
 
 This project uses [D3](https://d3js.org/), [scrollama](https://github.com/russellsamora/scrollama), and vanilla JavaScript.
 
+I wrote about how I morphed circles into snakes on Observable:
+
+- [Morphing shapes into circles using D3](https://observablehq.com/@didoesdigital/morphing-shapes-into-circles-with-d3)
+
 ## Setup
 
 - [yarn](https://yarnpkg.com/lang/en/docs/install/) to install dev dependencies like live-server for hot reloading in local development

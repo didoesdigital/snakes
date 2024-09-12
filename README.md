@@ -28,7 +28,9 @@ For local, offline development, there are local copies of [d3 v7](https://d3js.o
 
 ## License
 
-The code is licensed under MIT License, as shown in [LICENSE_CODE.md](./LICENSE_CODE.md), and my data `src/data/sunny-coast-snake-species.json` and `src/data/snake-sightings-public.csv` is licensed under CC-BY-SA-4.0, as shown in [LICENSE_DATA.md](./LICENSE_DATA.md).
+- The code is licensed under MIT License, as shown in [LICENSE_CODE.md](./LICENSE_CODE.md).
+- The data `src/data/sunny-coast-snake-species.json` and `src/data/snake-sightings-public.csv` is licensed under CC-BY-SA-4.0, as shown in [LICENSE_DATA.md](./LICENSE_DATA.md).
+- The terms of the licenses of third-party libraries are shown in [`LICENSE_3RD_PARTY.md`](./LICENSE_3RD_PARTY.md).
 
 ## Author
 
